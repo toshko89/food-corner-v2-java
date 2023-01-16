@@ -1,0 +1,1 @@
+export const workTime = (value) => Boolean(value.match(/^^[0-9]{1,2}:[0-9]{2}-[0-9]{2}:[0-9]{2}$/));
