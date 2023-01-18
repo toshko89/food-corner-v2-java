@@ -1,4 +1,4 @@
-const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
+const REACT_APP_BASE_URL = "http://localhost:8080/food-corner";
 
 async function register(email, password, rePass) {
   try {
@@ -22,6 +22,7 @@ async function login(email, password) {
       credentials: 'include',
       body: JSON.stringify({ email, password })
     });
+    console.log(REACT_APP_BASE_URL + '/users/login');
     return user.json();
   } catch (error) {
     throw new Error(error)

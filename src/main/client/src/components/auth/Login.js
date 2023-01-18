@@ -31,13 +31,14 @@ export default function Login() {
 
     try {
       const user = await login(email, password);
-      if (user.message) {
-        setError(user.message);
-        e.target.reset();
-        return;
-      }
-      dispatch(loginStateChange(user));
-      navigate('/');
+      console.log(user);
+      // if (user.message) {
+      //   setError(user.message);
+      //   e.target.reset();
+      //   return;
+      // }
+      // dispatch(loginStateChange(user));
+      // navigate('/');
     } catch (error) {
       setError(error);
       e.target.reset();

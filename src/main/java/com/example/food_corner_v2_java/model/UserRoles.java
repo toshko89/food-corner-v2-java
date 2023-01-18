@@ -10,7 +10,7 @@ public class UserRoles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     @Enumerated(value = EnumType.STRING)
     private UserRolesEnum userRoles;
 
@@ -21,10 +21,6 @@ public class UserRoles {
         return id;
     }
 
-    public UserRoles setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public UserRolesEnum getUserRoles() {
         return userRoles;

@@ -17,13 +17,13 @@ import { saveState } from './app/localeStorage.js';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <Provider store={store}> */}
+    <Provider store={store}>
       <BrowserRouter>
         <ScrollToTop>
           <App />
         </ScrollToTop>
       </BrowserRouter>
-    {/* </Provider> */}
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

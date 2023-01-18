@@ -1,7 +1,6 @@
 package com.example.food_corner_v2_java.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +16,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -35,8 +34,14 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserRoles> userRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany
     private Set<Restaurant> restaurants;
+
+    @OneToMany(mappedBy = "buyer")
+    private Set<Order> orders = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner")
+    private Set<Comment> comments = new HashSet<>();
 
     public User() {
     }
@@ -45,10 +50,6 @@ public class User {
         return id;
     }
 
-    public User setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public String getName() {
         return name;
@@ -59,12 +60,39 @@ public class User {
         return this;
     }
 
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public User setComments(Set<Comment> comments) {
+        this.comments = comments;
+        return this;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public User setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public Set<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public User setRestaurants(Set<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+        return this;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public User setOrders(Set<Order> orders) {
+        this.orders = orders;
         return this;
     }
 

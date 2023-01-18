@@ -44,8 +44,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" exact element={<Home />}></Route>
-        {/* <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        {/* <Route path="/register" element={<Register />}></Route>
+        
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu />}>
           <Route path="edit" element={<OwnerGuard><CreateRestaurant edit={true} /></OwnerGuard>} />

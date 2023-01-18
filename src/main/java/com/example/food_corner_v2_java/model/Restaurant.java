@@ -13,7 +13,7 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -28,18 +28,22 @@ public class Restaurant {
     @Column(nullable = false)
     private String workingHours;
 
-    @ManyToOne
-    private User owner;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    private User owner;
 
-    @Column(nullable = false)
-    private String imageUrl;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    @Embedded
+    private CloudinaryImage imageUrl;
 
-    @ManyToMany
-    private Set<Products> products = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Product> products = new HashSet<>();
 
-    private Long rating;
+    private Integer rating;
 
-    private Long ratingsCount;
+    private Integer ratingsCount;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Comment> comments = new HashSet<>();
 
     public Restaurant() {
     }
@@ -48,10 +52,6 @@ public class Restaurant {
         return id;
     }
 
-    public Restaurant setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public String getName() {
         return name;
@@ -59,6 +59,15 @@ public class Restaurant {
 
     public Restaurant setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public Restaurant setComments(Set<Comment> comments) {
+        this.comments = comments;
         return this;
     }
 
@@ -98,47 +107,47 @@ public class Restaurant {
         return this;
     }
 
-    public User getOwner() {
-        return owner;
-    }
+//    public User getOwner() {
+//        return owner;
+//    }
+//
+//    public Restaurant setOwner(User owner) {
+//        this.owner = owner;
+//        return this;
+//    }
 
-    public Restaurant setOwner(User owner) {
-        this.owner = owner;
-        return this;
-    }
-
-    public String getImageUrl() {
+    public CloudinaryImage getImageUrl() {
         return imageUrl;
     }
 
-    public Restaurant setImageUrl(String imageUrl) {
+    public Restaurant setImageUrl(CloudinaryImage imageUrl) {
         this.imageUrl = imageUrl;
         return this;
     }
 
-    public Set<Products> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public Restaurant setProducts(Set<Products> products) {
+    public Restaurant setProducts(Set<Product> products) {
         this.products = products;
         return this;
     }
 
-    public Long getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public Restaurant setRating(Long rating) {
+    public Restaurant setRating(Integer rating) {
         this.rating = rating;
         return this;
     }
 
-    public Long getRatingsCount() {
+    public Integer getRatingsCount() {
         return ratingsCount;
     }
 
-    public Restaurant setRatingsCount(Long ratingsCount) {
+    public Restaurant setRatingsCount(Integer ratingsCount) {
         this.ratingsCount = ratingsCount;
         return this;
     }

@@ -1,5 +1,8 @@
 package com.example.food_corner_v2_java.utils;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class CloudinaryImage {
     private String url;
     private String publicId;
@@ -7,6 +10,9 @@ public class CloudinaryImage {
     public CloudinaryImage(String url, String publicId) {
         this.url = url;
         this.publicId = publicId;
+    }
+
+    public CloudinaryImage() {
     }
 
     public String getUrl() {
