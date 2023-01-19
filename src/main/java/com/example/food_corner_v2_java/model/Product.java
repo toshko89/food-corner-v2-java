@@ -4,7 +4,9 @@ import com.example.food_corner_v2_java.utils.CloudinaryImage;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
