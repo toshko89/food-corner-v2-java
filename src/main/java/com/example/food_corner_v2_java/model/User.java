@@ -31,7 +31,7 @@ public class User {
     @Column(nullable = false)
     private String address;
 
-    @Column(name = "user_role",nullable = false)
+    @Column(name = "user_role", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private UserRolesEnum userRole;
 

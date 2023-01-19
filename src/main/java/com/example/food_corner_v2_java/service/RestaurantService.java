@@ -3,8 +3,10 @@ package com.example.food_corner_v2_java.service;
 import com.example.food_corner_v2_java.model.Product;
 import com.example.food_corner_v2_java.model.Restaurant;
 import com.example.food_corner_v2_java.model.User;
+import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
 import com.example.food_corner_v2_java.repository.RestaurantRepository;
 import com.example.food_corner_v2_java.utils.CloudinaryImage;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +20,14 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final UserService userService;
     private final ProductService productService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository, UserService userService, ProductService productService) {
+    public RestaurantService(RestaurantRepository restaurantRepository, UserService userService, ProductService productService, ModelMapper modelMapper) {
         this.restaurantRepository = restaurantRepository;
         this.userService = userService;
         this.productService = productService;
+        this.modelMapper = modelMapper;
     }
 
     public void initRestaurantDB() {
@@ -54,11 +58,11 @@ public class RestaurantService {
     }
 
     @Transactional
-    public List<Restaurant> findAll() {
-        List<Restaurant> all = this.restaurantRepository.findAll();
-        System.out.println();
-
-        return all;
+    public List<RestaurantDTO> findAll() {
+        return this.restaurantRepository.findAll()
+                .stream()
+                .map(restaurant -> this.modelMapper.map(restaurant, RestaurantDTO.class))
+                .toList();
     }
 
     public Restaurant findById(long restaurantId) {

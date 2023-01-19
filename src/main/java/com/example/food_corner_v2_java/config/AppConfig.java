@@ -2,6 +2,7 @@ package com.example.food_corner_v2_java.config;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,11 @@ public class AppConfig {
                 "cloud_name", cloudinaryConfig.getCloudName(),
                 "api_key", cloudinaryConfig.getApiKey(),
                 "api_secret", cloudinaryConfig.getApiSecret()));
+    }
+
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 
 }
