@@ -1,24 +1,19 @@
 package com.example.food_corner_v2_java.service;
 
 import com.example.food_corner_v2_java.model.User;
-import com.example.food_corner_v2_java.model.UserRoles;
 import com.example.food_corner_v2_java.model.enums.UserRolesEnum;
 import com.example.food_corner_v2_java.repository.UserRepository;
-import com.example.food_corner_v2_java.repository.UserRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final UserRolesRepository userRolesRepository;
+
 
     @Autowired
-    public UserService(UserRepository userRepository, UserRolesRepository userRolesRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userRolesRepository = userRolesRepository;
     }
 
     public User getUserByEmail(String email) {
@@ -27,18 +22,14 @@ public class UserService {
 
     public void initUsersDB() {
         if (this.userRepository.count() == 0) {
-            UserRoles roleUser = this.userRolesRepository.findByUserRoles(UserRolesEnum.USER);
-            UserRoles roleAdmin = this.userRolesRepository.findByUserRoles(UserRolesEnum.ADMIN);
-
             User user = new User()
-                    .setUserRoles(Set.of(roleUser, roleAdmin))
+                    .setUserRole(UserRolesEnum.ADMIN)
+                    .setCity("Sofia")
                     .setName("Todor Petkov")
                     .setEmail("todor@abv.bg")
                     .setPassword("123123")
-                    .setPhone("0889080808")
-                    .setCity("Sofia")
-                    .setAddress("Levski 21");
-
+                    .setPhone("088898989")
+                    .setAddress("Geo Milev");
             this.userRepository.save(user);
         }
     }

@@ -4,8 +4,7 @@ import com.example.food_corner_v2_java.utils.CloudinaryImage;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "products")
@@ -27,13 +26,13 @@ public class Product {
     @Embedded
     private CloudinaryImage imageUrl;
 
-    private String category;
-
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> ingredients = new HashSet<>();
+
 
     public Product() {
     }
+
 
     public Long getId() {
         return id;
@@ -76,15 +75,6 @@ public class Product {
         return this;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public Product setCategory(String category) {
-        this.category = category;
-        return this;
-    }
-
     public Set<String> getIngredients() {
         return ingredients;
     }
@@ -92,5 +82,18 @@ public class Product {
     public Product setIngredients(Set<String> ingredients) {
         this.ingredients = ingredients;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id.equals(product.id) && name.equals(product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

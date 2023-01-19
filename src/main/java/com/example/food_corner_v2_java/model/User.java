@@ -1,9 +1,9 @@
 package com.example.food_corner_v2_java.model;
 
+import com.example.food_corner_v2_java.model.enums.UserRolesEnum;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -31,17 +31,10 @@ public class User {
     @Column(nullable = false)
     private String address;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<UserRoles> userRoles = new HashSet<>();
+    @Column(name = "user_role",nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRolesEnum userRole;
 
-    @OneToMany
-    private Set<Restaurant> restaurants;
-
-    @OneToMany(mappedBy = "buyer")
-    private Set<Order> orders = new HashSet<>();
-
-    @OneToMany(mappedBy = "owner")
-    private Set<Comment> comments = new HashSet<>();
 
     public User() {
     }
@@ -60,14 +53,6 @@ public class User {
         return this;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public User setComments(Set<Comment> comments) {
-        this.comments = comments;
-        return this;
-    }
 
     public String getEmail() {
         return email;
@@ -78,23 +63,6 @@ public class User {
         return this;
     }
 
-    public Set<Restaurant> getRestaurants() {
-        return restaurants;
-    }
-
-    public User setRestaurants(Set<Restaurant> restaurants) {
-        this.restaurants = restaurants;
-        return this;
-    }
-
-    public Set<Order> getOrders() {
-        return orders;
-    }
-
-    public User setOrders(Set<Order> orders) {
-        this.orders = orders;
-        return this;
-    }
 
     public String getPassword() {
         return password;
@@ -132,12 +100,26 @@ public class User {
         return this;
     }
 
-    public Set<UserRoles> getUserRoles() {
-        return userRoles;
+    public UserRolesEnum getUserRole() {
+        return userRole;
     }
 
-    public User setUserRoles(Set<UserRoles> userRoles) {
-        this.userRoles = userRoles;
+
+    public User setUserRole(UserRolesEnum userRole) {
+        this.userRole = userRole;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id) && email.equals(user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email);
     }
 }

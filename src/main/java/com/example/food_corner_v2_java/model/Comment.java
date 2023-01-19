@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -16,13 +17,13 @@ public class Comment {
     @ManyToOne(fetch = FetchType.EAGER)
     private User owner;
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "TEXT")
     private String comment;
 
     @Column(nullable = false)
     private Integer rating;
 
-    @Column(columnDefinition = "DATE")
+    @Column(columnDefinition = "DATETIME")
     @CreationTimestamp
     private LocalDate date;
 
@@ -80,5 +81,18 @@ public class Comment {
     public Comment setRestaurants(Restaurant restaurants) {
         this.restaurants = restaurants;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return id.equals(comment.id) && owner.equals(comment.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, owner);
     }
 }

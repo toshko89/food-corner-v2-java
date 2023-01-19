@@ -7,7 +7,6 @@ import com.example.food_corner_v2_java.model.User;
 import com.example.food_corner_v2_java.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -26,17 +25,26 @@ public class OrderService {
 
     public void initOrderDB() {
         if (this.orderRepository.count() == 0) {
-            User buyer = this.userService.getUserByEmail("todor@abv.bg");
-            List<Product> products = this.productService.findAllByName("Pizza");
+            User user = this.userService.getUserByEmail("todor@abv.bg");
             Restaurant restaurant = this.restaurantService.findByName("Djikov");
-
+            List<Product> pizza = this.productService.findAllByName("Pizza");
             Order order = new Order()
-                    .setDate(LocalDate.now())
-                    .setBuyer(buyer)
-                    .setProduct(products)
-                    .setRestaurant(restaurant);
-
+                    .setBuyer(user)
+                    .setRestaurant(List.of(restaurant))
+                    .setProduct(pizza);
             this.orderRepository.save(order);
+
+            Order order2 = new Order()
+                    .setBuyer(user)
+                    .setRestaurant(List.of(restaurant))
+                    .setProduct(pizza);
+            this.orderRepository.save(order2);
+
+            Order order3 = new Order()
+                    .setBuyer(user)
+                    .setRestaurant(List.of(restaurant))
+                    .setProduct(pizza);
+            this.orderRepository.save(order3);
         }
     }
 }

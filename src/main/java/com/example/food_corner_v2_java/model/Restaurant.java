@@ -3,8 +3,7 @@ package com.example.food_corner_v2_java.model;
 import com.example.food_corner_v2_java.utils.CloudinaryImage;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "restaurants")
@@ -28,8 +27,8 @@ public class Restaurant {
     @Column(nullable = false)
     private String workingHours;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    private User owner;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User owner;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     @Embedded
@@ -42,9 +41,6 @@ public class Restaurant {
 
     private Integer ratingsCount;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<Comment> comments = new HashSet<>();
-
     public Restaurant() {
     }
 
@@ -52,22 +48,12 @@ public class Restaurant {
         return id;
     }
 
-
     public String getName() {
         return name;
     }
 
     public Restaurant setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public Restaurant setComments(Set<Comment> comments) {
-        this.comments = comments;
         return this;
     }
 
@@ -107,14 +93,14 @@ public class Restaurant {
         return this;
     }
 
-//    public User getOwner() {
-//        return owner;
-//    }
-//
-//    public Restaurant setOwner(User owner) {
-//        this.owner = owner;
-//        return this;
-//    }
+    public User getOwner() {
+        return owner;
+    }
+
+    public Restaurant setOwner(User owner) {
+        this.owner = owner;
+        return this;
+    }
 
     public CloudinaryImage getImageUrl() {
         return imageUrl;
@@ -129,8 +115,8 @@ public class Restaurant {
         return products;
     }
 
-    public Restaurant setProducts(Set<Product> products) {
-        this.products = products;
+    public Restaurant setProducts(Product products) {
+        this.products.add(products);
         return this;
     }
 
@@ -150,5 +136,18 @@ public class Restaurant {
     public Restaurant setRatingsCount(Integer ratingsCount) {
         this.ratingsCount = ratingsCount;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Restaurant that = (Restaurant) o;
+        return id.equals(that.id) && name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

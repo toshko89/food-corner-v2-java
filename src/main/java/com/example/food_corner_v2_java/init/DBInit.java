@@ -1,21 +1,23 @@
 package com.example.food_corner_v2_java.init;
 
 import com.example.food_corner_v2_java.service.*;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
+@Transactional
 public class DBInit implements CommandLineRunner {
 
-    private final UserRoleService userRoleService;
     private final UserService userService;
     private final RestaurantService restaurantService;
     private final ProductService productService;
     private final OrderService orderService;
     private final CommentService commentService;
 
-    public DBInit(UserRoleService userRoleService, UserService userService, RestaurantService restaurantService, ProductService productService, OrderService orderService, CommentService commentService) {
-        this.userRoleService = userRoleService;
+    @Autowired
+    public DBInit(UserService userService, RestaurantService restaurantService, ProductService productService, OrderService orderService, CommentService commentService) {
         this.userService = userService;
         this.restaurantService = restaurantService;
         this.productService = productService;
@@ -25,11 +27,10 @@ public class DBInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        this.userRoleService.initUserRolesDB();
-//        this.userService.initUsersDB();
-//        this.restaurantService.initRestaurantDB();
-//        this.productService.initProductDB();
-//        this.orderService.initOrderDB();
-//        this.commentService.initCommentDB();
+        this.userService.initUsersDB();
+        this.productService.initProductDB();
+        this.restaurantService.initRestaurantDB();
+        this.orderService.initOrderDB();
+        this.commentService.initCommentDB();
     }
 }

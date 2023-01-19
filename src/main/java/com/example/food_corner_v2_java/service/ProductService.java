@@ -21,13 +21,11 @@ public class ProductService {
     public void initProductDB() {
         if (this.productRepository.count() == 0) {
             Product product = new Product()
-                    .setPrice(BigDecimal.valueOf(10))
-                    .setWeight(100.00)
-                    .setImageUrl(new CloudinaryImage().setUrl("https://res.cloudinary.com/dl72c1rli/image/upload/v1649444689/yuwqnsjlbfjcl1k353e3.jpg"))
                     .setName("Pizza")
-                    .setCategory("Food")
-                    .setIngredients(Set.of("Shunka","Maslo"));
-
+                    .setPrice(BigDecimal.valueOf(15))
+                    .setWeight(300)
+                    .setImageUrl(new CloudinaryImage("https://res.cloudinary.com/dl72c1rli/image/upload/v1649601451/p5i2hrgtl9a5drkopvmn.jpg","p5i2hrgtl9a5drkopvmn"))
+                    .setIngredients(Set.of("Brashno","Sirene"));
             this.productRepository.save(product);
         }
     }
@@ -36,4 +34,7 @@ public class ProductService {
         return this.productRepository.findAllByName(name);
     }
 
+    public Product findByName(String name) {
+        return this.productRepository.findByName(name);
+    }
 }

@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
@@ -16,13 +18,13 @@ public class Order {
     @ManyToOne
     private User buyer;
 
-    @OneToOne
-    private Restaurant restaurant;
+    @ManyToMany
+    private List<Restaurant> restaurant = new ArrayList<>();
 
-    @OneToMany
+    @ManyToMany
     private List<Product> product;
 
-    @Column(columnDefinition = "DATE")
+    @Column(columnDefinition = "DATETIME")
     @CreationTimestamp
     private LocalDate date;
 
@@ -43,11 +45,11 @@ public class Order {
         return this;
     }
 
-    public Restaurant getRestaurant() {
+    public List<Restaurant> getRestaurant() {
         return restaurant;
     }
 
-    public Order setRestaurant(Restaurant restaurant) {
+    public Order setRestaurant(List<Restaurant> restaurant) {
         this.restaurant = restaurant;
         return this;
     }
@@ -68,5 +70,18 @@ public class Order {
     public Order setDate(LocalDate date) {
         this.date = date;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id.equals(order.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
