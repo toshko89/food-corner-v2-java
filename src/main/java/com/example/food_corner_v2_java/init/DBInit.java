@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
 @Transactional
 public class DBInit implements CommandLineRunner {
 
-    private final UserService userService;
+    private final AppUserService appUserService;
     private final RestaurantService restaurantService;
     private final ProductService productService;
     private final OrderService orderService;
     private final CommentService commentService;
 
     @Autowired
-    public DBInit(UserService userService, RestaurantService restaurantService, ProductService productService, OrderService orderService, CommentService commentService) {
-        this.userService = userService;
+    public DBInit(AppUserService appUserService, RestaurantService restaurantService, ProductService productService, OrderService orderService, CommentService commentService) {
+        this.appUserService = appUserService;
         this.restaurantService = restaurantService;
         this.productService = productService;
         this.orderService = orderService;
@@ -27,7 +27,7 @@ public class DBInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        this.userService.initUsersDB();
+        this.appUserService.initUsersDB();
         this.productService.initProductDB();
         this.restaurantService.initRestaurantDB();
         this.orderService.initOrderDB();

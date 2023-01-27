@@ -12,6 +12,7 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+
 #  sql:
 #    init:
 #      mode: always
@@ -34,6 +35,18 @@ cloudinary:
   api-key: 587398618388114
   api-secret: ${CLOUDINARY_API_SECRET}
   cloud-name: dl72c1rli
+
+
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: 86400000
+    header: Authorization
+    prefix: Bearer
+    type: ${JWT_TYPE}
+    audience: ${JWT_AUDIENCE}
+    issuer: ${JWT_ISSUER}
+
+#Logging Properties
 logging:
   level:
     org:
@@ -45,3 +58,6 @@ logging:
     blog: WARN
 server:
   port: 8080
+
+
+

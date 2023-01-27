@@ -22,7 +22,7 @@ public class HomeController {
         this.restaurantService = restaurantService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<RestaurantDTO>> restaurantResponseEntity() {
         List<RestaurantDTO> restaurants = this.restaurantService.findAll();
         return ResponseEntity.ok(restaurants);

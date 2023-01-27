@@ -30,7 +30,7 @@ public class Restaurant {
     private String workingHours;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private User owner;
+    private AppUser owner;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     @Embedded
@@ -95,11 +95,11 @@ public class Restaurant {
         return this;
     }
 
-    public User getOwner() {
+    public AppUser getOwner() {
         return owner;
     }
 
-    public Restaurant setOwner(User owner) {
+    public Restaurant setOwner(AppUser owner) {
         this.owner = owner;
         return this;
     }

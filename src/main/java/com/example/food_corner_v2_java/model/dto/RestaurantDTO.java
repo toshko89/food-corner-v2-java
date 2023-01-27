@@ -1,9 +1,7 @@
 package com.example.food_corner_v2_java.model.dto;
 
 import com.example.food_corner_v2_java.model.Product;
-import com.example.food_corner_v2_java.model.User;
 import com.example.food_corner_v2_java.utils.CloudinaryImage;
-import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +9,7 @@ import java.util.Set;
 public class RestaurantDTO {
     private Long id;
     private String name;
-    private String categorie;
+    private String category;
     private String city;
     private String address;
     private String workingHours;
@@ -42,12 +40,12 @@ public class RestaurantDTO {
         return this;
     }
 
-    public String getCategorie() {
-        return categorie;
+    public String getCategory() {
+        return category;
     }
 
-    public RestaurantDTO setCategorie(String categorie) {
-        this.categorie = categorie;
+    public RestaurantDTO setCategory(String category) {
+        this.category = category;
         return this;
     }
 

@@ -32,7 +32,7 @@ export default function Header() {
                 </Link>
                 {!userId && <Link to={"/login"} className="widget-header mr-4 text-dark m-none">
                   <div className="icon d-flex align-items-center">
-                    <i className="feather-user h6 mr-2 mb-0"></i> <span>Sign in</span>
+                    <i className="feather-appUser h6 mr-2 mb-0"></i> <span>Sign in</span>
                   </div>
                 </Link>}
                 {userId &&
@@ -55,7 +55,7 @@ export default function Header() {
                 </Link>
                 {userId && <Link to={"/logout"} className="widget-header mr-4 text-dark m-none">
                   <div className="icon d-flex align-items-center">
-                    <i className="feather-user h6 mr-2 mb-0"></i> <span>Logout</span>
+                    <i className="feather-appUser h6 mr-2 mb-0"></i> <span>Logout</span>
                   </div>
                 </Link>}
               </div>

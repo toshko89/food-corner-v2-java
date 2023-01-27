@@ -14,7 +14,7 @@ public class Comment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private User owner;
+    private AppUser owner;
 
     @Column(nullable = false,columnDefinition = "TEXT")
     private String comment;
@@ -37,11 +37,11 @@ public class Comment {
     }
 
 
-    public User getOwner() {
+    public AppUser getOwner() {
         return owner;
     }
 
-    public Comment setOwner(User owner) {
+    public Comment setOwner(AppUser owner) {
         this.owner = owner;
         return this;
     }

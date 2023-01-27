@@ -16,7 +16,7 @@ public class Order {
     private Long id;
 
     @ManyToOne
-    private User buyer;
+    private AppUser buyer;
 
     @ManyToMany
     private List<Restaurant> restaurant = new ArrayList<>();
@@ -36,11 +36,11 @@ public class Order {
     }
 
 
-    public User getBuyer() {
+    public AppUser getBuyer() {
         return buyer;
     }
 
-    public Order setBuyer(User buyer) {
+    public Order setBuyer(AppUser buyer) {
         this.buyer = buyer;
         return this;
     }
