@@ -1,7 +1,6 @@
 package com.example.food_corner_v2_java.model.dto;
 
 import com.example.food_corner_v2_java.validation.annotations.UniqueEmail;
-import com.example.food_corner_v2_java.validation.annotations.UniqueUserName;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

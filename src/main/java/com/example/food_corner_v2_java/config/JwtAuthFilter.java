@@ -55,6 +55,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             e.printStackTrace();
             response.setHeader("error", e.getMessage());
+
         }
     }
 }

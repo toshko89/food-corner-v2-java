@@ -18,7 +18,6 @@ public class AppUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, unique = true)
@@ -27,16 +26,13 @@ public class AppUser implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
     private String city;
 
-    @Column(nullable = false)
     private String address;
 
-    @Column(name = "user_role", nullable = false)
+    @Column(name = "user_role")
     @Enumerated(value = EnumType.STRING)
     private UserRolesEnum userRole;
 
@@ -52,6 +48,11 @@ public class AppUser implements UserDetails {
     @Override
     public String getPassword() {
         return this.password;
+    }
+
+    public AppUser setPassword(String password) {
+        this.password = password;
+        return this;
     }
 
     @Override
@@ -92,18 +93,12 @@ public class AppUser implements UserDetails {
         return this;
     }
 
-
     public String getEmail() {
         return email;
     }
 
     public AppUser setEmail(String email) {
         this.email = email;
-        return this;
-    }
-
-    public AppUser setPassword(String password) {
-        this.password = password;
         return this;
     }
 

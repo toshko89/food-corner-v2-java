@@ -1,6 +1,7 @@
 package com.example.food_corner_v2_java.service;
 
 import com.example.food_corner_v2_java.config.JwtKeyProps;
+import com.example.food_corner_v2_java.model.AppUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -33,17 +34,21 @@ public class JwtService {
         return claimResolver.apply(claims);
     }
 
-    public String generateToken(Map<String, Object> claims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> claims, AppUser userDetails) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
+                .setId(userDetails.getId().toString())
+                .addClaims(new HashMap<>(){{
+                    put("role", userDetails.getUserRole().name());
+                }})
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getJwtKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(AppUser userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 

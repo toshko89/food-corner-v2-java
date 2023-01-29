@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/food-corner/users/**")
+                .requestMatchers("/food-corner/users/register")
                 .permitAll()
                 .requestMatchers("/food-corner/")
                 .permitAll()
