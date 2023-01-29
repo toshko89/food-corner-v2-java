@@ -1,6 +1,7 @@
 package com.example.food_corner_v2_java.service;
 
 import com.example.food_corner_v2_java.model.AppUser;
+import com.example.food_corner_v2_java.model.dto.LoginDTO;
 import com.example.food_corner_v2_java.model.dto.RegisterDTO;
 import com.example.food_corner_v2_java.model.enums.UserRolesEnum;
 import com.example.food_corner_v2_java.repository.UserRepository;
@@ -41,6 +42,17 @@ public class AppUserService {
                 .setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
         this.userRepository.save(user);
+
+        return jwtService.generateToken(user);
+    }
+
+    public String login(LoginDTO loginDTO) {
+        AppUser user = this.userRepository.findByEmail(loginDTO.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("No such user!" + loginDTO.getEmail()));
+
+        if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Wrong password!");
+        }
 
         return jwtService.generateToken(user);
     }
