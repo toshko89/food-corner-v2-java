@@ -36,16 +36,6 @@ cloudinary:
   api-secret: ${CLOUDINARY_API_SECRET}
   cloud-name: dl72c1rli
 
-
-  jwt:
-    secret: ${JWT_SECRET}
-    expiration: 86400000
-    header: Authorization
-    prefix: Bearer
-    type: ${JWT_TYPE}
-    audience: ${JWT_AUDIENCE}
-    issuer: ${JWT_ISSUER}
-
 #Logging Properties
 logging:
   level:
@@ -58,6 +48,10 @@ logging:
     blog: WARN
 server:
   port: 8080
+
+#JWT Properties
+jwt-secret:
+  key: 5A7234753778214125442A472D4B6150645367566B59703373357638792F423F
 
 
 
