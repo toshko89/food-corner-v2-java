@@ -22,6 +22,9 @@ public class Product {
     private BigDecimal price;
 
     @Column(nullable = false)
+    private String category;
+
+    @Column(nullable = false)
     private double weight;
 
     @Column(nullable = false)
@@ -79,6 +82,15 @@ public class Product {
 
     public Set<String> getIngredients() {
         return ingredients;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public Product setCategory(String category) {
+        this.category = category;
+        return this;
     }
 
     public Product setIngredients(Set<String> ingredients) {

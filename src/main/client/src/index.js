@@ -9,11 +9,11 @@ import ScrollToTop from './hoc/ScrollToTop.js';
 import { debounce } from "debounce";
 import { saveState } from './app/localeStorage.js';
 
-// store.subscribe(
-//   debounce(() => {
-//     saveState(store.getState());
-//   }, 1000)
-// );
+store.subscribe(
+  debounce(() => {
+    saveState(store.getState());
+  }, 1000)
+);
 
 ReactDOM.render(
   <React.StrictMode>

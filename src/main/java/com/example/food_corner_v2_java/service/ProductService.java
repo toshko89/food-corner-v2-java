@@ -24,6 +24,7 @@ public class ProductService {
                     .setName("Pizza")
                     .setPrice(BigDecimal.valueOf(15))
                     .setWeight(300)
+                    .setCategory("Italian")
                     .setImageUrl(new CloudinaryImage("https://res.cloudinary.com/dl72c1rli/image/upload/v1649601451/p5i2hrgtl9a5drkopvmn.jpg", "p5i2hrgtl9a5drkopvmn"))
                     .setIngredients(Set.of("Brashno", "Sirene"));
             this.productRepository.save(product);

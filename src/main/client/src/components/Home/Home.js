@@ -7,16 +7,16 @@ import HomeCard from "./HomeCard.js";
 export default function Home() {
 
   const [restaurants, setRestaurants] = useState([]);
-  // useEffect(() => {
-  //   (async function fetchData() {
-  //     try {
-  //       const res = await getAllRestaurants();
-  //       setRestaurants(res)
-  //     } catch (error) {
-  //       throw new Error(error)
-  //     }
-  //   })();
-  // }, [])
+  useEffect(() => {
+    (async function fetchData() {
+      try {
+        const res = await getAllRestaurants();
+        setRestaurants(res)
+      } catch (error) {
+        throw new Error(error)
+      }
+    })();
+  }, [])
 
   return (
     <>
@@ -25,7 +25,7 @@ export default function Home() {
         <div className="row">
           <Grid.Container gap={2} justify="center">
             {restaurants.length > 0
-              ? restaurants.map(res => <HomeCard key={res._id} data={res} />)
+              ? restaurants.map(res => <HomeCard key={res.id} data={res} />)
               : <Loading type="points" />}
           </Grid.Container>
         </div>

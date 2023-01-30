@@ -2,6 +2,8 @@ package com.example.food_corner_v2_java.service;
 
 import com.example.food_corner_v2_java.auth.JwtService;
 import com.example.food_corner_v2_java.model.AppUser;
+import com.example.food_corner_v2_java.model.dto.UserDTO;
+import org.modelmapper.ModelMapper;
 import com.example.food_corner_v2_java.model.dto.LoginDTO;
 import com.example.food_corner_v2_java.model.dto.RegisterDTO;
 import com.example.food_corner_v2_java.model.enums.UserRolesEnum;
@@ -11,18 +13,22 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class AppUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final ModelMapper modelMapper;
 
 
     @Autowired
-    public AppUserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public AppUserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.modelMapper = modelMapper;
     }
 
     public AppUser getUserByEmail(String email) {
@@ -30,7 +36,7 @@ public class AppUserService {
                 .orElseThrow(() -> new UsernameNotFoundException("No such user! " + email));
     }
 
-    public String register(RegisterDTO registerDTO) {
+    public Map<String, Object> register(RegisterDTO registerDTO) {
         AppUser user = new AppUser()
                 .setUserRole(UserRolesEnum.USER)
                 .setEmail(registerDTO.getEmail())
@@ -38,10 +44,14 @@ public class AppUserService {
 
         this.userRepository.save(user);
 
-        return jwtService.generateToken(user);
+        UserDTO userDTO = this.modelMapper.map(user, UserDTO.class);
+
+        String token = jwtService.generateToken(user);
+
+        return Map.of("token", token, "user", userDTO);
     }
 
-    public String login(LoginDTO loginDTO) {
+    public Map<String, Object> login(LoginDTO loginDTO) {
         AppUser user = this.userRepository.findByEmail(loginDTO.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("No such user! " + loginDTO.getEmail()));
 
@@ -49,7 +59,11 @@ public class AppUserService {
             throw new IllegalArgumentException("Wrong password!");
         }
 
-        return jwtService.generateToken(user);
+        UserDTO userDTO = this.modelMapper.map(user, UserDTO.class);
+
+        String token = jwtService.generateToken(user);
+
+        return Map.of("token", token, "user", userDTO);
     }
 
 

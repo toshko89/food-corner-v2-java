@@ -23,6 +23,11 @@ export default function Login() {
       return;
     }
 
+    if (password.trim() < 5 && password.trim() > 20) {
+      setError('Password must be between 5 and 20 characters long');
+      return;
+    }
+
     if (!emailCheck(email)) {
       setError('Invalid email address, please try again');
       e.target.reset();
@@ -32,13 +37,14 @@ export default function Login() {
     try {
       const user = await login(email, password);
       console.log(user);
-      // if (user.message) {
-      //   setError(user.message);
-      //   e.target.reset();
-      //   return;
-      // }
-      // dispatch(loginStateChange(user));
-      // navigate('/');
+      if (user.error) {
+        setError(user.error);
+        e.target.reset();
+        return;
+      }
+      dispatch(loginStateChange(user));
+      localStorage.setItem('Authorization', JSON.stringify("Bearer " + user.token));
+      navigate('/');
     } catch (error) {
       setError(error);
       e.target.reset();

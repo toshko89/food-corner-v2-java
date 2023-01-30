@@ -12,13 +12,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/food-corner/users")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000/",allowCredentials = "true")
 public class AuthController {
 
     private final AppUserService appUserService;
@@ -31,7 +32,7 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(
+    public ResponseEntity<Map<?,?>> register(
             @RequestBody @Valid RegisterDTO registerDTO,
             BindingResult bindingResult,
             HttpServletResponse response) {
@@ -43,14 +44,14 @@ public class AuthController {
 
         if (!registerDTO.getPassword().equals(registerDTO.getRepeatPassword())) {
             Map<String, String> errors = new HashMap<>();
-            errors.put("password", "Passwords do not match");
+            errors.put("error", "Passwords do not match");
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
         try {
-            String token = appUserService.register(registerDTO);
-            response.setHeader("Authorization", "Bearer " + token);
-            return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.CREATED);
+            Map<String, Object> register = appUserService.register(registerDTO);
+            response.setHeader("Authorization", "Bearer " + register.get("token"));
+            return new ResponseEntity<>(register, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
             Map<String, String> registerErrors = new HashMap<>();
@@ -60,7 +61,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(
+    public ResponseEntity<Map<?, ?>> login(
             @RequestBody @Valid LoginDTO loginDTO,
             BindingResult bindingResult,
             HttpServletResponse response) {
@@ -71,15 +72,15 @@ public class AuthController {
         }
 
         try {
-            String token = appUserService.login(loginDTO);
+            Map<String, Object> login = appUserService.login(loginDTO);
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),
                     loginDTO.getPassword()));
-            response.setHeader("Authorization", "Bearer " + token);
-            return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.OK);
+            response.setHeader("Authorization", "Bearer " + login.get("token"));
+            return new ResponseEntity<>(login, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             Map<String, String> loginErrors = new HashMap<>();
-            loginErrors.put("login", e.getMessage());
+            loginErrors.put("error", e.getMessage());
             return new ResponseEntity<>(loginErrors, HttpStatus.BAD_REQUEST);
         }
     }
@@ -93,7 +94,7 @@ public class AuthController {
     private Map<String, String> errors(BindingResult bindingResult) {
         Map<String, String> errors = new HashMap<>();
         bindingResult.getFieldErrors().forEach(fieldError -> {
-            errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+            errors.put("error", fieldError.getDefaultMessage());
         });
         return errors;
     }

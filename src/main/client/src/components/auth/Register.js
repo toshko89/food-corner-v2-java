@@ -17,15 +17,20 @@ export default function Register() {
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email');
     const password = formData.get('password');
-    const rePass = formData.get('repass');
+    const repeatPassword = formData.get('repeatPassword');
 
-    if (email.trim() == '' || password.trim() == '' || rePass.trim() == '') {
+    if (email.trim() == '' || password.trim() == '' || repeatPassword.trim() == '') {
       setError('All fields are required!');
       return;
     }
 
-    if (password.trim() !== rePass.trim()) {
+    if (password.trim() !== repeatPassword.trim()) {
       setError('Password doesn\'t match');
+      return;
+    }
+
+    if (password.trim() < 5 && password.trim() > 20) {
+      setError('Password must be between 5 and 20 characters long');
       return;
     }
 
@@ -36,14 +41,15 @@ export default function Register() {
     }
 
     try {
-      const user = await register(email, password, rePass);
-      if (user.message) {
-        setError(user.message);
+      const user = await register(email, password, repeatPassword);
+      console.log(user);
+      if (user.error) {
+        setError(user.error);
         e.target.reset();
         return;
       }
-
       dispatch(loginStateChange(user));
+      localStorage.setItem('Authorization', JSON.stringify("Bearer " + user.token));
       navigate('/');
     } catch (error) {
       e.target.reset();
@@ -72,7 +78,7 @@ export default function Register() {
               </div>
               <div className="form-group">
                 <label htmlFor="exampleInputPassword1" className="text-dark">Repeat Password</label>
-                <input type="password" autoComplete="new-password" name="repass" placeholder="Enter Password" className="form-control" id="exampleInputPassword1" />
+                <input type="password" autoComplete="new-password" name="repeatPassword" placeholder="Enter Password" className="form-control" id="exampleInputPassword1" />
               </div>
               <button className="btn btn-primary btn-lg btn-block">SIGN IN</button>
             </form>

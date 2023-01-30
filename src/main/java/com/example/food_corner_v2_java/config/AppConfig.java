@@ -3,7 +3,6 @@ package com.example.food_corner_v2_java.config;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.food_corner_v2_java.repository.UserRepository;
-import com.example.food_corner_v2_java.service.AppUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

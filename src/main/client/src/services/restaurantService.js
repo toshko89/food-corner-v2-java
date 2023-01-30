@@ -1,4 +1,7 @@
-const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
+// const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
+const REACT_APP_BASE_URL = 'http://localhost:8080/food-corner';
+const AUTHORIZATION = JSON.parse(localStorage.getItem("Authorization"));
+
 
 async function createNewRestaurant(formData) {
   try {
@@ -32,7 +35,7 @@ async function getFavorites(favorites = []) {
       credentials: 'include'
     });
     return restaurants.json();
-  } catch (error) { 
+  } catch (error) {
     throw new Error(error)
   }
 }
@@ -52,8 +55,9 @@ async function deleteRestaurantById(id) {
 async function getAllRestaurants() {
   try {
     const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants', {
+      headers: { 'Content-Type': 'application/json' },
       method: 'GET',
-      credentials: 'include'
+      credentials: 'include',
     });
     return restaurants.json();
   } catch (error) {

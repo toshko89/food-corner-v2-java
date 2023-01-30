@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/food-corner/users/**")
                 .permitAll()
-                .requestMatchers("/food-corner/")
+                .requestMatchers("/food-corner/restaurants")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

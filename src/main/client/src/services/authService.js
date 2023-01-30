@@ -1,12 +1,13 @@
 const REACT_APP_BASE_URL = "http://localhost:8080/food-corner";
+const AUTHORIZATION = JSON.parse(localStorage.getItem("Authorization"));
 
-async function register(email, password, rePass) {
+async function register(email, password, repeatPassword) {
   try {
     const user = await fetch(REACT_APP_BASE_URL + '/users/register', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json'},
       credentials: 'include',
-      body: JSON.stringify({ email, password, rePass })
+      body: JSON.stringify({ email, password, repeatPassword })
     });
     return user.json();
   } catch (error) {
@@ -22,7 +23,6 @@ async function login(email, password) {
       credentials: 'include',
       body: JSON.stringify({ email, password })
     });
-    console.log(REACT_APP_BASE_URL + '/users/login');
     return user.json();
   } catch (error) {
     throw new Error(error)

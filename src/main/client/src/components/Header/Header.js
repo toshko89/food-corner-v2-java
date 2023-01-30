@@ -6,9 +6,9 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 
 export default function Header() {
-  const userId = undefined;
+  
   // const userCredentials = useSelector(state => state.auth.name || state.auth.email);
-  // const userId = useSelector(state => state.auth._id);
+  const userId = useSelector(state => state.auth.id);
   // const orders = useSelector(state => state.cart.orders);
   // const itemsInCart = orders.reduce((acc, curr) => acc + curr.quantity, 0);
 

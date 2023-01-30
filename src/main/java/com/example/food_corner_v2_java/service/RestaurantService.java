@@ -44,7 +44,7 @@ public class RestaurantService {
                     .setRatingsCount(2)
                     .setWorkingHours("10:00-22:00")
                     .setImageUrl(new CloudinaryImage("https://res.cloudinary.com/dl72c1rli/image/upload/v1649517780/ju79tephlqlbwzjonb8b.jpg", "ju79tephlqlbwzjonb8b"))
-                    .setCategorie("Pizza")
+                    .setCategory("Italian")
                     .setProducts(pizza)
                     .setProducts(pizza)
                     .setProducts(pizza);
@@ -59,10 +59,13 @@ public class RestaurantService {
 
     @Transactional
     public List<RestaurantDTO> findAll() {
+        var restaurants = this.restaurantRepository.findAll();
         return this.restaurantRepository.findAll()
                 .stream()
                 .map(restaurant -> this.modelMapper.map(restaurant, RestaurantDTO.class))
                 .toList();
+
+
     }
 
     public Restaurant findById(long restaurantId) {

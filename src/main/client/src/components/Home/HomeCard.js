@@ -15,7 +15,7 @@ export default function HomeCard({ data }) {
               transform="uppercase"
               color="#ffffffAA"
             >
-              {data.categorie}
+              {data.category}
             </Text>
             <Text h3 color="#fff">
               {data.name}
@@ -24,7 +24,7 @@ export default function HomeCard({ data }) {
         </Card.Header>
         <Card.Body>
           <Card.Image
-            src={data.img.secure_url}
+            src={data.imageUrl.url}
             height={400}
             width="100%"
             alt="Card example background"
@@ -42,14 +42,14 @@ export default function HomeCard({ data }) {
         >
           <Row>
             <Col>
-              <Link to={`/restaurants/${data._id}/comments`} state={data.name}>
+              <Link to={`/restaurants/${data.id}/comments`} state={data.name}>
                 <Rating name="read-only" value={data.rating} readOnly />
               </Link>
-              <Text color="#fff" size={12}>{data.working_hours}</Text>
+              <Text color="#1e81b0" size={12}>{data.workingHours}</Text>
             </Col>
             <Col>
               <Row justify="flex-end">
-                <Link to={`/restaurants/${data._id}`}>
+                <Link to={`/restaurants/${data.id}`}>
                   <Button flat auto rounded color="secondary">
                     <Text css={{ color: 'inherit' }} size={12} weight="bold" transform="uppercase">
                       Menu

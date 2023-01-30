@@ -18,7 +18,7 @@ public class Restaurant {
     private String name;
 
     @Column(nullable = false)
-    private String categorie;
+    private String category;
 
     @Column(nullable = false)
     private String city;
@@ -59,12 +59,12 @@ public class Restaurant {
         return this;
     }
 
-    public String getCategorie() {
-        return categorie;
+    public String getCategory() {
+        return category;
     }
 
-    public Restaurant setCategorie(String categorie) {
-        this.categorie = categorie;
+    public Restaurant setCategory(String category) {
+        this.category = category;
         return this;
     }
 

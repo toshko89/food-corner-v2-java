@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const restaurantState = {
-  _id: '',
+  id: '',
   name: '',
   categorie: '',
   city: '',
@@ -10,7 +10,7 @@ const restaurantState = {
   owner: '',
   img: {
     secure_url: '',
-    public_id: ''
+    publicid: ''
   },
   products: [],
   rating: '',
@@ -22,7 +22,7 @@ const restaurantSlice = createSlice({
   initialState: restaurantState,
   reducers: {
     setRestaurantState(state, action) {
-      state._id = action.payload._id;
+      state.id = action.payload.id;
       state.categorie = action.payload.categorie;
       state.city = action.payload.city;
       state.address = action.payload.address;
@@ -35,14 +35,14 @@ const restaurantSlice = createSlice({
       state.name = action.payload.name
     },
     clearRestaurantState(state) {
-      state._id = '';
+      state.id = '';
       state.name = '';
       state.categorie = '';
       state.city = '';
       state.address = '';
       state.working_hours = '';
       state.owner = '';
-      state.img = { secure_url: '', public_id: '' };
+      state.img = { secure_url: '', publicid: '' };
       state.products = [];
       state.rating = '';
       state.ratingsCount = ''

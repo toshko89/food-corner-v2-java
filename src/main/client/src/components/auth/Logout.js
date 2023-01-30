@@ -11,6 +11,7 @@ export default function Logout() {
   logout()
     .then((res) => {
       if (res.status === 200) {
+        localStorage.removeItem('Authorization');
         dispatch(logoutStateChange());
       }
     })
