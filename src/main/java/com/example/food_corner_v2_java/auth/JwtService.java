@@ -1,6 +1,5 @@
-package com.example.food_corner_v2_java.service;
+package com.example.food_corner_v2_java.auth;
 
-import com.example.food_corner_v2_java.config.JwtKeyProps;
 import com.example.food_corner_v2_java.model.AppUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -43,7 +42,7 @@ public class JwtService {
                     put("role", userDetails.getUserRole().name());
                 }})
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
                 .signWith(getJwtKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

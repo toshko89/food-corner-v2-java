@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/food-corner")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "*")
 public class HomeController {
 
     private final RestaurantService restaurantService;
@@ -26,11 +26,6 @@ public class HomeController {
     public ResponseEntity<List<RestaurantDTO>> restaurantResponseEntity() {
         List<RestaurantDTO> restaurants = this.restaurantService.findAll();
         return ResponseEntity.ok(restaurants);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Tuka e!!!!");
     }
 
 }

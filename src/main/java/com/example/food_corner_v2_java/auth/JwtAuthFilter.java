@@ -1,8 +1,7 @@
-package com.example.food_corner_v2_java.config;
+package com.example.food_corner_v2_java.auth;
 
 import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.service.AppUserService;
-import com.example.food_corner_v2_java.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,8 +53,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            response.setHeader("error", e.getMessage());
-
+            response.getWriter().write("Error: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setHeader("Error", e.getMessage());
         }
     }
 }

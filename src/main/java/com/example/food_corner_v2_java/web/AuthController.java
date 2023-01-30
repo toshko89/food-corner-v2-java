@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/food-corner/users")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final AppUserService appUserService;
@@ -36,23 +36,27 @@ public class AuthController {
             BindingResult bindingResult,
             HttpServletResponse response) {
 
-        Map<String, String> errors = new HashMap<>();
-
         if (bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(fieldError -> {
-                errors.put(fieldError.getField(), fieldError.getDefaultMessage());
-            });
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+            var registerErrors = errors(bindingResult);
+            return new ResponseEntity<>(registerErrors, HttpStatus.BAD_REQUEST);
         }
 
         if (!registerDTO.getPassword().equals(registerDTO.getRepeatPassword())) {
+            Map<String, String> errors = new HashMap<>();
             errors.put("password", "Passwords do not match");
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-        String token = appUserService.register(registerDTO);
-        response.setHeader("Authorization", "Bearer " + token);
-        return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.CREATED);
+        try {
+            String token = appUserService.register(registerDTO);
+            response.setHeader("Authorization", "Bearer " + token);
+            return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Map<String, String> registerErrors = new HashMap<>();
+            registerErrors.put("error", e.getMessage());
+            return new ResponseEntity<>(registerErrors, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/login")
@@ -61,23 +65,36 @@ public class AuthController {
             BindingResult bindingResult,
             HttpServletResponse response) {
 
-        Map<String, String> errors = new HashMap<>();
-
-        if(bindingResult.hasErrors()) {
-            bindingResult.getFieldErrors().forEach(fieldError -> {
-                errors.put(fieldError.getField(), fieldError.getDefaultMessage());
-            });
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        if (bindingResult.hasErrors()) {
+            var bindingResultErrors = errors(bindingResult);
+            return new ResponseEntity<>(bindingResultErrors, HttpStatus.BAD_REQUEST);
         }
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),
-                loginDTO.getPassword()));
-
-        String token = appUserService.login(loginDTO);
-
-        response.setHeader("Authorization", "Bearer " + token);
-        return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.OK);
+        try {
+            String token = appUserService.login(loginDTO);
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),
+                    loginDTO.getPassword()));
+            response.setHeader("Authorization", "Bearer " + token);
+            return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Map<String, String> loginErrors = new HashMap<>();
+            loginErrors.put("login", e.getMessage());
+            return new ResponseEntity<>(loginErrors, HttpStatus.BAD_REQUEST);
+        }
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
+        response.setHeader("Authorization", "Bearer " + null);
+        return new ResponseEntity<>(Collections.singletonMap("logout", "success"), HttpStatus.OK);
+    }
 
+    private Map<String, String> errors(BindingResult bindingResult) {
+        Map<String, String> errors = new HashMap<>();
+        bindingResult.getFieldErrors().forEach(fieldError -> {
+            errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        });
+        return errors;
+    }
 }

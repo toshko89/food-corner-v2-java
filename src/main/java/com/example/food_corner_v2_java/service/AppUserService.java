@@ -1,5 +1,6 @@
 package com.example.food_corner_v2_java.service;
 
+import com.example.food_corner_v2_java.auth.JwtService;
 import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.model.dto.LoginDTO;
 import com.example.food_corner_v2_java.model.dto.RegisterDTO;
@@ -7,7 +8,6 @@ import com.example.food_corner_v2_java.model.enums.UserRolesEnum;
 import com.example.food_corner_v2_java.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,18 +27,13 @@ public class AppUserService {
 
     public AppUser getUserByEmail(String email) {
         return this.userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("No such user!" + email));
+                .orElseThrow(() -> new UsernameNotFoundException("No such user! " + email));
     }
 
     public String register(RegisterDTO registerDTO) {
         AppUser user = new AppUser()
                 .setUserRole(UserRolesEnum.USER)
-                .setCity(null)
                 .setEmail(registerDTO.getEmail())
-                .setName(null)
-                .setCity(null)
-                .setAddress(null)
-                .setPhone(null)
                 .setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
         this.userRepository.save(user);
@@ -48,7 +43,7 @@ public class AppUserService {
 
     public String login(LoginDTO loginDTO) {
         AppUser user = this.userRepository.findByEmail(loginDTO.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("No such user!" + loginDTO.getEmail()));
+                .orElseThrow(() -> new UsernameNotFoundException("No such user! " + loginDTO.getEmail()));
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Wrong password!");
@@ -79,5 +74,4 @@ public class AppUserService {
             this.userRepository.save(appUser);
         }
     }
-
 }

@@ -1,6 +1,6 @@
 package com.example.food_corner_v2_java;
 
-import com.example.food_corner_v2_java.config.JwtKeyProps;
+import com.example.food_corner_v2_java.auth.JwtKeyProps;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

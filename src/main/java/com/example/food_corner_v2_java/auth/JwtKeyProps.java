@@ -1,4 +1,4 @@
-package com.example.food_corner_v2_java.config;
+package com.example.food_corner_v2_java.auth;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
