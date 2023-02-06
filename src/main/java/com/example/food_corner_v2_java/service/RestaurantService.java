@@ -1,13 +1,15 @@
 package com.example.food_corner_v2_java.service;
 
+import com.example.food_corner_v2_java.errors.AppException;
+import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.model.Product;
 import com.example.food_corner_v2_java.model.Restaurant;
-import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
 import com.example.food_corner_v2_java.repository.RestaurantRepository;
 import com.example.food_corner_v2_java.utils.CloudinaryImage;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,5 +72,20 @@ public class RestaurantService {
 
     public Restaurant findById(long restaurantId) {
         return this.restaurantRepository.findById(restaurantId).orElse(null);
+    }
+
+    public RestaurantDTO restaurantDTObyId(long restaurantId) {
+        Restaurant restaurant = this.restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Restaurant not found"));
+
+        return this.modelMapper.map(restaurant, RestaurantDTO.class);
+    }
+
+    public List<RestaurantDTO> getOwnRestaurants(String name) {
+        AppUser appUser = this.appUserService.getUserByEmail(name);
+        return this.restaurantRepository.findAllByOwner(appUser)
+                .stream()
+                .map(restaurant -> this.modelMapper.map(restaurant, RestaurantDTO.class))
+                .toList();
     }
 }

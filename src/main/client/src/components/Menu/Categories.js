@@ -1,4 +1,3 @@
-import React from 'react';
 import Grid from '@mui/material/Grid';
 import { v4 as uuidv4 } from 'uuid';
 import { memo } from 'react';
@@ -7,6 +6,7 @@ import MenuCard from './MenuCard.js';
 const Categories = memo(({ currentRestaurant, categories, products, deleteProductHandler, isOwner }) => {
 
   const uniqueCategories = [...new Set(categories)];
+  
   return (
     <>
       {
@@ -21,7 +21,7 @@ const Categories = memo(({ currentRestaurant, categories, products, deleteProduc
                   <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     {categoryProduct.map(product => {
                       return (
-                        <MenuCard key={product._id}
+                        <MenuCard key={product.id}
                           currentRestaurant={currentRestaurant}
                           isOwner={isOwner}
                           deleteProductHandler={deleteProductHandler}

@@ -1,7 +1,9 @@
 package com.example.food_corner_v2_java.web;
 
+import com.example.food_corner_v2_java.model.dto.ChangeUserDataDTO;
 import com.example.food_corner_v2_java.model.dto.LoginDTO;
 import com.example.food_corner_v2_java.model.dto.RegisterDTO;
+import com.example.food_corner_v2_java.model.dto.UserDTO;
 import com.example.food_corner_v2_java.service.AppUserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -18,8 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/food-corner/users")
-@CrossOrigin(origins = "http://localhost:3000/",allowCredentials = "true")
+@RequestMapping("api/food-corner/users")
 public class AuthController {
 
     private final AppUserService appUserService;
@@ -89,6 +90,12 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> logout(HttpServletResponse response) {
         response.setHeader("Authorization", "Bearer " + null);
         return new ResponseEntity<>(Collections.singletonMap("logout", "success"), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> changeUserData(@PathVariable Long id, @RequestBody ChangeUserDataDTO ChangeUserDataDTO) {
+        System.out.println(ChangeUserDataDTO);
+        return null;
     }
 
     private Map<String, String> errors(BindingResult bindingResult) {

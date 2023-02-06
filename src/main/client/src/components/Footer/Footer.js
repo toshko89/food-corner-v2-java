@@ -26,7 +26,7 @@ export default function Footer() {
       </div>
       <section className="footer-copyright border-top py-3 bg-light">
         <div className="container d-flex align-items-center">
-          <p className="mb-0">2022 Food-Corner This site is made with educational purpose only! No rights reserved</p>
+          <p className="mb-0">2023 Food-Corner This site is made with educational purpose only! No rights reserved</p>
         </div>
       </section>
     </footer>

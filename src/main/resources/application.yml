@@ -9,7 +9,7 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   mvc:
-    hiddenmethod:
+    hidden-method:
       filter:
         enabled: true
 
@@ -52,6 +52,7 @@ server:
 #JWT Properties
 jwt-secret:
   key: ${JWT_SECRET}
+  adminPassword: ${ADMIN_PASSWORD}
 
 
 

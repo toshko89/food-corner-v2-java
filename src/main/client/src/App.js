@@ -47,9 +47,9 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/logout" element={<Logout />}></Route>
+        <Route path="/restaurants/:id" element={<RestaurantMenu />}></Route>
 
-
-        {/* <Route path="/restaurants/:id" element={<RestaurantMenu />}>
+        <Route path="/restaurants/:id" element={<RestaurantMenu />}>
           <Route path="edit" element={<OwnerGuard><CreateRestaurant edit={true} /></OwnerGuard>} />
         </Route>
         <Route path="/restaurants/:id/comments" element={<AllComments />}></Route>
@@ -60,7 +60,7 @@ function App() {
         <Route path="/my-account/:id/cart" element={<IsLoggedIn><Checkout /></IsLoggedIn>}></Route>
         <Route path="/my-account/:id/cart/success" element={<IsLoggedIn><Successful /></IsLoggedIn>}></Route>
         <Route path="/my-account/:id/create-restaurant" element={<IsLoggedIn><CreateRestaurant /></IsLoggedIn>}></Route>
-        <Route path='/my-account/:id/my-restaurants' element={<IsLoggedIn><MyRestaurants /></IsLoggedIn>}></Route> */}
+        <Route path='/my-account/:id/my-restaurants' element={<IsLoggedIn><MyRestaurants /></IsLoggedIn>}></Route>
         {/* <Route path='*' element={<Navigate to="/" replace />}></Route> */}
       </Routes>
       <Footer />

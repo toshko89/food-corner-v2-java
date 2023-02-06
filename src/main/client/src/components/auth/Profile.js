@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Outlet } from "react-router-dom";
@@ -9,7 +8,7 @@ import { loginStateChange } from "../../app/auth.js";
 export default function Profile() {
 
   const [error, setError] = useState(null);
-  const user = useSelector(state => state.auth._id);
+  const user = useSelector(state => state.auth.id);
   const userCredentials = useSelector(state => state.auth.name || state.auth.email);
   const dispatch = useDispatch();
 
@@ -31,15 +30,16 @@ export default function Profile() {
 
     try {
       const userDataChanged = await changeUserData(user, userData);
-      if (userDataChanged.message) {
-        setError(userDataChanged.message);
-        e.target.reset();
-        return;
-      }
+      console.log(userDataChanged);
+      // if (userDataChanged.message) {
+      //   setError(userDataChanged.message);
+      //   e.target.reset();
+      //   return;
+      // }
 
-      dispatch(loginStateChange(userDataChanged));
-      setError('Personal data updated successfully');
-      e.target.reset();
+      // dispatch(loginStateChange(userDataChanged));
+      // setError('Personal data updated successfully');
+      // e.target.reset();
     } catch (error) {
       setError(error);
       e.target.reset();

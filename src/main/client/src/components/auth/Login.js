@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../services/authService.js";
@@ -36,7 +35,6 @@ export default function Login() {
 
     try {
       const user = await login(email, password);
-      console.log(user);
       if (user.error) {
         setError(user.error);
         e.target.reset();

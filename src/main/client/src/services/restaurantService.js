@@ -1,7 +1,5 @@
 // const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
-const REACT_APP_BASE_URL = 'http://localhost:8080/food-corner';
-const AUTHORIZATION = JSON.parse(localStorage.getItem("Authorization"));
-
+const REACT_APP_BASE_URL = 'http://localhost:8080/api/food-corner';
 
 async function createNewRestaurant(formData) {
   try {
@@ -20,9 +18,13 @@ async function getOwnRestaurants() {
   try {
     const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants/by-owner', {
       method: 'GET',
+      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
       credentials: 'include'
     });
-    return restaurants.json();
+    if (restaurants.status === 200) {
+      return restaurants.json();
+    }
+    return restaurants;
   } catch (error) {
     throw new Error(error)
   }

@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-const IsLoggedIn = ({ children }) => {
-  const userId = useSelector(state => state.auth._id);
+export default function IsLoggedIn({ children }) {
+  const userId = useSelector(state => state.auth.id);
   if (userId) {
     return children;
   } else {
@@ -11,4 +11,3 @@ const IsLoggedIn = ({ children }) => {
   }
 }
 
-export default IsLoggedIn;

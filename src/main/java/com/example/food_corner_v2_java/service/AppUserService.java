@@ -1,5 +1,6 @@
 package com.example.food_corner_v2_java.service;
 
+import com.example.food_corner_v2_java.auth.JwtKeyProps;
 import com.example.food_corner_v2_java.auth.JwtService;
 import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.model.dto.UserDTO;
@@ -21,14 +22,16 @@ public class AppUserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final ModelMapper modelMapper;
+    private final JwtKeyProps jwtKeyProps;
 
 
     @Autowired
-    public AppUserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, ModelMapper modelMapper) {
+    public AppUserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, ModelMapper modelMapper, JwtKeyProps jwtKeyProps) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.modelMapper = modelMapper;
+        this.jwtKeyProps = jwtKeyProps;
     }
 
     public AppUser getUserByEmail(String email) {
@@ -82,10 +85,30 @@ public class AppUserService {
                     .setCity("Sofia")
                     .setName("Todor Petkov")
                     .setEmail("todor@abv.bg")
-                    .setPassword("123123")
+                    .setPassword(passwordEncoder.encode(jwtKeyProps.adminPassword()))
                     .setPhone("088898989")
                     .setAddress("Geo Milev");
             this.userRepository.save(appUser);
+
+            AppUser appUser2 = new AppUser()
+                    .setUserRole(UserRolesEnum.ADMIN)
+                    .setCity("Sofia")
+                    .setName("Gosho Petkov")
+                    .setEmail("goshko@abv.bg")
+                    .setPassword(passwordEncoder.encode(jwtKeyProps.adminPassword()))
+                    .setPhone("088754545")
+                    .setAddress("Lulin 3");
+            this.userRepository.save(appUser2);
+
+            AppUser appUser3 = new AppUser()
+                    .setUserRole(UserRolesEnum.ADMIN)
+                    .setCity("Sofia")
+                    .setName("Petko Petkov")
+                    .setEmail("petko@abv.bg")
+                    .setPassword(passwordEncoder.encode(jwtKeyProps.adminPassword()))
+                    .setPhone("088754545")
+                    .setAddress("Lozenec");
+            this.userRepository.save(appUser3);
         }
     }
 }

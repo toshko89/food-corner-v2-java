@@ -8,9 +8,9 @@ const restaurantState = {
   address: '',
   working_hours: '',
   owner: '',
-  img: {
-    secure_url: '',
-    publicid: ''
+  imageUrl: {
+    url: '',
+    publicId: ''
   },
   products: [],
   rating: '',
@@ -22,13 +22,14 @@ const restaurantSlice = createSlice({
   initialState: restaurantState,
   reducers: {
     setRestaurantState(state, action) {
+      console.log('action.payload', action.payload);
       state.id = action.payload.id;
       state.categorie = action.payload.categorie;
       state.city = action.payload.city;
       state.address = action.payload.address;
       state.working_hours = action.payload.working_hours;
       state.owner = action.payload.owner;
-      state.img = action.payload.img;
+      state.imageUrl = action.payload.imageUrl;
       state.products = action.payload.products;
       state.rating = action.payload.rating;
       state.ratingsCount = action.payload.ratingsCount;
@@ -42,7 +43,7 @@ const restaurantSlice = createSlice({
       state.address = '';
       state.working_hours = '';
       state.owner = '';
-      state.img = { secure_url: '', publicid: '' };
+      state.imageUrl = { url: '', publicId: '' };
       state.products = [];
       state.rating = '';
       state.ratingsCount = ''

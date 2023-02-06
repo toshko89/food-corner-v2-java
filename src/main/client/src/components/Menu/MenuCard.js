@@ -1,4 +1,3 @@
-import React from 'react';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import CardHeader from '@mui/material/CardHeader';
@@ -53,7 +52,7 @@ export default function MenuCard({ currentRestaurant, product, deleteProductHand
           <CardMedia
             component="img"
             height="194"
-            image={product.img.secure_url}
+            image={product.imageUrl.url}
             alt="Paella dish"
           />
           <CardContent>

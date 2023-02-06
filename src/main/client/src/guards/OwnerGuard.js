@@ -7,7 +7,9 @@ import { Navigate } from 'react-router-dom';
 const OwnerGuard = ({ children }) => {
   const user = useSelector(state => state.auth);
   const restaurant = useSelector(state => state.restaurant);
-  if (user && user._id === restaurant.owner) {
+  console.log(user)
+  console.log(restaurant)
+  if (user && user.id === restaurant.owner) {
     return children;
   } else {
     return <Navigate to={'/login'} replace />;
