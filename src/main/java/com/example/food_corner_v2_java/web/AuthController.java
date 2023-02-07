@@ -1,20 +1,21 @@
 package com.example.food_corner_v2_java.web;
 
+import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.dto.ChangeUserDataDTO;
 import com.example.food_corner_v2_java.model.dto.LoginDTO;
 import com.example.food_corner_v2_java.model.dto.RegisterDTO;
-import com.example.food_corner_v2_java.model.dto.UserDTO;
 import com.example.food_corner_v2_java.service.AppUserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,15 +26,17 @@ public class AuthController {
 
     private final AppUserService appUserService;
     private final AuthenticationManager authenticationManager;
+    private final ModelMapper modelMapper;
 
-    public AuthController(AppUserService appUserService, AuthenticationManager authenticationManager) {
+    public AuthController(AppUserService appUserService, AuthenticationManager authenticationManager, ModelMapper modelMapper) {
         this.appUserService = appUserService;
         this.authenticationManager = authenticationManager;
+        this.modelMapper = modelMapper;
     }
 
 
     @PostMapping("/register")
-    public ResponseEntity<Map<?,?>> register(
+    public ResponseEntity<Map<?, ?>> register(
             @RequestBody @Valid RegisterDTO registerDTO,
             BindingResult bindingResult,
             HttpServletResponse response) {
@@ -92,10 +95,24 @@ public class AuthController {
         return new ResponseEntity<>(Collections.singletonMap("logout", "success"), HttpStatus.OK);
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> changeUserData(@PathVariable Long id, @RequestBody ChangeUserDataDTO ChangeUserDataDTO) {
-        System.out.println(ChangeUserDataDTO);
-        return null;
+    @PreAuthorize("#id == authentication.principal.id")
+    public ResponseEntity<Map<String, Object>> changeUserData(
+            @PathVariable Long id,
+            @RequestBody @Valid ChangeUserDataDTO ChangeUserDataDTO,
+            BindingResult bindingResult,
+            HttpServletResponse response) {
+
+        if (bindingResult.hasErrors()) {
+            throw new AppException(HttpStatus.BAD_REQUEST, "Invalid data");
+        }
+
+        Map<String, Object> appUser = this.appUserService.editUser(id, ChangeUserDataDTO);
+
+        response.setHeader("Authorization", "Bearer " + appUser.get("token"));
+
+        return new ResponseEntity<>(appUser, HttpStatus.OK);
     }
 
     private Map<String, String> errors(BindingResult bindingResult) {

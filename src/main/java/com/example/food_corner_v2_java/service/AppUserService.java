@@ -2,7 +2,9 @@ package com.example.food_corner_v2_java.service;
 
 import com.example.food_corner_v2_java.auth.JwtKeyProps;
 import com.example.food_corner_v2_java.auth.JwtService;
+import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.AppUser;
+import com.example.food_corner_v2_java.model.dto.ChangeUserDataDTO;
 import com.example.food_corner_v2_java.model.dto.UserDTO;
 import org.modelmapper.ModelMapper;
 import com.example.food_corner_v2_java.model.dto.LoginDTO;
@@ -10,6 +12,7 @@ import com.example.food_corner_v2_java.model.dto.RegisterDTO;
 import com.example.food_corner_v2_java.model.enums.UserRolesEnum;
 import com.example.food_corner_v2_java.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -76,6 +79,24 @@ public class AppUserService {
 
     public AppUser emailIsTaken(String email) {
         return this.userRepository.findByEmail(email).orElse(null);
+    }
+
+    public Map<String, Object> editUser(Long id, ChangeUserDataDTO changeUserDataDTO) {
+        AppUser user = this.userRepository.findById(id)
+                .orElseThrow(() -> new AppException(HttpStatus.BAD_REQUEST,"No such user! " + id));
+
+        user.setName(changeUserDataDTO.getName())
+                .setPhone(changeUserDataDTO.getPhone())
+                .setAddress(changeUserDataDTO.getAddress())
+                .setCity(changeUserDataDTO.getCity());
+
+        this.userRepository.save(user);
+
+        String token = jwtService.generateToken(user);
+
+        UserDTO userDTO = this.modelMapper.map(user, UserDTO.class);
+
+        return Map.of("token", token, "user", userDTO);
     }
 
     public void initUsersDB() {

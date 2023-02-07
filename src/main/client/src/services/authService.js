@@ -58,10 +58,13 @@ async function changeUserData(userId, userData) {
   try {
     const response = await fetch(REACT_APP_BASE_URL + `/users/${userId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json','Authorization': JSON.parse(localStorage.getItem("Authorization")) },
       credentials: 'include',
-      body: JSON.stringify({ userId, userData })
+      body: JSON.stringify(userData)
     });
+    if(!response.ok){
+      return response;
+    }
     return response.json();
   } catch (error) {
     throw new Error(error);

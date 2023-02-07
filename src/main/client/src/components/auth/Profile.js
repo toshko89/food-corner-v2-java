@@ -29,17 +29,16 @@ export default function Profile() {
     const userData = { name, phone, city, address };
 
     try {
-      const userDataChanged = await changeUserData(user, userData);
-      console.log(userDataChanged);
-      // if (userDataChanged.message) {
-      //   setError(userDataChanged.message);
-      //   e.target.reset();
-      //   return;
-      // }
-
-      // dispatch(loginStateChange(userDataChanged));
-      // setError('Personal data updated successfully');
-      // e.target.reset();
+      const userDataChanged = await changeUserData(user, userData); 
+      if (userDataChanged.status === 403) {
+        setError("You are not authorized to change this user data");
+        e.target.reset();
+        return;
+      }
+      localStorage.setItem('Authorization', JSON.stringify("Bearer " + userDataChanged.token));
+      dispatch(loginStateChange(userDataChanged));
+      setError('Personal data updated successfully');
+      e.target.reset();
     } catch (error) {
       setError(error);
       e.target.reset();
