@@ -1,5 +1,6 @@
 package com.example.food_corner_v2_java.auth;
 
+import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.AppUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -7,6 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Key;
@@ -38,7 +40,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setId(userDetails.getId().toString())
-                .addClaims(new HashMap<>(){{
+                .addClaims(new HashMap<>() {{
                     put("role", userDetails.getUserRole().name());
                 }})
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -65,7 +67,11 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getJwtKey()).build().parseClaimsJws(token).getBody();
+        try {
+            return Jwts.parserBuilder().setSigningKey(getJwtKey()).build().parseClaimsJws(token).getBody();
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.UNAUTHORIZED, "Invalid token " + e.getMessage());
+        }
     }
 
     private Key getJwtKey() {

@@ -1,14 +1,17 @@
 // const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
-const REACT_APP_BASE_URL = 'http://localhost:8080/api/food-corner';
+const REACT_APP_BASE_URL = "http://localhost:8080/api/food-corner";
 
 async function createNewRestaurant(formData) {
+  console.log(formData);
   try {
-    const restaurant = await fetch(REACT_APP_BASE_URL + '/restaurants/create', {
+    const restaurant = await fetch(REACT_APP_BASE_URL + '/restaurants/new-restaurant', {
       method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
       credentials: 'include',
       body: formData
     });
-    return restaurant.json();
+    console.log(restaurant);
+    // return restaurant.json();
   } catch (error) {
     throw new Error(error)
   }
@@ -24,6 +27,7 @@ async function getOwnRestaurants() {
     if (restaurants.status === 200) {
       return restaurants.json();
     }
+    console.log(restaurants);
     return restaurants;
   } catch (error) {
     throw new Error(error)

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useState } from "react";
 import { getOwnRestaurants } from "../../services/restaurantService.js";
 import { Grid, Loading } from '@nextui-org/react';
@@ -17,6 +16,7 @@ export default function MyRestaurants() {
     (async function fetchData() {
       try {
         const res = await getOwnRestaurants();
+        console.log(res);
         if (res.status === 401) {
           dispatch(logoutStateChange());
           navigate('/login', { replace: true });

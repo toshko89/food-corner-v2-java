@@ -9,7 +9,7 @@ const OwnerGuard = ({ children }) => {
   const restaurant = useSelector(state => state.restaurant);
   console.log(user)
   console.log(restaurant)
-  if (user && user.id === restaurant.owner) {
+  if (user.id === restaurant.owner || user.role === 'ADMIN') {
     return children;
   } else {
     return <Navigate to={'/login'} replace />;

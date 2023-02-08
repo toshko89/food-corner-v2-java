@@ -1,5 +1,6 @@
 package com.example.food_corner_v2_java.auth;
 
+import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.service.AppUserService;
 import jakarta.servlet.FilterChain;
@@ -7,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;

@@ -13,7 +13,7 @@ export default function Footer() {
                   <h6 className="title text-white">About Us</h6>
                   <p className="text-muted">Some short text about company like You might remember the Dell computer commercials in which a youth reports.</p>
                   <div className="d-flex align-items-center">
-                    <a className="btn btn-icon btn-outline-light mr-1 btn-sm" title="Facebook" target="_blank" href="/#"><i className="feather-facebook"></i></a>
+                    <a className="btn btn-icon btn-outline-light mr-1 btn-sm" title="Github" target="https://github.com/toshko89" href="https://github.com/toshko89"><i className="feather-github"></i></a>
                     <a className="btn btn-icon btn-outline-light mr-1 btn-sm" title="Instagram" target="_blank" href="/#"><i className="feather-instagram"></i></a>
                     <a className="btn btn-icon btn-outline-light mr-1 btn-sm" title="Youtube" target="_blank" href="/#"><i className="feather-youtube"></i></a>
                     <a className="btn btn-icon btn-outline-light mr-1 btn-sm" title="Twitter" target="_blank" href="/#"><i className="feather-twitter"></i></a>

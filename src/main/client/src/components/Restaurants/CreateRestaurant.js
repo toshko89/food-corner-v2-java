@@ -11,7 +11,7 @@ export default function CreateRestaurant({ edit }) {
   const [error, setError] = useState(null);
   const [file, setFile] = useState([]);
   const [restaurant, setRestaurant] = useState({
-    name: '', categorie: '', city: '',
+    name: '', category: '', city: '',
     address: '', workingHours: ''
   });
   const [loading, setLoading] = useState(false);
@@ -29,7 +29,7 @@ export default function CreateRestaurant({ edit }) {
     if (edit) {
       setRestaurant({
         name: currentRestaurant.name,
-        categorie: currentRestaurant.categorie,
+        category: currentRestaurant.category,
         city: currentRestaurant.city,
         address: currentRestaurant.address,
         workingHours: currentRestaurant.working_hours
@@ -40,59 +40,62 @@ export default function CreateRestaurant({ edit }) {
   async function createRestaurant(e) {
     e.preventDefault();
     try {
-      if (restaurant.name.trim() == '' || restaurant.categorie.trim() == ''
-        || restaurant.city.trim() == '' || restaurant.address.trim() == '' || restaurant.workingHours == '') {
-        setError('All fields are required');
-        setRestaurant({ name: '', categorie: '', city: '', address: '', workingHours: '' });
-        setFile([]);
-        return;
-      }
+      // if (restaurant.name.trim() == '' || restaurant.category.trim() == ''
+      //   || restaurant.city.trim() == '' || restaurant.address.trim() == '' || restaurant.workingHours == '') {
+      //   setError('All fields are required');
+      //   setRestaurant({ name: '', category: '', city: '', address: '', workingHours: '' });
+      //   setFile([]);
+      //   return;
+      // }
 
-      if (file.length === 0) {
-        setError('Please add cover photo');
-        return;
-      }
+      // if (file.length === 0) {
+      //   setError('Please add cover photo');
+      //   return;
+      // }
 
-      if (!workTime(restaurant.workingHours)) {
-        setError('Working hours not valid, should be in format 08:00-20:00');
-        setRestaurant({ ...restaurant, workingHours: '' });
-        return;
-      }
+      // if (!workTime(restaurant.workingHours)) {
+      //   setError('Working hours not valid, should be in format 08:00-20:00');
+      //   setRestaurant({ ...restaurant, workingHours: '' });
+      //   return;
+      // }
 
       const data = new FormData();
-      data.append('CoverPhoto', file, file.name);
+      data.append('image', file, file.name);
       data.append('name', restaurant.name);
       data.append('address', restaurant.address);
-      data.append('categorie', restaurant.categorie);
+      data.append('category', restaurant.category);
       data.append('city', restaurant.city);
       data.append('workingHours', restaurant.workingHours);
-      data.append('OwnerID', user);
+      // data.append('OwnerID', user);
 
       let newRestaurant;
 
-      if (edit) {
-        setLoading(true);
-        newRestaurant = await editRestaurnat(currentRestaurant._id, user, data);
-      } else {
-        setLoading(true);
-        newRestaurant = await createNewRestaurant(data);
-      }
+      await createNewRestaurant(data);
 
-      if (newRestaurant.message) {
-        if (newRestaurant.message.includes('E11000')) {
-          setError('Restaurant name is taken, please choose unique one');
-          setLoading(false);
-          setRestaurant({ ...restaurant, name: '' });
-          setFile([]);
-          return;
-        }
-        setLoading(false);
-        setFile([]);
-        setError(newRestaurant.message);
-        return;
-      }
+      // if (edit) {
+      //   setLoading(true);
+      //   newRestaurant = await editRestaurnat(currentRestaurant.id, user, data);
+      // } else {
+      //   setLoading(true);
+      //   console.log(data.get('CoverPhoto'))
+      //   newRestaurant= await createNewRestaurant(data);
+      // }
 
-      navigate(`/my-account/${user}/my-restaurants`);
+      // if (newRestaurant.message) {
+      //   if (newRestaurant.message.includes('E11000')) {
+      //     setError('Restaurant name is taken, please choose unique one');
+      //     setLoading(false);
+      //     setRestaurant({ ...restaurant, name: '' });
+      //     setFile([]);
+      //     return;
+      //   }
+      //   setLoading(false);
+      //   setFile([]);
+      //   setError(newRestaurant.message);
+      //   return;
+      // }
+
+      // navigate(`/my-account/${user}/my-restaurants`);
 
     } catch (error) {
       setLoading(false);
@@ -156,10 +159,10 @@ export default function CreateRestaurant({ edit }) {
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="exampleInputNumber1">Categorie</label>
-                    <input type="text" name="categorie" className="form-control" id="exampleInputNumber1"
-                      value={restaurant.categorie}
-                      onChange={(e) => { setRestaurant({ ...restaurant, categorie: e.target.value }) }}
+                    <label htmlFor="exampleInputNumber1">Category</label>
+                    <input type="text" name="category" className="form-control" id="exampleInputNumber1"
+                      value={restaurant.category}
+                      onChange={(e) => { setRestaurant({ ...restaurant, category: e.target.value }) }}
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
@@ -178,14 +181,14 @@ export default function CreateRestaurant({ edit }) {
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Working hours (07:00-23:00)</label>
-                    <input type="text" name="working_hours" className="form-control" id="exampleInputEmail1"
+                    <input type="text" name="workingHours" className="form-control" id="exampleInputEmail1"
                       value={restaurant.workingHours}
                       onChange={(e) => { setRestaurant({ ...restaurant, workingHours: e.target.value }) }}
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Cover Photo</label>
-                    <input type="file" name="cover_photo" className="form-control" id="exampleInputEmail1"
+                    <input type="file" name="image" className="form-control" id="exampleInputEmail1"
                       onBlur={() => setError(null)} onChange={handleFileChange} />
                   </div>
                   <div className="text-center">

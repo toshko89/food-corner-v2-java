@@ -1,5 +1,4 @@
 const REACT_APP_BASE_URL = "http://localhost:8080/api/food-corner";
-const AUTHORIZATION = JSON.parse(localStorage.getItem("Authorization"));
 
 async function register(email, password, repeatPassword) {
   try {
