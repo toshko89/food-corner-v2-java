@@ -2,6 +2,7 @@ package com.example.food_corner_v2_java.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
@@ -22,8 +23,7 @@ public class CreateRestaurantDTO {
     @NotBlank(message = "Working hours are mandatory")
     private String workingHours;
 
-    @NotNull(message = "Image is mandatory")
-    private File imageUrl;
+    private MultipartFile image;
 
     public CreateRestaurantDTO() {
     }
@@ -73,12 +73,12 @@ public class CreateRestaurantDTO {
         return this;
     }
 
-    public File getImageUrl() {
-        return imageUrl;
+    public MultipartFile getImageUrl() {
+        return image;
     }
 
-    public CreateRestaurantDTO setImageUrl(File imageUrl) {
-        this.imageUrl = imageUrl;
+    public CreateRestaurantDTO setImageUrl(MultipartFile image) {
+        this.image = image;
         return this;
     }
 }

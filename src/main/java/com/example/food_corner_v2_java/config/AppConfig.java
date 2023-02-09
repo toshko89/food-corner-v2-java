@@ -48,6 +48,11 @@ public class AppConfig {
     }
 
 
+//    @Bean
+//    public CommonsMultipartResolver multipartResolver() {
+//        return new CommonsMultipartResolver();
+//    }
+
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

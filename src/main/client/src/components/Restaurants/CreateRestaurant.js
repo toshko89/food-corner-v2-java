@@ -60,15 +60,15 @@ export default function CreateRestaurant({ edit }) {
       // }
 
       const data = new FormData();
-      data.append('image', file, file.name);
       data.append('name', restaurant.name);
       data.append('address', restaurant.address);
       data.append('category', restaurant.category);
       data.append('city', restaurant.city);
       data.append('workingHours', restaurant.workingHours);
-      // data.append('OwnerID', user);
-
+      data.append('image', file);
       let newRestaurant;
+
+      // console.log(data.get('image'))
 
       await createNewRestaurant(data);
 
@@ -150,7 +150,7 @@ export default function CreateRestaurant({ edit }) {
             <h5 className="mb-4">{edit ? `Edit restaurant "${currentRestaurant.name}"` : 'Create the best restaurant'}</h5>
             <div id="edit_profile">
               <div>
-                <form onSubmit={createRestaurant}>
+                <form onSubmit={createRestaurant} >
                   <div className="form-group">
                     <label htmlFor="exampleInputName1">Name</label>
                     <input type="text" name="name" className="form-control" id="exampleInputName1d"

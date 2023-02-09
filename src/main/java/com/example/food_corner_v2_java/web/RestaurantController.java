@@ -1,10 +1,7 @@
 package com.example.food_corner_v2_java.web;
 
-import com.example.food_corner_v2_java.model.dto.CreateRestaurantDTO;
 import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
 import com.example.food_corner_v2_java.service.RestaurantService;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -47,28 +44,27 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurants);
     }
 
-    @PostMapping(path = "/restaurants/new-restaurant", consumes = {"multipart/form-data"})
+
+//    @RequestParam("name") MultipartFile name,
+//    @RequestParam("address") String address,
+//    @RequestParam("category") String category,
+//    @RequestParam("city") String city,
+//    @RequestParam("workingHours") String workingHours,
+//    @RequestParam("image") MultipartFile image
+
+    @PostMapping(path = "/restaurants/new-restaurant")
     public ResponseEntity<String> createRestaurant(
-            @RequestParam("image") MultipartFile file,
             @RequestParam("name") String name,
             @RequestParam("address") String address,
             @RequestParam("category") String category,
             @RequestParam("city") String city,
             @RequestParam("workingHours") String workingHours,
+            @RequestParam("image") MultipartFile image,
+            Principal principal) {
 
-            BindingResult bindingResult,
-            Principal principal,
-            HttpServletResponse response) {
+        System.out.println(principal);
 
-        System.out.println("createRestaurantDTO = " + file);
-
-        if (bindingResult.hasErrors()) {
-            var bindingResultErrors = errors(bindingResult);
-//            return new ResponseEntity<>(bindingResultErrors, HttpStatus.BAD_REQUEST);
-        }
-
-        return ResponseEntity.ok("Restaurant created successfully");
-
+        return ResponseEntity.ok("OK");
     }
 
 

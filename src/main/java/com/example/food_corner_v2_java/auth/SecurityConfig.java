@@ -28,6 +28,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                .cors()
+                .and()
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
@@ -37,8 +39,9 @@ public class SecurityConfig {
                 .authenticated()
                 .requestMatchers("/api/food-corner/restaurants/**")
                 .permitAll()
+                .requestMatchers("/api/food-corner/restaurants/new-restaurant")
+                .permitAll()
                 .requestMatchers("/api/food-corner/restaurants/by-owner").authenticated()
-                .requestMatchers("/api/food-corner/restaurants/new-restaurant").authenticated()
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -2,7 +2,9 @@ package com.example.food_corner_v2_java.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.utils.CloudinaryImage;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -26,7 +28,7 @@ public class CloudinaryService {
             );
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR,"Error occurred while uploading image");
         }
     }
 
@@ -36,7 +38,7 @@ public class CloudinaryService {
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR,"Error occurred while deleting a image");
         }
     }
 

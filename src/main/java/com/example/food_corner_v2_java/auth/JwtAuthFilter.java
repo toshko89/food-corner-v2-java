@@ -36,6 +36,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String JWT;
         final String userEmail;
         try {
+//            if(request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")){
+//                filterChain.doFilter(request, response);
+//                return;
+//            }
+
             if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
