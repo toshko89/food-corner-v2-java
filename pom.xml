@@ -100,7 +100,6 @@
 		<!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-bom -->
 		<!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-bom -->
 		<!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-storage -->
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>

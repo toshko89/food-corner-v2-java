@@ -110,6 +110,7 @@ public class RestaurantService {
 
             Blob blob = firebaseConfig.getFirebaseStorage().create(image.getOriginalFilename(), image.getBytes(), image.getContentType());
 
+//            boolean delete = firebaseConfig.getFirebaseStorage().delete(image.getOriginalFilename(), image.getBytes(), image.getContentType();
 
             Restaurant restaurant = new Restaurant()
                     .setName(name)
