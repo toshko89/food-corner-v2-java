@@ -3,7 +3,6 @@ import axios from 'axios';
 const REACT_APP_BASE_URL = "http://localhost:8080/api/food-corner";
 
 // async function createNewRestaurant(formData) {
-//   console.log(formData);
 //   try {
 //     const restaurant = await fetch(REACT_APP_BASE_URL + '/restaurants/new-restaurant', {
 //       method: 'POST',
@@ -20,19 +19,21 @@ const REACT_APP_BASE_URL = "http://localhost:8080/api/food-corner";
 
 
 async function createNewRestaurant(formData) {
-  console.log(formData.get('image'));
-  axios.post(REACT_APP_BASE_URL + '/restaurants/new-restaurant', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      'Authorization': JSON.parse(localStorage.getItem("Authorization"))
-    }
-  })
-    .then(res => {
-      console.log(res)  
+  try {
+    const restaurant = await axios.post(REACT_APP_BASE_URL + '/restaurants/new-restaurant', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': JSON.parse(localStorage.getItem("Authorization"))
+      }
     })
-    .catch(error => {
-      console.log(error);
-    });
+    console.log(restaurant);
+    if (restaurant.ok) {
+      return restaurant.json();
+    }
+    return restaurant;
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
 async function getOwnRestaurants() {
@@ -79,7 +80,7 @@ async function deleteRestaurantById(id) {
 async function getAllRestaurants() {
   try {
     const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants', {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
       method: 'GET',
       credentials: 'include',
     });

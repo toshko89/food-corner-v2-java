@@ -70,16 +70,15 @@ export default function CreateRestaurant({ edit }) {
 
       // console.log(data.get('image'))
 
-      await createNewRestaurant(data);
+     
 
-      // if (edit) {
-      //   setLoading(true);
-      //   newRestaurant = await editRestaurnat(currentRestaurant.id, user, data);
-      // } else {
-      //   setLoading(true);
-      //   console.log(data.get('CoverPhoto'))
-      //   newRestaurant= await createNewRestaurant(data);
-      // }
+      if (edit) {
+        setLoading(true);
+        // newRestaurant = await editRestaurnat(currentRestaurant.id, user, data);
+      } else {
+        setLoading(true);
+        newRestaurant= await createNewRestaurant(data);
+      }
 
       // if (newRestaurant.message) {
       //   if (newRestaurant.message.includes('E11000')) {
@@ -95,7 +94,7 @@ export default function CreateRestaurant({ edit }) {
       //   return;
       // }
 
-      // navigate(`/my-account/${user}/my-restaurants`);
+    navigate(`/my-account/${user}/my-restaurants`);
 
     } catch (error) {
       setLoading(false);

@@ -37,7 +37,7 @@ public class AppConfig {
     }
 
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 
@@ -47,14 +47,8 @@ public class AppConfig {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-
-//    @Bean
-//    public CommonsMultipartResolver multipartResolver() {
-//        return new CommonsMultipartResolver();
-//    }
-
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService());
         provider.setPasswordEncoder(passwordEncoder());
@@ -62,7 +56,7 @@ public class AppConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

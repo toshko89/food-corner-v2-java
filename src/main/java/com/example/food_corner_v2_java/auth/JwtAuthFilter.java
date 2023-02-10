@@ -1,6 +1,5 @@
 package com.example.food_corner_v2_java.auth;
 
-import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.service.AppUserService;
 import jakarta.servlet.FilterChain;
@@ -8,7 +7,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -36,11 +34,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String JWT;
         final String userEmail;
         try {
-//            if(request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")){
-//                filterChain.doFilter(request, response);
-//                return;
-//            }
-
             if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
