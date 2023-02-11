@@ -3,6 +3,7 @@ package com.example.food_corner_v2_java.web;
 import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
 import com.example.food_corner_v2_java.service.RestaurantService;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -56,6 +57,7 @@ public class RestaurantController {
             @RequestParam("image") MultipartFile image,
             Principal principal) {
 
+
         if (image.isEmpty() || name.isEmpty()
                 || address.isEmpty() || category.isEmpty()
                 || city.isEmpty() || workingHours.isEmpty()) {
@@ -66,10 +68,12 @@ public class RestaurantController {
             throw new AppException(HttpStatus.BAD_REQUEST, "You are not logged in");
         }
 
-        RestaurantDTO restaurant = this.restaurantService
-                .createRestaurant(name, address, category, city, workingHours, image, principal.getName());
-
-        return ResponseEntity.ok(restaurant);
+        try {
+            RestaurantDTO restaurant = this.restaurantService.createRestaurant(name, address, category, city, workingHours, image, principal.getName());
+            return ResponseEntity.ok(restaurant);
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
 

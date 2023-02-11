@@ -1,7 +1,6 @@
 package com.example.food_corner_v2_java.config;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.example.food_corner_v2_java.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class AppConfig {
@@ -30,10 +32,11 @@ public class AppConfig {
 
     @Bean
     public Cloudinary cloudinary() {
-        return new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", cloudinaryConfig.getCloudName(),
-                "api_key", cloudinaryConfig.getApiKey(),
-                "api_secret", cloudinaryConfig.getApiSecret()));
+        Map<String, String> config = new HashMap<>();
+        config.put("cloud_name", cloudinaryConfig.getCloudName());
+        config.put("api_key", cloudinaryConfig.getApiKey());
+        config.put("api_secret", cloudinaryConfig.getApiSecret());
+        return new Cloudinary(config);
     }
 
     @Bean

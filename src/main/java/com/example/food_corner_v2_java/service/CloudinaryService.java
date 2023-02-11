@@ -26,7 +26,7 @@ public class CloudinaryService {
         File tempFile = File.createTempFile(TEMP_FILE, multipartFile.getOriginalFilename());
         multipartFile.transferTo(tempFile);
         try {
-            var uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.emptyMap());
+            var uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.asMap("secure", false));
             return new CloudinaryImage(
                     uploadResult.get("url").toString(),
                     uploadResult.get("public_id").toString()
@@ -35,7 +35,7 @@ public class CloudinaryService {
             e.printStackTrace();
             throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR, "Error occurred while uploading image");
         } finally {
-            tempFile.delete();
+            boolean delete = tempFile.delete();
         }
     }
 

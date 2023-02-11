@@ -8,7 +8,6 @@ import com.example.food_corner_v2_java.model.Restaurant;
 import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
 import com.example.food_corner_v2_java.repository.RestaurantRepository;
 import com.example.food_corner_v2_java.utils.CloudinaryImage;
-import com.google.cloud.storage.Blob;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,42 +40,17 @@ public class RestaurantService {
         this.firebaseConfig = firebaseConfig;
     }
 
-    public void initRestaurantDB() {
-        if (this.restaurantRepository.count() == 0) {
-            AppUser appUser = this.appUserService.getUserByEmail("todor@abv.bg");
-            Product pizza = this.productService.findByName("Pizza");
-
-            Restaurant restaurant = new Restaurant()
-                    .setName("Djikov")
-                    .setAddress("GEo Milev")
-                    .setCity("Sofia")
-                    .setOwner(appUser)
-                    .setRating(4)
-                    .setRatingsCount(2)
-                    .setWorkingHours("10:00-22:00")
-                    .setImageUrl(new CloudinaryImage("https://res.cloudinary.com/dl72c1rli/image/upload/v1649517780/ju79tephlqlbwzjonb8b.jpg", "ju79tephlqlbwzjonb8b"))
-                    .setCategory("Italian")
-                    .setProducts(pizza)
-                    .setProducts(pizza)
-                    .setProducts(pizza);
-            this.restaurantRepository.save(restaurant);
-        }
-    }
-
     public Restaurant findByName(String name) {
         return this.restaurantRepository.findByName(name);
 
     }
 
-    @Transactional
     public List<RestaurantDTO> findAll() {
         var restaurants = this.restaurantRepository.findAll();
         return this.restaurantRepository.findAll()
                 .stream()
                 .map(restaurant -> this.modelMapper.map(restaurant, RestaurantDTO.class))
                 .toList();
-
-
     }
 
     public Restaurant findById(long restaurantId) {
@@ -98,7 +72,6 @@ public class RestaurantService {
                 .toList();
     }
 
-    @Transactional
     public RestaurantDTO createRestaurant(
             String name, String address,
             String category, String city,
@@ -108,9 +81,19 @@ public class RestaurantService {
         try {
             AppUser appUser = this.appUserService.getUserByEmail(ownerEmail);
 
-            Blob blob = firebaseConfig.getFirebaseStorage().create(image.getOriginalFilename(), image.getBytes(), image.getContentType());
+//      Firebase configuration for image upload to be deleted
+//            Blob blob = firebaseConfig.getFirebaseStorage().create(image.getOriginalFilename(), image.getBytes(), image.getContentType());
+//            boolean delete = firebaseConfig.getFirebaseStorage().getStorage().delete(blob.getGeneratedId());
+//            Restaurant restaurant = new Restaurant()
+//                    .setName(name)
+//                    .setAddress(address)
+//                    .setCategory(category)
+//                    .setCity(city)
+//                    .setWorkingHours(workingHours)
+//                    .setOwner(appUser)
+//                    .setImageUrl(new CloudinaryImage(blob.getMediaLink(), blob.getName()));
 
-//            boolean delete = firebaseConfig.getFirebaseStorage().delete(image.getOriginalFilename(), image.getBytes(), image.getContentType();
+            CloudinaryImage cloudinaryImage = cloudinaryService.uploadImage(image);
 
             Restaurant restaurant = new Restaurant()
                     .setName(name)
@@ -119,28 +102,35 @@ public class RestaurantService {
                     .setCity(city)
                     .setWorkingHours(workingHours)
                     .setOwner(appUser)
-                    .setImageUrl(new CloudinaryImage(blob.getMediaLink(), blob.getName()));
-
-//            CloudinaryImage cloudinaryImage = cloudinaryService.uploadImage(image);
-
-//            Restaurant restaurant = new Restaurant()
-//                    .setName(name)
-//                    .setAddress(address)
-//                    .setCategory(category)
-//                    .setCity(city)
-//                    .setWorkingHours(workingHours)
-//                    .setOwner(appUser);
-//                    .setImageUrl(cloudinaryImage);
+                    .setImageUrl(cloudinaryImage);
 
             this.restaurantRepository.save(restaurant);
-//
             return this.modelMapper.map(restaurant, RestaurantDTO.class);
-
-
-        } catch (AppException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }
+    }
+
+    public void initRestaurantDB() {
+        if (this.restaurantRepository.count() == 0) {
+            AppUser appUser = this.appUserService.getUserByEmail("todor@abv.bg");
+            Product pizza = this.productService.findByName("Pizza");
+
+            Restaurant restaurant = new Restaurant()
+                    .setName("Djikov")
+                    .setAddress("GEo Milev")
+                    .setCity("Sofia")
+                    .setOwner(appUser)
+                    .setRating(4)
+                    .setRatingsCount(2)
+                    .setWorkingHours("10:00-22:00")
+                    .setImageUrl(new CloudinaryImage("https://res.cloudinary.com/dl72c1rli/image/upload/v1649517780/ju79tephlqlbwzjonb8b.jpg", "ju79tephlqlbwzjonb8b"))
+                    .setCategory("Italian")
+                    .setProducts(pizza)
+                    .setProducts(pizza)
+                    .setProducts(pizza);
+            this.restaurantRepository.save(restaurant);
         }
     }
 }

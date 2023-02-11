@@ -40,24 +40,24 @@ export default function CreateRestaurant({ edit }) {
   async function createRestaurant(e) {
     e.preventDefault();
     try {
-      // if (restaurant.name.trim() == '' || restaurant.category.trim() == ''
-      //   || restaurant.city.trim() == '' || restaurant.address.trim() == '' || restaurant.workingHours == '') {
-      //   setError('All fields are required');
-      //   setRestaurant({ name: '', category: '', city: '', address: '', workingHours: '' });
-      //   setFile([]);
-      //   return;
-      // }
+      if (restaurant.name.trim() == '' || restaurant.category.trim() == ''
+        || restaurant.city.trim() == '' || restaurant.address.trim() == '' || restaurant.workingHours == '') {
+        setError('All fields are required');
+        setRestaurant({ name: '', category: '', city: '', address: '', workingHours: '' });
+        setFile([]);
+        return;
+      }
 
-      // if (file.length === 0) {
-      //   setError('Please add cover photo');
-      //   return;
-      // }
+      if (file.length === 0) {
+        setError('Please add cover photo');
+        return;
+      }
 
-      // if (!workTime(restaurant.workingHours)) {
-      //   setError('Working hours not valid, should be in format 08:00-20:00');
-      //   setRestaurant({ ...restaurant, workingHours: '' });
-      //   return;
-      // }
+      if (!workTime(restaurant.workingHours)) {
+        setError('Working hours not valid, should be in format 08:00-20:00');
+        setRestaurant({ ...restaurant, workingHours: '' });
+        return;
+      }
 
       const data = new FormData();
       data.append('name', restaurant.name);
@@ -66,35 +66,39 @@ export default function CreateRestaurant({ edit }) {
       data.append('city', restaurant.city);
       data.append('workingHours', restaurant.workingHours);
       data.append('image', file);
+
+
       let newRestaurant;
-
-      // console.log(data.get('image'))
-
-     
 
       if (edit) {
         setLoading(true);
         // newRestaurant = await editRestaurnat(currentRestaurant.id, user, data);
       } else {
         setLoading(true);
-        newRestaurant= await createNewRestaurant(data);
+        newRestaurant = await createNewRestaurant(data);
       }
 
-      // if (newRestaurant.message) {
-      //   if (newRestaurant.message.includes('E11000')) {
-      //     setError('Restaurant name is taken, please choose unique one');
-      //     setLoading(false);
-      //     setRestaurant({ ...restaurant, name: '' });
-      //     setFile([]);
-      //     return;
-      //   }
-      //   setLoading(false);
-      //   setFile([]);
-      //   setError(newRestaurant.message);
-      //   return;
-      // }
+      console.log(newRestaurant);
+     
+      if (newRestaurant.error) {
+        if (newRestaurant.error.data.message.includes("principal")) {
+          navigate('/login');
+          return;
+        }
+        if(newRestaurant.error.data.message.includes("could not execute statement; SQL")){
+          setError('Restaurant name is taken, please choose unique one');
+          setLoading(false);
+          setRestaurant({ ...restaurant, name: '' });
+          setFile([]);
+          return;
+        };
+        setLoading(false);
+        setFile([]);
+        setError(newRestaurant.message);
+        return;
+      }
 
-    navigate(`/my-account/${user}/my-restaurants`);
+      navigate(`/my-account/${user}/my-restaurants`);
 
     } catch (error) {
       setLoading(false);

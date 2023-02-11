@@ -33,9 +33,9 @@ spring:
     defer-datasource-initialization: true
 #Cloudinary Properties
 cloudinary:
-  api-key: 587398618388114
+  api-key: ${CLOUDINARY_API_KEY}
   api-secret: ${CLOUDINARY_API_SECRET}
-  cloud-name: dl72c1rli
+  cloud-name: ${CLOUDINARY_CLOUD_NAME}
 
 #Logging Properties
 logging:
