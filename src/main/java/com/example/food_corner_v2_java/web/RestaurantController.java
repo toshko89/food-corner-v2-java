@@ -57,6 +57,9 @@ public class RestaurantController {
             @RequestParam("image") MultipartFile image,
             Principal principal) {
 
+        if(this.restaurantService.findByName(name) != null) {
+            throw new AppException(HttpStatus.BAD_REQUEST, "Restaurant with this name already exists");
+        }
 
         if (image.isEmpty() || name.isEmpty()
                 || address.isEmpty() || category.isEmpty()
