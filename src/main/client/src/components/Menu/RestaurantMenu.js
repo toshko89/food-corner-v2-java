@@ -15,7 +15,9 @@ export default function RestaurantMenu() {
   const navigate = useNavigate();
   const currentRestaurant = useSelector(state => state.restaurant);
   const user = useSelector(state => state.auth);
-  const isOwner = currentRestaurant.owner.id === user.id;
+  //currentRestaurant.owner.id === user.id ||
+  console.log(user);
+  const isOwner =  user.userRole === 'ADMIN' || currentRestaurant.owner.id === user.id;
   const products = currentRestaurant.products;
   const categories = currentRestaurant.products.map(product => product.category);
   const restaurantInFavorite = user.favorites.includes(currentRestaurant.id);
@@ -76,7 +78,7 @@ export default function RestaurantMenu() {
               </div>
               <div className="col-6 col-md-2">
                 <p className="text-white-50 font-weight-bold m-0 small">Open time</p>
-                <p className="text-white m-0">{currentRestaurant?.working_hours}</p>
+                <p className="text-white m-0">{currentRestaurant?.workingHours}</p>
               </div>
             </div>
           </div>

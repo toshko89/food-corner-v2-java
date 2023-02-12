@@ -3,7 +3,6 @@ package com.example.food_corner_v2_java.auth;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -39,9 +38,8 @@ public class SecurityConfig {
                 .authenticated()
                 .requestMatchers("/api/food-corner/restaurants/**")
                 .permitAll()
-                .requestMatchers("/api/food-corner/restaurants/new-restaurant")
-                .permitAll()
-                .requestMatchers("/api/food-corner/restaurants/by-owner").authenticated()
+                .requestMatchers("/api/food-corner/restaurants/by-owner", "/api/food-corner/restaurants/new-restaurant")
+                .authenticated()
                 .anyRequest()
                 .authenticated()
                 .and()

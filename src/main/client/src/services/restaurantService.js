@@ -1,6 +1,8 @@
 import axios from 'axios';
-// const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
-const REACT_APP_BASE_URL = "http://localhost:8080/api/food-corner";
+const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
+// const REACT_APP_BASE_URL = "http://localhost:8080/api/food-corner";
+
+console.log(REACT_APP_BASE_URL);
 
 
 async function createNewRestaurant(formData) {
@@ -11,9 +13,22 @@ async function createNewRestaurant(formData) {
         'Authorization': JSON.parse(localStorage.getItem("Authorization"))
       }
     });
-    return restaurant.json();
+    return restaurant;
   } catch (error) {
-    console.log(error);
+    return error.response;
+  }
+}
+
+async function editRestaurnat(restaurantId, formData) {
+  try {
+    const restaurant = await axios.put(REACT_APP_BASE_URL + `/restaurants/${restaurantId}/edit`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': JSON.parse(localStorage.getItem("Authorization"))
+      }
+    });
+    return restaurant;
+  } catch (error) {
     return error.response;
   }
 }
@@ -72,18 +87,6 @@ async function getAllRestaurants() {
   }
 }
 
-async function editRestaurnat(restaurantId, userId, formData) {
-  try {
-    const restaurant = await fetch(REACT_APP_BASE_URL + `/restaurants/${restaurantId}/${userId}`, {
-      method: 'PUT',
-      credentials: 'include',
-      body: formData
-    });
-    return restaurant.json();
-  } catch (error) {
-    throw new Error(error)
-  }
-}
 
 async function getRestaurantById(id) {
   try {

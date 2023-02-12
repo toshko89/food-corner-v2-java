@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LoadingButton } from '@mui/lab';
 import SendIcon from '@mui/icons-material/Send';
 import { Link, useNavigate } from "react-router-dom";
 import { createNewRestaurant, editRestaurnat } from "../../services/restaurantService.js";
 import { workTime } from "../../utils/workingTimeCheck.js";
+import { logoutStateChange } from "../../app/auth.js";
 
 export default function CreateRestaurant({ edit }) {
 
@@ -14,6 +15,7 @@ export default function CreateRestaurant({ edit }) {
     name: '', category: '', city: '',
     address: '', workingHours: ''
   });
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const user = useSelector(state => state.auth.id);
   const currentRestaurant = useSelector(state => state.restaurant);
@@ -27,15 +29,17 @@ export default function CreateRestaurant({ edit }) {
 
   useEffect(() => {
     if (edit) {
+      console.log(currentRestaurant)
       setRestaurant({
         name: currentRestaurant.name,
         category: currentRestaurant.category,
         city: currentRestaurant.city,
         address: currentRestaurant.address,
-        workingHours: currentRestaurant.working_hours
+        workingHours: currentRestaurant.workingHours
       })
     }
   }, [currentRestaurant])
+
 
   async function createRestaurant(e) {
     e.preventDefault();
@@ -48,8 +52,14 @@ export default function CreateRestaurant({ edit }) {
         return;
       }
 
-      if (file.length === 0) {
+      if (file?.length === 0) {
         setError('Please add cover photo');
+        return;
+      }
+
+      if(file?.size > 10 * 10**6){
+        setError('File size is too big, max 10MB');
+        setFile([]);
         return;
       }
 
@@ -72,29 +82,23 @@ export default function CreateRestaurant({ edit }) {
 
       if (edit) {
         setLoading(true);
-        // newRestaurant = await editRestaurnat(currentRestaurant.id, user, data);
+        // newRestaurant = await editRestaurnat(currentRestaurant.id, data);
       } else {
         setLoading(true);
         newRestaurant = await createNewRestaurant(data);
       }
+      
 
       console.log(newRestaurant);
      
-      if (newRestaurant.error) {
-        if (newRestaurant.error.data.message.includes("principal")) {
+      if (newRestaurant.status !== 200) {
+        setError(newRestaurant.data.message);
+        if (newRestaurant.data.includes("principal")) {
+          dispatch(logoutStateChange());
           navigate('/login');
           return;
         }
-        if(newRestaurant.error.data.message.includes("could not execute statement; SQL")){
-          setError('Restaurant name is taken, please choose unique one');
-          setLoading(false);
-          setRestaurant({ ...restaurant, name: '' });
-          setFile([]);
-          return;
-        };
         setLoading(false);
-        setFile([]);
-        setError(newRestaurant.message);
         return;
       }
 
@@ -205,7 +209,6 @@ export default function CreateRestaurant({ edit }) {
                     >
                       {edit ? 'Edit Restaurant' : 'Create Restaurant'}
                     </LoadingButton>
-                    {/* <button type="submit" className="btn btn-primary btn-block">{edit ? 'Edit Restaurant' : 'Create Restaurant'}</button> */}
                   </div>
                 </form>
               </div>

@@ -3,7 +3,6 @@ package com.example.food_corner_v2_java.web;
 import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
 import com.example.food_corner_v2_java.service.RestaurantService;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

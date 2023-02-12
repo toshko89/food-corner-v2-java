@@ -1,4 +1,3 @@
-import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import { Link, useNavigate } from "react-router-dom";
 import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
@@ -18,7 +17,6 @@ import { addToFavorites, removeFromFavorites } from '../../app/auth.js';
 import AddCommentModal from '../Comments/AddCommentModal.js'
 
 export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }) {
-
   const restaurant = useSelector(state => state.restaurant);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -58,11 +56,11 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
   }
 
   function addToFav() {
-    dispatch(addToFavorites({ _id: restaurant._id }));
+    dispatch(addToFavorites({ id: restaurant.id }));
   }
 
   function removeFromFav() {
-    dispatch(removeFromFavorites({ _id: restaurant._id }));
+    dispatch(removeFromFavorites({ id: restaurant.id }));
   }
 
   return (
@@ -71,7 +69,7 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
         {error && <div className="error-container" role="alert"><p>{error}</p></div>}
         {isOwner &&
           <>
-            <IconButton component={Link} to={`/restaurants/${restaurant._id}/edit`} variant="contained" aria-label="edit" size="large">
+            <IconButton component={Link} to={`/restaurants/${restaurant.id}/edit`} variant="contained" aria-label="edit" size="large">
               <ModeEditOutlineTwoToneIcon fontSize="large" />
             </IconButton>
             <IconButton aria-label="add-menu" size="large" onClick={handler} >
@@ -114,7 +112,7 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
                 Close
               </Button>
               <LoadingButton
-                onClick={() => { deleteRestaurant(restaurant._id); handleClick(); }}
+                onClick={() => { deleteRestaurant(restaurant.id); handleClick(); }}
                 loading={loading}
                 variant="contained"
               >

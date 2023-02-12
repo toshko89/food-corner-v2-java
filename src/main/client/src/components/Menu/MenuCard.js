@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Text } from "@nextui-org/react";
 import { LoadingButton } from '@mui/lab';
 import { useState } from 'react';
@@ -18,6 +18,7 @@ import { addToCart } from '../../app/cart.js';
 
 export default function MenuCard({ currentRestaurant, product, deleteProductHandler, isOwner }) {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.id);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -32,7 +33,7 @@ export default function MenuCard({ currentRestaurant, product, deleteProductHand
   }
 
   function addToCartClick() {
-    dispatch(addToCart({ restaurantId: currentRestaurant._id, product }));
+    dispatch(addToCart({ restaurantId: currentRestaurant.id, product }));
   }
 
   return (
@@ -41,7 +42,7 @@ export default function MenuCard({ currentRestaurant, product, deleteProductHand
         <Card sx={{ maxWidth: 350 }}>
           <CardHeader
             action={
-              <IconButton onClick={addToCartClick}
+              user && <IconButton onClick={addToCartClick}
                 color='success' aria-label="settings">
                 <ShoppingCartIcon fontSize="large" />
               </IconButton>
@@ -92,7 +93,7 @@ export default function MenuCard({ currentRestaurant, product, deleteProductHand
             Close
           </Button>
           <LoadingButton
-            onClick={() => { deleteProductHandler(product._id); handleClick(); }}
+            onClick={() => { deleteProductHandler(product.id); handleClick(); }}
             loading={loading}
             variant="contained"
           >
