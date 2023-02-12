@@ -3,6 +3,7 @@ package com.example.food_corner_v2_java.web;
 import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
 import com.example.food_corner_v2_java.service.RestaurantService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -78,8 +79,8 @@ public class RestaurantController {
         }
     }
 
-
-    private Map<String, String> errors(BindingResult bindingResult) {
+    @NotNull
+    private Map<String, String> errors(@NotNull BindingResult bindingResult) {
         Map<String, String> errors = new HashMap<>();
         bindingResult.getFieldErrors().forEach(fieldError -> errors.put("error", fieldError.getDefaultMessage()));
         return errors;
