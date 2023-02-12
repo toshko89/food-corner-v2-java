@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, Outlet } from "react-router-dom";
 import { clearRestaurantState, setRestaurantState } from "../../app/restaurant.js";
@@ -13,10 +13,9 @@ export default function RestaurantMenu() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const currentRestaurant = useSelector(state => state.restaurant);
   const user = useSelector(state => state.auth);
-  //currentRestaurant.owner.id === user.id ||
-  console.log(user);
   const isOwner =  user.userRole === 'ADMIN' || currentRestaurant.owner.id === user.id;
   const products = currentRestaurant.products;
   const categories = currentRestaurant.products.map(product => product.category);
@@ -26,7 +25,9 @@ export default function RestaurantMenu() {
     (async function fetchData() {
       try {
         const res = await getRestaurantById(id);
+        console.log(res);
         if (res.message) {
+          setError(res.message);
           return;
         }
         dispatch(setRestaurantState(res));
@@ -64,6 +65,7 @@ export default function RestaurantMenu() {
     <>
       <div className="offer-section py-4">
         <div className="container position-relative">
+        {error && <div className="error-container" role="alert"><p>{error}</p></div>}
           <img alt="restaurant img" src={currentRestaurant.imageUrl?.url} className="restaurant-pic" />
           <div className="pt-3 text-white">
             <h2 className="font-weight-bold">{currentRestaurant?.name}</h2>
@@ -85,7 +87,7 @@ export default function RestaurantMenu() {
         </div>
       </div>
       <div className="container">
-        {user.id &&
+        {isOwner &&
           <RestaurantMenuNavIcons
             isOwner={isOwner}
             restaurant={currentRestaurant}

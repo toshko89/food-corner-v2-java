@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -106,6 +105,37 @@ public class RestaurantService {
 
             this.restaurantRepository.save(restaurant);
             return this.modelMapper.map(restaurant, RestaurantDTO.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    public RestaurantDTO editRestaurant(
+            Long restaurantId, String name,
+            String address, String category,
+            String city, String workingHours,
+            MultipartFile image) {
+
+        try {
+
+            Restaurant restaurant = this.restaurantRepository.findById(restaurantId)
+                    .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Restaurant not found"));
+
+            cloudinaryService.deleteImage(restaurant.getImageUrl().getPublicId());
+
+            CloudinaryImage cloudinaryImage = cloudinaryService.uploadImage(image);
+
+            restaurant.setName(name)
+                    .setAddress(address)
+                    .setCategory(category)
+                    .setCity(city)
+                    .setWorkingHours(workingHours)
+                    .setImageUrl(cloudinaryImage);
+
+            this.restaurantRepository.save(restaurant);
+            return this.modelMapper.map(restaurant, RestaurantDTO.class);
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());

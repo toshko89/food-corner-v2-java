@@ -19,9 +19,9 @@ async function createNewRestaurant(formData) {
   }
 }
 
-async function editRestaurnat(restaurantId, formData) {
+async function editRestaurnat(userId, restaurantId, formData) {
   try {
-    const restaurant = await axios.put(REACT_APP_BASE_URL + `/restaurants/${restaurantId}/edit`, formData, {
+    const restaurant = await axios.put(REACT_APP_BASE_URL + `/restaurants/${userId}/edit/${restaurantId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': JSON.parse(localStorage.getItem("Authorization"))

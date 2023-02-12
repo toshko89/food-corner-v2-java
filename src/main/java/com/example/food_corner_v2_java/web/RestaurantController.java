@@ -6,6 +6,7 @@ import com.example.food_corner_v2_java.service.RestaurantService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,7 +58,7 @@ public class RestaurantController {
             @RequestParam("image") MultipartFile image,
             Principal principal) {
 
-        if(this.restaurantService.findByName(name) != null) {
+        if (this.restaurantService.findByName(name) != null) {
             throw new AppException(HttpStatus.BAD_REQUEST, "Restaurant with this name already exists");
         }
 
@@ -73,6 +74,42 @@ public class RestaurantController {
 
         try {
             RestaurantDTO restaurant = this.restaurantService.createRestaurant(name, address, category, city, workingHours, image, principal.getName());
+            return ResponseEntity.ok(restaurant);
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PutMapping(path = "/restaurants/{userId}/edit/{restaurantId}")
+    @PreAuthorize("#userId == authentication.principal.id or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<RestaurantDTO> editRestaurant(
+            @PathVariable Long userId,
+            @PathVariable Long restaurantId,
+            @RequestParam("name") String name,
+            @RequestParam("address") String address,
+            @RequestParam("category") String category,
+            @RequestParam("city") String city,
+            @RequestParam("workingHours") String workingHours,
+            @RequestParam("image") MultipartFile image,
+            Principal principal) {
+
+        if (this.restaurantService.findByName(name) != null) {
+            throw new AppException(HttpStatus.BAD_REQUEST, "Restaurant with this name already exists");
+        }
+
+        if (image.isEmpty() || name.isEmpty()
+                || address.isEmpty() || category.isEmpty()
+                || city.isEmpty() || workingHours.isEmpty()) {
+            throw new AppException(HttpStatus.BAD_REQUEST, "All fields are required");
+        }
+
+        if (principal.getName().isEmpty()) {
+            throw new AppException(HttpStatus.BAD_REQUEST, "You are not logged in");
+        }
+
+        try {
+            RestaurantDTO restaurant = this.restaurantService
+                    .editRestaurant(restaurantId, name, address, category, city, workingHours, image);
             return ResponseEntity.ok(restaurant);
         } catch (Exception e) {
             throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());

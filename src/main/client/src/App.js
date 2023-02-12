@@ -53,7 +53,7 @@ function App() {
 
         <Route path="/my-account/:id/create-restaurant" element={<IsLoggedIn><CreateRestaurant /></IsLoggedIn>}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu />}>
-          <Route path="edit" element={<OwnerGuard><CreateRestaurant edit={true} /></OwnerGuard>} />
+          <Route path="edit/:id" element={<OwnerGuard><CreateRestaurant edit={true} /></OwnerGuard>} />
         </Route>
         
         <Route path="/my-account/:id" element={<IsLoggedIn><Profile /></IsLoggedIn>}>

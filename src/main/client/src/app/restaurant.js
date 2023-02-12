@@ -22,7 +22,6 @@ const restaurantSlice = createSlice({
   initialState: restaurantState,
   reducers: {
     setRestaurantState(state, action) {
-      console.log('action.payload', action.payload);
       state.id = action.payload.id;
       state.category = action.payload.category;
       state.city = action.payload.city;

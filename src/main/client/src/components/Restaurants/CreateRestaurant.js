@@ -29,7 +29,6 @@ export default function CreateRestaurant({ edit }) {
 
   useEffect(() => {
     if (edit) {
-      console.log(currentRestaurant)
       setRestaurant({
         name: currentRestaurant.name,
         category: currentRestaurant.category,
@@ -82,19 +81,17 @@ export default function CreateRestaurant({ edit }) {
 
       if (edit) {
         setLoading(true);
-        // newRestaurant = await editRestaurnat(currentRestaurant.id, data);
+        newRestaurant = await editRestaurnat(user,currentRestaurant.id, data);
       } else {
         setLoading(true);
         newRestaurant = await createNewRestaurant(data);
       }
-      
-
-      console.log(newRestaurant);
-     
+        
       if (newRestaurant.status !== 200) {
         setError(newRestaurant.data.message);
-        if (newRestaurant.data.includes("principal")) {
+        if (newRestaurant.status === 401) {
           dispatch(logoutStateChange());
+          localStorage.removeItem('Authorization');
           navigate('/login');
           return;
         }

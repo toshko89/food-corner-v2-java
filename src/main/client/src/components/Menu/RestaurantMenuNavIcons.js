@@ -17,6 +17,7 @@ import { addToFavorites, removeFromFavorites } from '../../app/auth.js';
 import AddCommentModal from '../Comments/AddCommentModal.js'
 
 export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }) {
+  const user = useSelector(state => state.auth.id);
   const restaurant = useSelector(state => state.restaurant);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
         {error && <div className="error-container" role="alert"><p>{error}</p></div>}
         {isOwner &&
           <>
-            <IconButton component={Link} to={`/restaurants/${restaurant.id}/edit`} variant="contained" aria-label="edit" size="large">
+            <IconButton component={Link} to={`/restaurants/${user}/edit/${restaurant.id}`} variant="contained" aria-label="edit" size="large">
               <ModeEditOutlineTwoToneIcon fontSize="large" />
             </IconButton>
             <IconButton aria-label="add-menu" size="large" onClick={handler} >
