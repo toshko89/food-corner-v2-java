@@ -1,6 +1,5 @@
 package com.example.food_corner_v2_java.service;
 
-import com.example.food_corner_v2_java.config.FirebaseConfig;
 import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.model.Product;
@@ -26,17 +25,15 @@ public class RestaurantService {
     private final ProductService productService;
     private final ModelMapper modelMapper;
     private final CloudinaryService cloudinaryService;
-    private final FirebaseConfig firebaseConfig;
 
     @Autowired
     public RestaurantService(RestaurantRepository restaurantRepository, AppUserService appUserService
-            , ProductService productService, ModelMapper modelMapper, CloudinaryService cloudinaryService, FirebaseConfig firebaseConfig) {
+            , ProductService productService, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
         this.restaurantRepository = restaurantRepository;
         this.appUserService = appUserService;
         this.productService = productService;
         this.modelMapper = modelMapper;
         this.cloudinaryService = cloudinaryService;
-        this.firebaseConfig = firebaseConfig;
     }
 
     public Restaurant findByName(String name) {
@@ -122,6 +119,10 @@ public class RestaurantService {
             Restaurant restaurant = this.restaurantRepository.findById(restaurantId)
                     .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Restaurant not found"));
 
+            if(this.restaurantRepository.findByName(name) != null && !restaurant.getName().equals(name)) {
+                throw new AppException(HttpStatus.BAD_REQUEST, "Restaurant with this name already exists");
+            }
+
             cloudinaryService.deleteImage(restaurant.getImageUrl().getPublicId());
 
             CloudinaryImage cloudinaryImage = cloudinaryService.uploadImage(image);
@@ -141,6 +142,15 @@ public class RestaurantService {
             throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
+    public boolean deleteRestaurant(Long id) {
+        Restaurant restaurant = this.restaurantRepository.findById(id)
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Restaurant not found"));
+
+        this.restaurantRepository.delete(restaurant);
+        return true;
+    }
+
 
     public void initRestaurantDB() {
         if (this.restaurantRepository.count() == 0) {
@@ -163,5 +173,6 @@ public class RestaurantService {
             this.restaurantRepository.save(restaurant);
         }
     }
+
 }
 

@@ -62,13 +62,14 @@ async function getFavorites(favorites = []) {
   }
 }
 
-async function deleteRestaurantById(id) {
+async function deleteRestaurantById(userId,restaurantId) {
   try {
-    const restaurant = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}`, {
+    const restaurant = await fetch(REACT_APP_BASE_URL + `/restaurants/${userId}/delete/${restaurantId}`, {
       method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
       credentials: 'include'
     });
-    return restaurant.json();
+    return restaurant;
   } catch (error) {
     throw new Error(error)
   }
@@ -77,7 +78,7 @@ async function deleteRestaurantById(id) {
 async function getAllRestaurants() {
   try {
     const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants', {
-      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
+      headers: { 'Content-Type': 'application/json'},
       method: 'GET',
       credentials: 'include',
     });

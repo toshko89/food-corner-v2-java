@@ -39,14 +39,13 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
     setVisibleCommentModal(false);
   };
 
-  async function deleteRestaurant(restaurantId) {
+  async function deleteRestaurant(user,restaurantId) {
     try {
-      const res = await deleteRestaurantById(restaurantId);
-      if (res.message === 'Success') {
+      const res = await deleteRestaurantById(user,restaurantId);
+      if (res.status === 200) {
         navigate('/');
       } else {
-        setError(res.message);
-        setLoading(false);
+        navigate('/login', { replace: true });
         return;
       }
     } catch (error) {
@@ -113,7 +112,7 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
                 Close
               </Button>
               <LoadingButton
-                onClick={() => { deleteRestaurant(restaurant.id); handleClick(); }}
+                onClick={() => { deleteRestaurant(user,restaurant.id); handleClick(); }}
                 loading={loading}
                 variant="contained"
               >

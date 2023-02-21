@@ -25,7 +25,6 @@ export default function RestaurantMenu() {
     (async function fetchData() {
       try {
         const res = await getRestaurantById(id);
-        console.log(res);
         if (res.message) {
           setError(res.message);
           return;

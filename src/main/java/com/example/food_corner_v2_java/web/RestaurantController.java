@@ -93,10 +93,6 @@ public class RestaurantController {
             @RequestParam("image") MultipartFile image,
             Principal principal) {
 
-        if (this.restaurantService.findByName(name) != null) {
-            throw new AppException(HttpStatus.BAD_REQUEST, "Restaurant with this name already exists");
-        }
-
         if (image.isEmpty() || name.isEmpty()
                 || address.isEmpty() || category.isEmpty()
                 || city.isEmpty() || workingHours.isEmpty()) {
@@ -111,6 +107,27 @@ public class RestaurantController {
             RestaurantDTO restaurant = this.restaurantService
                     .editRestaurant(restaurantId, name, address, category, city, workingHours, image);
             return ResponseEntity.ok(restaurant);
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/restaurants/{userId}/delete/{restaurantId}")
+    @PreAuthorize("#userId == authentication.principal.id or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> deleteRestaurant(
+            @PathVariable Long userId,
+            @PathVariable Long restaurantId,
+            Principal principal) {
+
+        System.out.println(principal.getName());
+
+        if (principal.getName().isEmpty()) {
+            throw new AppException(HttpStatus.BAD_REQUEST, "You are not logged in");
+        }
+
+        try {
+            this.restaurantService.deleteRestaurant(restaurantId);
+            return ResponseEntity.ok("Restaurant deleted successfully");
         } catch (Exception e) {
             throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
