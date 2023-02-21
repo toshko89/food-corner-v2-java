@@ -26,9 +26,8 @@ public class RestaurantService {
     private final ModelMapper modelMapper;
     private final CloudinaryService cloudinaryService;
 
-    @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository, AppUserService appUserService
-            , ProductService productService, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
+    public RestaurantService(RestaurantRepository restaurantRepository, AppUserService appUserService,
+                             ProductService productService, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
         this.restaurantRepository = restaurantRepository;
         this.appUserService = appUserService;
         this.productService = productService;
@@ -146,6 +145,8 @@ public class RestaurantService {
     public boolean deleteRestaurant(Long id) {
         Restaurant restaurant = this.restaurantRepository.findById(id)
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Restaurant not found"));
+
+        cloudinaryService.deleteImage(restaurant.getImageUrl().getPublicId());
 
         this.restaurantRepository.delete(restaurant);
         return true;

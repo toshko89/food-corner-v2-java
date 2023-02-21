@@ -67,7 +67,7 @@ export default function AddProductModal({ setVisible, visible, product }) {
     }
 
     const data = new FormData();
-    data.append('file', file, file.name);
+    data.append('image', file);
     data.append('name', recipe.name);
     data.append('ingredients', recipe.ingredients);
     data.append('weight', recipe.weight);

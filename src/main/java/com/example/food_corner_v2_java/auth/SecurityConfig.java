@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .authenticated()
                 .requestMatchers("/api/food-corner/restaurants/{userId}/edit/{restaurantId}","/api/food-corner/restaurants/{userId}/delete/{restaurantId}")
                 .authenticated()
+                .requestMatchers("/api/food-corner/products/{restaurantId}/add-product").authenticated()
                 .anyRequest()
                 .authenticated()
                 .and()

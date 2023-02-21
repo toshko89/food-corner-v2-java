@@ -152,4 +152,12 @@ public class Restaurant {
     public int hashCode() {
         return Objects.hash(id, name);
     }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
+    }
+
+    public void removeProduct(Product product) {
+        this.products.remove(product);
+    }
 }

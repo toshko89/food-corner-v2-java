@@ -132,4 +132,11 @@ public class AppUserService {
             this.userRepository.save(appUser3);
         }
     }
+
+    public boolean isAdmin(String principalName) {
+        AppUser user = this.userRepository.findByEmail(principalName)
+                .orElseThrow(() -> new UsernameNotFoundException("No such user! " + principalName));
+
+        return user.getUserRole().equals(UserRolesEnum.ADMIN);
+    }
 }

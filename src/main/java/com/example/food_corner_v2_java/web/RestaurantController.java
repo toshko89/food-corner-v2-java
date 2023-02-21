@@ -27,13 +27,13 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurants")
-    public ResponseEntity<List<RestaurantDTO>> restaurantResponseEntity() {
+    public ResponseEntity<List<RestaurantDTO>> getAllRestaurants() {
         List<RestaurantDTO> restaurants = this.restaurantService.findAll();
         return ResponseEntity.ok(restaurants);
     }
 
     @GetMapping("/restaurants/{id}")
-    public ResponseEntity<RestaurantDTO> restaurantResponseEntity(@PathVariable Long id) {
+    public ResponseEntity<RestaurantDTO> getRestaurantById(@PathVariable Long id) {
 
         RestaurantDTO restaurant = this.restaurantService.restaurantDTObyId(id);
 
@@ -118,8 +118,6 @@ public class RestaurantController {
             @PathVariable Long userId,
             @PathVariable Long restaurantId,
             Principal principal) {
-
-        System.out.println(principal.getName());
 
         if (principal.getName().isEmpty()) {
             throw new AppException(HttpStatus.BAD_REQUEST, "You are not logged in");
