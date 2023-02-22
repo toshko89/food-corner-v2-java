@@ -36,7 +36,7 @@ public class Restaurant {
     @Embedded
     private CloudinaryImage imageUrl;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Product> products = new HashSet<>();
 
     private Integer rating;

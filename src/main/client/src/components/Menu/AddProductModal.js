@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal, Text, Input } from "@nextui-org/react";
 import { LoadingButton } from '@mui/lab';
 import { useEffect, useState } from "react";
@@ -80,16 +79,16 @@ export default function AddProductModal({ setVisible, visible, product }) {
     try {
       setLoading(true);
       if (product) {
-        res = await editProduct(id, product._id, data);
+        res = await editProduct(id, product.id, data);
       } else {
         res = await addProduct(id, data);
       }
-      if (res.message) {
+      if (res.status !== 201) {
         setError(res.message);
         setLoading(false);
         return;
       }
-      dispatch(setRestaurantState(res));
+      dispatch(setRestaurantState(res.data));
       setLoading(false);
       setVisible(false);
     } catch (error) {

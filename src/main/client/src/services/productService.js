@@ -6,7 +6,7 @@ async function addProduct(restaurantId, productData) {
     const newProduct = await axios.post(REACT_APP_BASE_URL + `/products/${restaurantId}/add-product`, productData, {
       headers: { 'Content-Type': 'multipart/form-data', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
     });
-   console.log(newProduct);
+    return newProduct;
   } catch (error) {
     throw new Error(error)
   }
@@ -14,13 +14,10 @@ async function addProduct(restaurantId, productData) {
 
 async function editProduct(restaurantId, productId, productData) {
   try {
-    const editedProduct = await fetch(REACT_APP_BASE_URL + `/products/${restaurantId}/edit-product/${productId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
-      credentials: 'include',
-      body: productData
+    const editedProduct = await axios.put(REACT_APP_BASE_URL + `/products/${restaurantId}/edit-product/${productId}`,productData, {
+      headers: { 'Content-Type': 'multipart/form-data', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
     });
-    return editedProduct.json();
+    console.log(editedProduct);
   } catch (error) {
     throw new Error(error)
   }
@@ -44,4 +41,4 @@ export {
   addProduct,
   editProduct,
   deleteProduct
-}
+};

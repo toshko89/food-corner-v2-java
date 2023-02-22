@@ -8,7 +8,6 @@ import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
 import com.example.food_corner_v2_java.repository.RestaurantRepository;
 import com.example.food_corner_v2_java.utils.CloudinaryImage;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +40,6 @@ public class RestaurantService {
     }
 
     public List<RestaurantDTO> findAll() {
-        var restaurants = this.restaurantRepository.findAll();
         return this.restaurantRepository.findAll()
                 .stream()
                 .map(restaurant -> this.modelMapper.map(restaurant, RestaurantDTO.class))
@@ -118,7 +116,7 @@ public class RestaurantService {
             Restaurant restaurant = this.restaurantRepository.findById(restaurantId)
                     .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Restaurant not found"));
 
-            if(this.restaurantRepository.findByName(name) != null && !restaurant.getName().equals(name)) {
+            if (this.restaurantRepository.findByName(name) != null && !restaurant.getName().equals(name)) {
                 throw new AppException(HttpStatus.BAD_REQUEST, "Restaurant with this name already exists");
             }
 
@@ -143,13 +141,22 @@ public class RestaurantService {
     }
 
     public boolean deleteRestaurant(Long id) {
-        Restaurant restaurant = this.restaurantRepository.findById(id)
-                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Restaurant not found"));
+        try {
+            Restaurant restaurant = this.restaurantRepository.findById(id)
+                    .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Restaurant not found"));
 
-        cloudinaryService.deleteImage(restaurant.getImageUrl().getPublicId());
+            restaurant.getProducts().forEach(product -> {
+                this.cloudinaryService.deleteImage(product.getImageUrl().getPublicId());
+            });
 
-        this.restaurantRepository.delete(restaurant);
-        return true;
+            cloudinaryService.deleteImage(restaurant.getImageUrl().getPublicId());
+
+            this.restaurantRepository.delete(restaurant);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
 
