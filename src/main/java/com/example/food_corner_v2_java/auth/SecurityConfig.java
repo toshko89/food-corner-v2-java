@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .authenticated()
                 .requestMatchers("/api/food-corner/restaurants/{userId}/edit/{restaurantId}","/api/food-corner/restaurants/{userId}/delete/{restaurantId}")
                 .authenticated()
-                .requestMatchers("/api/food-corner/products/{restaurantId}/add-product","/api/food-corner/products/{restaurantId}/edit-product/{productId}")
+                .requestMatchers("/api/food-corner/products/{restaurantId}/add-product","/api/food-corner/products/{restaurantId}/edit-product/{productId}", "/api/food-corner/products/{restaurantId}/delete-product/{productId}")
                 .authenticated()
                 .anyRequest()
                 .authenticated()

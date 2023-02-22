@@ -10,16 +10,6 @@ import SendIcon from '@mui/icons-material/Send';
 
 export default function AddProductModal({ setVisible, visible, product }) {
 
-  const closeHandler = () => {
-    setVisible(false);
-    setRecipe({
-      name: '', ingredients: '',
-      weight: '', price: '', category: ''
-    });
-    setFile([]);
-    setError(false);
-  };
-
   const { id } = useParams();
   const dispatch = useDispatch();
   const [recipe, setRecipe] = useState({
@@ -29,6 +19,16 @@ export default function AddProductModal({ setVisible, visible, product }) {
   const [file, setFile] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const closeHandler = () => {
+    setVisible(false);
+    setRecipe({
+      name: '', ingredients: '',
+      weight: '', price: '', category: ''
+    });
+    setFile([]);
+    setError(false);
+  };
 
   function handleFileChange(e) {
     const file = e.target.files[0];
@@ -79,11 +79,11 @@ export default function AddProductModal({ setVisible, visible, product }) {
     try {
       setLoading(true);
       if (product) {
-        res = await editProduct(id, product.id, data);
+        res = await editProduct(id, product.id, data);  
       } else {
         res = await addProduct(id, data);
       }
-      if (res.status !== 201) {
+      if (res.status !== 200 && res.status !== 201) {
         setError(res.message);
         setLoading(false);
         return;

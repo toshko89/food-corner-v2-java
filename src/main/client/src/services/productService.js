@@ -14,10 +14,10 @@ async function addProduct(restaurantId, productData) {
 
 async function editProduct(restaurantId, productId, productData) {
   try {
-    const editedProduct = await axios.put(REACT_APP_BASE_URL + `/products/${restaurantId}/edit-product/${productId}`,productData, {
+    const editedProduct = await axios.put(REACT_APP_BASE_URL + `/products/${restaurantId}/edit-product/${productId}`, productData, {
       headers: { 'Content-Type': 'multipart/form-data', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
     });
-    console.log(editedProduct);
+    return editedProduct;
   } catch (error) {
     throw new Error(error)
   }
@@ -25,12 +25,9 @@ async function editProduct(restaurantId, productId, productData) {
 
 async function deleteProduct(restaurantId, productId) {
   try {
-    const restaurant = await fetch(REACT_APP_BASE_URL + `/products/${restaurantId}/delete-product/${productId}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
-      credentials: 'include',
-    });
-    return restaurant.json();
+    const restaurant = await axios.delete(REACT_APP_BASE_URL + `/products/${restaurantId}/delete-product/${productId}`, {
+      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },});
+    return restaurant;
   } catch (error) {
     throw new Error(error)
   }

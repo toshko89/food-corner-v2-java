@@ -84,4 +84,29 @@ public class ProductController {
         }
     }
 
+    @DeleteMapping("/products/{restaurantId}/delete-product/{productId}")
+    public ResponseEntity<RestaurantDTO> deleteProduct(
+            @PathVariable Long restaurantId,
+            @PathVariable Long productId,
+            Principal principal
+    ) {
+
+        if (restaurantId == null || productId == null) {
+            throw new AppException(HttpStatus.BAD_REQUEST, "All fields are required");
+        }
+
+        if (principal.getName().isEmpty()) {
+            throw new AppException(HttpStatus.BAD_REQUEST, "You are not logged in");
+        }
+
+        try {
+            RestaurantDTO restaurantDTO = this.productService
+                    .deleteProduct(restaurantId, productId, principal.getName());
+
+            return ResponseEntity.ok(restaurantDTO);
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
 }

@@ -43,17 +43,12 @@ export default function RestaurantMenu() {
   async function deleteProductHandler(productId) {
     try {
       const res = await deleteProduct(id, productId);
-      if (res.message) {
-        if (res.message === 'Please log in') {
-          localStorage.clear('userState');
-          navigate('/login');
-        } else if (res.message === 'Not authorized to edit this restaurant') {
-          navigate('/login');
-        }
+      if(res.status !== 200) {
+        setError(res.message);
         return;
       }
       dispatch(clearRestaurantState());
-      dispatch(setRestaurantState(res));
+      dispatch(setRestaurantState(res.data));
     } catch (error) {
       console.log(error);
       throw new Error(error)

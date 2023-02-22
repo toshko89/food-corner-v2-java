@@ -111,6 +111,27 @@ public class ProductService {
         }
     }
 
+
+    public RestaurantDTO deleteProduct(Long restaurantId, Long productId, String principalName) {
+
+        Restaurant restaurant = this.restaurantService.findById(restaurantId);
+
+        if(!this.appUserService.isAdmin(principalName) && !this.restaurantService.findById(restaurantId).getOwner().getUsername().equals(principalName)) {
+            throw new AppException(HttpStatus.FORBIDDEN, "You are not authorized to delete products");
+        }
+
+        Product product = this.productRepository.findById(productId)
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Product not found"));
+
+        this.cloudinaryService.deleteImage(product.getImageUrl().getPublicId());
+
+        restaurant.removeProduct(product);
+
+        this.productRepository.delete(product);
+
+        return this.modelMapper.map(restaurant, RestaurantDTO.class);
+    }
+
     public void initProductDB() {
         if (this.productRepository.count() == 0) {
             Product product = new Product()
@@ -123,4 +144,5 @@ public class ProductService {
             this.productRepository.save(product);
         }
     }
+
 }
