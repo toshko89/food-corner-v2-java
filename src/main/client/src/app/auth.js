@@ -8,7 +8,7 @@ const authState = {
   name: null,
   city: null,
   address: null,
-  userRole:null,
+  userRole: null,
   favorites: []
 }
 
@@ -37,11 +37,12 @@ export const authSlice = createSlice({
       state.userRole = null;
     },
     addToFavorites(state, action) {
-      state.favorites.push(action.payload.id);
+      console.log(action.payload);
+      state.favorites.push({ id: action.payload });
       localStorage.setItem('favorites', JSON.stringify(state.favorites));
     },
     removeFromFavorites(state, action) {
-      const index = state.favorites.indexOf(action.payload.id);
+      const index = state.favorites.indexOf(action.payload);
       state.favorites.splice(index, 1);
       localStorage.setItem('favorites', JSON.stringify(state.favorites));
     },

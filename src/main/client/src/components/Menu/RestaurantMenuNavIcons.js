@@ -55,12 +55,14 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
     }
   }
 
+  console.log(restaurantInFavorite);
+
   function addToFav() {
-    dispatch(addToFavorites({ id: restaurant.id }));
+    dispatch(addToFavorites(restaurant.id));
   }
 
   function removeFromFav() {
-    dispatch(removeFromFavorites({ id: restaurant.id }));
+    dispatch(removeFromFavorites(restaurant.id));
   }
 
   return (

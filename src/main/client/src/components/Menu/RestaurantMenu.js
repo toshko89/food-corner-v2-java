@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams, Outlet } from "react-router-dom";
+import { useParams, Outlet } from "react-router-dom";
 import { clearRestaurantState, setRestaurantState } from "../../app/restaurant.js";
 import { getRestaurantById } from "../../services/restaurantService.js";
 import RestaurantMenuNavIcons from "./RestaurantMenuNavIcons.js";
@@ -12,14 +12,15 @@ export default function RestaurantMenu() {
 
   const { id } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const currentRestaurant = useSelector(state => state.restaurant);
   const user = useSelector(state => state.auth);
-  const isOwner =  user.userRole === 'ADMIN' || currentRestaurant.owner.id === user.id;
+  const isOwner = user.userRole === 'ADMIN' || currentRestaurant.owner.id === user.id;
   const products = currentRestaurant.products;
   const categories = currentRestaurant.products.map(product => product.category);
-  const restaurantInFavorite = user.favorites.includes(currentRestaurant.id);
+  const restaurantInFavorite = user.favorites.filter(restaurant => restaurant.id === currentRestaurant.id);
+
+  console.log(user.favorites);
 
   useEffect(() => {
     (async function fetchData() {
@@ -43,7 +44,7 @@ export default function RestaurantMenu() {
   async function deleteProductHandler(productId) {
     try {
       const res = await deleteProduct(id, productId);
-      if(res.status !== 200) {
+      if (res.status !== 200) {
         setError(res.message);
         return;
       }
@@ -59,7 +60,7 @@ export default function RestaurantMenu() {
     <>
       <div className="offer-section py-4">
         <div className="container position-relative">
-        {error && <div className="error-container" role="alert"><p>{error}</p></div>}
+          {error && <div className="error-container" role="alert"><p>{error}</p></div>}
           <img alt="restaurant img" src={currentRestaurant.imageUrl?.url} className="restaurant-pic" />
           <div className="pt-3 text-white">
             <h2 className="font-weight-bold">{currentRestaurant?.name}</h2>
@@ -85,7 +86,7 @@ export default function RestaurantMenu() {
           <RestaurantMenuNavIcons
             isOwner={isOwner}
             restaurant={currentRestaurant}
-            restaurantInFavorite={restaurantInFavorite} />
+            restaurantInFavorite={restaurantInFavorite.length === 0 ? false : true} />
         }
         <Outlet />
         <Categories
@@ -94,7 +95,7 @@ export default function RestaurantMenu() {
           products={products}
           deleteProductHandler={deleteProductHandler}
           isOwner={isOwner}
-          >
+        >
         </Categories>
       </div>
     </>

@@ -51,16 +51,27 @@ async function getOwnRestaurants() {
 }
 
 async function getFavorites(favorites = []) {
-  try {
-    const restaurants = await fetch(REACT_APP_BASE_URL + `/restaurants/favorites/?${favorites}`, {
-      method: 'GET',
-      credentials: 'include'
-    });
-    return restaurants.json();
-  } catch (error) {
-    throw new Error(error)
-  }
+  favorites = [1,2,3]
+  axios.get('/api/foo', { params: favorites })
+  .then(response => {
+    const data = response.data;
+    // Do something with the data
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
+
+  //try {
+  //   const restaurants = await fetch(REACT_APP_BASE_URL + `/restaurants/favorites/?${favorites}`, {
+  //     method: 'GET',
+  //     credentials: 'include'
+  //   });
+  //   return restaurants.json();
+  // } catch (error) {
+  //   throw new Error(error)
+  // }
+
 
 async function deleteRestaurantById(userId,restaurantId) {
   try {
