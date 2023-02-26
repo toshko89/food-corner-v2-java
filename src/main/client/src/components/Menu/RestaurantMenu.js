@@ -18,9 +18,7 @@ export default function RestaurantMenu() {
   const isOwner = user.userRole === 'ADMIN' || currentRestaurant.owner.id === user.id;
   const products = currentRestaurant.products;
   const categories = currentRestaurant.products.map(product => product.category);
-  const restaurantInFavorite = user.favorites.filter(restaurant => restaurant.id === currentRestaurant.id);
-
-  console.log(user.favorites);
+  const restaurantInFavorite = user.favorites.includes(currentRestaurant.id);
 
   useEffect(() => {
     (async function fetchData() {
@@ -86,7 +84,7 @@ export default function RestaurantMenu() {
           <RestaurantMenuNavIcons
             isOwner={isOwner}
             restaurant={currentRestaurant}
-            restaurantInFavorite={restaurantInFavorite.length === 0 ? false : true} />
+            restaurantInFavorite={restaurantInFavorite} />
         }
         <Outlet />
         <Categories

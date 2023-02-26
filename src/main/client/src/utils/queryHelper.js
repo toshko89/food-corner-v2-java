@@ -1,6 +1,3 @@
-export const newQuery = (query) => {
-  return Object.entries(query)
-    .map(([k, v]) => {
-      return `${k}=${v}`
-    }).join('&');
+export const newQuery = (ids) => {
+  return ids.map(id => encodeURIComponent('ids[]') + '=' + encodeURIComponent(id)).join('&');
 };

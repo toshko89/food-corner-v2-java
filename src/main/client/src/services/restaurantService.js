@@ -50,30 +50,32 @@ async function getOwnRestaurants() {
   }
 }
 
-async function getFavorites(favorites = []) {
-  favorites = [1,2,3]
-  axios.get('/api/foo', { params: favorites })
-  .then(response => {
-    const data = response.data;
-    // Do something with the data
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+async function getFavorites(favorites) {
+  try {
+    const restaurants = await axios.get(REACT_APP_BASE_URL + '/restaurants/favorites?ids=' + favorites.join(","), {
+      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
+    })
+    console.log(restaurants);
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
-  //try {
-  //   const restaurants = await fetch(REACT_APP_BASE_URL + `/restaurants/favorites/?${favorites}`, {
-  //     method: 'GET',
-  //     credentials: 'include'
-  //   });
-  //   return restaurants.json();
-  // } catch (error) {
-  //   throw new Error(error)
-  // }
+
+//try {
+//   const restaurants = await fetch(REACT_APP_BASE_URL + `/restaurants/favorites/?${favorites}`, {
+//     method: 'GET',
+//     headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
+//     credentials: 'include'
+//   });
+//   console.log(restaurants);
+//   // return restaurants.json();
+// } catch (error) {
+//   throw new Error(error)
+// }
 
 
-async function deleteRestaurantById(userId,restaurantId) {
+async function deleteRestaurantById(userId, restaurantId) {
   try {
     const restaurant = await fetch(REACT_APP_BASE_URL + `/restaurants/${userId}/delete/${restaurantId}`, {
       method: 'DELETE',
@@ -89,7 +91,7 @@ async function deleteRestaurantById(userId,restaurantId) {
 async function getAllRestaurants() {
   try {
     const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants', {
-      headers: { 'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       method: 'GET',
       credentials: 'include',
     });

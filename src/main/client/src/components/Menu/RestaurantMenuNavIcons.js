@@ -55,8 +55,6 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
     }
   }
 
-  console.log(restaurantInFavorite);
-
   function addToFav() {
     dispatch(addToFavorites(restaurant.id));
   }

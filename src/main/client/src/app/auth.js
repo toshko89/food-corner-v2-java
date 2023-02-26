@@ -37,8 +37,7 @@ export const authSlice = createSlice({
       state.userRole = null;
     },
     addToFavorites(state, action) {
-      console.log(action.payload);
-      state.favorites.push({ id: action.payload });
+      state.favorites.push(action.payload);
       localStorage.setItem('favorites', JSON.stringify(state.favorites));
     },
     removeFromFavorites(state, action) {

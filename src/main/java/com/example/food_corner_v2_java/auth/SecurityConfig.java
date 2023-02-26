@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers("/api/food-corner/users/{id}")
                 .authenticated()
-                .requestMatchers("/api/food-corner/restaurants/**")
+                .requestMatchers("/api/food-corner/restaurants/**","/api/food-corner/restaurants/favorites")
                 .permitAll()
                 .requestMatchers("/api/food-corner/restaurants/by-owner", "/api/food-corner/restaurants/new-restaurant")
                 .authenticated()

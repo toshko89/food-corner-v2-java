@@ -131,6 +131,19 @@ public class RestaurantController {
         }
     }
 
+
+    @GetMapping("/restaurants/favorites")
+    public ResponseEntity<String> getFavoriteRestaurants(
+            @RequestParam("ids") String ids,
+            Principal principal) {
+
+        System.out.println(ids);
+
+//        List<RestaurantDTO> restaurants = this.restaurantService.getRestaurantsIn();
+
+        return ResponseEntity.ok("Tuk sme");
+    }
+
     @NotNull
     private Map<String, String> errors(@NotNull BindingResult bindingResult) {
         Map<String, String> errors = new HashMap<>();
