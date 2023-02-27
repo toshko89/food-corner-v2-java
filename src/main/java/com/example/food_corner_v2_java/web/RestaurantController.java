@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/food-corner")
@@ -133,15 +135,21 @@ public class RestaurantController {
 
 
     @GetMapping("/restaurants/favorites")
-    public ResponseEntity<String> getFavoriteRestaurants(
-            @RequestParam("ids") String ids,
-            Principal principal) {
+    public ResponseEntity<List<RestaurantDTO>> getFavoriteRestaurants(@RequestParam("ids") String ids) {
 
-        System.out.println(ids);
+        if (ids.isEmpty()) {
+            return ResponseEntity.ok(List.of());
+        }
 
-//        List<RestaurantDTO> restaurants = this.restaurantService.getRestaurantsIn();
+        List<String> idList = Arrays.stream(ids.split(",")).collect(Collectors.toList());
 
-        return ResponseEntity.ok("Tuk sme");
+        try {
+            List<RestaurantDTO> favoriteRestaurants = this.restaurantService.getFavoriteRestaurants(idList);
+
+            return ResponseEntity.ok(favoriteRestaurants);
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @NotNull

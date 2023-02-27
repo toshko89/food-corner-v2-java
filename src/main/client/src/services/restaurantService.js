@@ -55,25 +55,11 @@ async function getFavorites(favorites) {
     const restaurants = await axios.get(REACT_APP_BASE_URL + '/restaurants/favorites?ids=' + favorites.join(","), {
       headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
     })
-    console.log(restaurants);
+   return restaurants;
   } catch (error) {
     throw new Error(error)
   }
 }
-
-
-//try {
-//   const restaurants = await fetch(REACT_APP_BASE_URL + `/restaurants/favorites/?${favorites}`, {
-//     method: 'GET',
-//     headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
-//     credentials: 'include'
-//   });
-//   console.log(restaurants);
-//   // return restaurants.json();
-// } catch (error) {
-//   throw new Error(error)
-// }
-
 
 async function deleteRestaurantById(userId, restaurantId) {
   try {

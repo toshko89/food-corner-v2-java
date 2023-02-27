@@ -11,16 +11,12 @@ export default function Favorites() {
 
   const [restaurants, setRestaurants] = useState([]);
   const userFavorites = useSelector(state => state.auth.favorites);
-  const query = newQuery(userFavorites);
-
-  console.log(userFavorites);
-
+ 
   useEffect(() => {
     (async function fetchData() {
       try {
         const res = await getFavorites(userFavorites);
-        console.log(res);
-        // setRestaurants(res)
+        setRestaurants(res.data)
       } catch (error) {
         throw new Error(error)
       }

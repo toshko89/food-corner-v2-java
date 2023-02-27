@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -159,6 +160,17 @@ public class RestaurantService {
         }
     }
 
+    public List<RestaurantDTO> getFavoriteRestaurants(List<String> idsList) {
+
+        Iterable<Long> longIds = idsList.stream()
+                .map(Long::valueOf) // Convert String elements to Long elements
+                .collect(Collectors.toList());
+
+        return this.restaurantRepository.findAllById(longIds)
+                .stream()
+                .map(restaurant -> this.modelMapper.map(restaurant, RestaurantDTO.class))
+                .collect(Collectors.toList());
+    }
 
     public void initRestaurantDB() {
         if (this.restaurantRepository.count() == 0) {
@@ -181,6 +193,5 @@ public class RestaurantService {
             this.restaurantRepository.save(restaurant);
         }
     }
-
 }
 
