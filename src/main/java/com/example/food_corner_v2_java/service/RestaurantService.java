@@ -179,7 +179,7 @@ public class RestaurantService {
 
             Restaurant restaurant = new Restaurant()
                     .setName("Djikov")
-                    .setAddress("GEo Milev")
+                    .setAddress("Geo Milev")
                     .setCity("Sofia")
                     .setOwner(appUser)
                     .setRating(4)

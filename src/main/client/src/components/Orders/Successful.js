@@ -10,7 +10,7 @@ export default function Successful() {
     <div className="py-5 osahan-coming-soon d-flex justify-content-center align-items-center">
       <div className="col-md-6">
         <div className="text-center pb-3">
-          <h1 className="font-weight-bold">{name}, your order has been successful</h1>
+          <h1 className="font-weight-bold">{name || "Hello"}, your order has been successful</h1>
         </div>
         <div className="bg-white rounded text-center p-4 shadow-sm">
           <h1 className="display-1 mb-4">🎉</h1>

@@ -80,12 +80,11 @@ export default function RestaurantMenu() {
         </div>
       </div>
       <div className="container">
-        {isOwner &&
-          <RestaurantMenuNavIcons
-            isOwner={isOwner}
-            restaurant={currentRestaurant}
-            restaurantInFavorite={restaurantInFavorite} />
-        }
+        <RestaurantMenuNavIcons
+          isOwner={isOwner}
+          restaurant={currentRestaurant}
+          restaurantInFavorite={restaurantInFavorite}
+        />
         <Outlet />
         <Categories
           currentRestaurant={currentRestaurant}

@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "orders")
@@ -18,11 +16,14 @@ public class Order {
     @ManyToOne
     private AppUser buyer;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Restaurant> restaurant = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> product;
+
+    @Column(nullable = false)
+    private Integer quantity;
 
     @Column(columnDefinition = "DATETIME")
     @CreationTimestamp
@@ -56,6 +57,15 @@ public class Order {
 
     public List<Product> getProduct() {
         return product;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public Order setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
     }
 
     public Order setProduct(List<Product> product) {

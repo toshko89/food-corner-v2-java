@@ -35,6 +35,7 @@ export const authSlice = createSlice({
       state.city = null;
       state.address = null;
       state.userRole = null;
+      state.favorites = [];
     },
     addToFavorites(state, action) {
       state.favorites.push(action.payload);

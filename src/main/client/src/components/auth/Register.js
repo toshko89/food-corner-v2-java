@@ -42,7 +42,6 @@ export default function Register() {
 
     try {
       const user = await register(email, password, repeatPassword);
-      console.log(user);
       if (user.error) {
         setError(user.error);
         e.target.reset();

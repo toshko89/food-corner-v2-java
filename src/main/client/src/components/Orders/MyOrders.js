@@ -1,18 +1,18 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getAllOrdersByUserId } from "../../services/orderService.js";
+import { getAllOrdersByUser } from "../../services/orderService.js";
 import OrderCard from "./OrderCard.js";
 
 
 export default function MyOrders() {
 
   const [orders, setOrders] = useState([]);
-  const userId = useSelector(state => state.auth._id);
+  const userId = useSelector(state => state.auth.id);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getAllOrdersByUserId(userId)
+    getAllOrdersByUser()
       .then(res => {
         setOrders(res);
       })
@@ -29,7 +29,7 @@ export default function MyOrders() {
           {orders.length > 0 && <h3>My Orders</h3>}
           <div className="order-body">
             {orders.length > 0
-              ? orders.map(order => <OrderCard key={order._id} order={order} />)
+              ? orders.map(order => <OrderCard key={order.id} order={order} />)
               : <h3>No orders yet</h3>}
           </div>
         </div>

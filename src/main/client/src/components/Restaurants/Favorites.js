@@ -1,17 +1,14 @@
-import React from 'react';
 import { useEffect, useState } from "react";
-import { Grid, Loading } from '@nextui-org/react';
+import { Grid } from '@nextui-org/react';
 import HomeCard from "../Home/HomeCard.js";
 import { getFavorites } from "../../services/restaurantService.js";
 import { useSelector } from "react-redux";
-import { newQuery } from '../../utils/queryHelper.js'
-
 
 export default function Favorites() {
 
   const [restaurants, setRestaurants] = useState([]);
   const userFavorites = useSelector(state => state.auth.favorites);
- 
+
   useEffect(() => {
     (async function fetchData() {
       try {
@@ -30,7 +27,7 @@ export default function Favorites() {
         <div className="row">
           <Grid.Container gap={2} justify="center">
             {restaurants.length > 0
-              ? restaurants.map(res => <HomeCard key={res._id} data={res} />)
+              ? restaurants.map(res => <HomeCard key={res.id} data={res} />)
               : <h2 className="font-weight-bold mb-3">No favorites yet</h2>}
           </Grid.Container>
         </div>

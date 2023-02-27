@@ -7,6 +7,7 @@ import { addToCart, clearCart, removeFromCart } from '../../app/cart.js';
 import { useDispatch } from 'react-redux';
 import { sendOrder } from "../../services/orderService.js";
 import { useState } from "react";
+import { logoutStateChange } from '../../app/auth.js';
 
 export default function Checkout() {
 
@@ -30,17 +31,20 @@ export default function Checkout() {
 
   async function placeOrder(e) {
     e.preventDefault();
-    const order = { user, orders };
-    const res = await sendOrder(order);
-    if (res.status === 401) {
-      navigate('/login', { replace: true });
+    const res = await sendOrder(orders);
+    console.log(res);
+    if(res.status === 200) {
+      dispatch(clearCart());
+      navigate(`/my-account/${user.id}/cart/success`, { state: { name: user.name, id: user.id } });
       return;
-    } else if (res.message) {
+    }
+    if (res.status === 403) {
+      navigate('/login', { replace: true });
+      dispatch(logoutStateChange());
+    } else if (res.status === 400) {
       setError(res.message);
       return;
     }
-    dispatch(clearCart());
-    navigate(`/my-account/${user._id}/cart/success`, { state: { name: user.name, id: user._id } });
   }
 
   return (
