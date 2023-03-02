@@ -36,6 +36,7 @@ public class OrderContoller {
             List<OrderViewDTO> orders = ordersService.getOrders(principal.getName());
             return ResponseEntity.ok(orders);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         }
     }

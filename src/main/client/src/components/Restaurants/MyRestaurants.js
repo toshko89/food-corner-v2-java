@@ -16,7 +16,6 @@ export default function MyRestaurants() {
     (async function fetchData() {
       try {
         const res = await getOwnRestaurants();
-        console.log(res);
         if (res.status === 401) {
           dispatch(logoutStateChange());
           navigate('/login', { replace: true });
@@ -38,7 +37,7 @@ export default function MyRestaurants() {
           <Grid.Container gap={2} justify="center">
             {restaurants.length > 0
               ? restaurants.map(res => <HomeCard key={res.id} data={res} />)
-              : <Loading type="points" />}
+              : <h2 className="font-weight-bold mb-3">You don't have any restaurants yet.</h2>}
           </Grid.Container>
         </div>
       </div>

@@ -1,42 +1,44 @@
-import React from 'react';
 import { Modal, Button, Text, Input, Row } from "@nextui-org/react";
 import Rating from '@mui/material/Rating';
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { newComment } from "../../services/commentService.js";
 
 export default function AddCommentModal({ visibleCommentModal, closeHandlerCommentModal }) {
 
   const { id } = useParams();
+  const navigate = useNavigate();
   const [value, setValue] = useState(null);
   const [error, setError] = useState(false);
-  const [comment, setComment] = useState({ name: '', comments: '' });
+  const [data, setComment] = useState({ title: '', comment: '' });
 
   async function sendComment() {
-    if (comment.name.trim() === '' || comment.comments.trim() === '' || !value) {
+    if (data.title.trim() === '' || data.comment.trim() === '' || !value) {
       setError('All fields are required');
       return;
     }
 
     const myComment = {
-      name: comment.name,
-      comments: comment.comments,
+      title: data.title,
+      comment: data.comment,
       rating: value
     }
 
     try {
       const res = await newComment(id, myComment);
-      if (res.message) {
-        setError(res.message)
+      if (res.status === 400) {
+        setError(res.json())
         return;
       }
       closeHandlerCommentModal();
-      setComment({ name: '', comments: '' });
+      setComment({ title: '', comment: '' });
       setValue(null);
     } catch (error) {
       setError(error)
       return;
     }
+
+    navigate(`/restaurants/${id}/comments`);
 
   }
 
@@ -54,25 +56,25 @@ export default function AddCommentModal({ visibleCommentModal, closeHandlerComme
       <Modal.Body aria-label="modal-body">
         <Input
           aria-label="modal-name-input"
-          onChange={(e) => setComment({ ...comment, name: e.target.value })}
+          onChange={(e) => setComment({ ...data, title: e.target.value })}
           onBlur={() => setError(false)}
           clearable
           bordered
           fullWidth
           color="primary"
           size="lg"
-          placeholder="Name"
+          placeholder="Title"
         />
         <Input
           aria-label="modal-comment-input"
-          onChange={(e) => setComment({ ...comment, comments: e.target.value })}
+          onChange={(e) => setComment({ ...data, comment: e.target.value })}
           onBlur={() => setError(false)}
           clearable
           bordered
           fullWidth
           color="primary"
           size="lg"
-          placeholder="Comment"
+          placeholder="Comments"
         />
         <Row justify="space-between">
           <Rating

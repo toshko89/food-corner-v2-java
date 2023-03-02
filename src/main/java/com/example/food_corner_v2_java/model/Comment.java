@@ -16,6 +16,9 @@ public class Comment {
     @ManyToOne(fetch = FetchType.EAGER)
     private AppUser owner;
 
+    @Column(nullable = false)
+    private String title;
+
     @Column(nullable = false,columnDefinition = "TEXT")
     private String comment;
 
@@ -61,6 +64,15 @@ public class Comment {
 
     public Comment setRating(Integer rating) {
         this.rating = rating;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Comment setTitle(String title) {
+        this.title = title;
         return this;
     }
 

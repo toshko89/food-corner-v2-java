@@ -3,23 +3,34 @@ package com.example.food_corner_v2_java.service;
 import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.model.Comment;
 import com.example.food_corner_v2_java.model.Restaurant;
+import com.example.food_corner_v2_java.model.dto.CommentDTO;
 import com.example.food_corner_v2_java.repository.CommentRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
     private final RestaurantService restaurantService;
     private final AppUserService appUserService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository, RestaurantService restaurantService, AppUserService appUserService) {
+    public CommentService(CommentRepository commentRepository, RestaurantService restaurantService, AppUserService appUserService, ModelMapper modelMapper) {
         this.commentRepository = commentRepository;
         this.restaurantService = restaurantService;
         this.appUserService = appUserService;
+        this.modelMapper = modelMapper;
+    }
+
+    public List<CommentDTO> findAllByRestaurantId(long id) {
+        return this.commentRepository.findAllByRestaurantsId(id).stream().map(comment->{
+            return this.modelMapper.map(comment, CommentDTO.class);
+        }).toList();
     }
 
     public void initCommentDB() {
@@ -27,6 +38,7 @@ public class CommentService {
             Restaurant restaurant = this.restaurantService.findById(Long.parseLong("1"));
             AppUser appUser = this.appUserService.getUserByEmail("todor@abv.bg");
             Comment comment = new Comment()
+                    .setTitle("Otlichen 6")
                     .setComment("Mnogo hubavo mqsto")
                     .setDate(LocalDate.now())
                     .setOwner(appUser)
@@ -36,7 +48,20 @@ public class CommentService {
         }
     }
 
-//    public Set<Comment> findAllByRestaurantId(long id) {
-//      return this.commentRepository.findAllByRestaurantId(id);
-//    }
+
+    public void createComment(Long id, CommentDTO commentDTO, String principalName) {
+        Restaurant restaurant = this.restaurantService.findById(id);
+        restaurant.setRatingsCount(restaurant.getRatingsCount() + 1);
+        restaurant.setRating(((restaurant.getRating() * restaurant.getRatingsCount()) + commentDTO.getRating()) / (restaurant.getRatingsCount() + 1));
+        AppUser appUser = this.appUserService.getUserByEmail(principalName);
+        Comment comment = new Comment()
+                .setTitle(commentDTO.getTitle())
+                .setComment(commentDTO.getComment())
+                .setDate(LocalDate.now())
+                .setOwner(appUser)
+                .setRating(commentDTO.getRating())
+                .setRestaurants(restaurant);
+        this.commentRepository.save(comment);
+        this.restaurantService.save(restaurant);
+    }
 }

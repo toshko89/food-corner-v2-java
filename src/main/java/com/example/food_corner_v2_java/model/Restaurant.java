@@ -39,7 +39,7 @@ public class Restaurant {
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Product> products = new HashSet<>();
 
-    private Integer rating;
+    private double rating;
 
     private Integer ratingsCount;
 
@@ -122,11 +122,11 @@ public class Restaurant {
         return this;
     }
 
-    public Integer getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public Restaurant setRating(Integer rating) {
+    public Restaurant setRating(double rating) {
         this.rating = rating;
         return this;
     }

@@ -16,7 +16,7 @@ public class RestaurantDTO {
     private UserDTO owner;
     private CloudinaryImage imageUrl;
     private Set<Product> products = new HashSet<>();
-    private Integer rating;
+    private double rating;
     private Integer ratingsCount;
 
     public RestaurantDTO() {
@@ -103,11 +103,11 @@ public class RestaurantDTO {
         return this;
     }
 
-    public Integer getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public RestaurantDTO setRating(Integer rating) {
+    public RestaurantDTO setRating(double rating) {
         this.rating = rating;
         return this;
     }

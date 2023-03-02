@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Rating from '@mui/material/Rating';
 
 export default function HomeCard({ data }) {
+  console.log(data);
   return (
     <Grid xs={10} sm={4}>
       <Card hoverable cover css={{ w: '100%' }}>

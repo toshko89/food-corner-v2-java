@@ -183,7 +183,7 @@ public class RestaurantService {
                     .setCity("Sofia")
                     .setOwner(appUser)
                     .setRating(4)
-                    .setRatingsCount(2)
+                    .setRatingsCount(1)
                     .setWorkingHours("10:00-22:00")
                     .setImageUrl(new CloudinaryImage("https://res.cloudinary.com/dl72c1rli/image/upload/v1649517780/ju79tephlqlbwzjonb8b.jpg", "ju79tephlqlbwzjonb8b"))
                     .setCategory("Italian")
@@ -192,6 +192,10 @@ public class RestaurantService {
                     .setProducts(pizza);
             this.restaurantRepository.save(restaurant);
         }
+    }
+
+    public void save(Restaurant restaurant) {
+        this.restaurantRepository.save(restaurant);
     }
 }
 

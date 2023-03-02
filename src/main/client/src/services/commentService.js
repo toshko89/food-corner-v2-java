@@ -2,13 +2,13 @@ const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 async function newComment(id, comment) {
   try {
-    const res = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}/comments`, {
+    const res = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}/comments-create`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
       credentials: 'include',
       body: JSON.stringify(comment),
     });
-    return res.json();
+    return res;
   } catch (error) {
     throw new Error(error)
   }
@@ -21,7 +21,10 @@ async function getRestaurantComments(id) {
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
-    return res.json();
+    if (res.status === 200) {
+      return res.json();
+    }
+    return res;
   } catch (error) {
     throw new Error(error)
   }
