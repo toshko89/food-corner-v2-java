@@ -1,5 +1,6 @@
 package com.example.food_corner_v2_java.service;
 
+import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.model.Comment;
 import com.example.food_corner_v2_java.model.Restaurant;
@@ -7,6 +8,7 @@ import com.example.food_corner_v2_java.model.dto.CommentDTO;
 import com.example.food_corner_v2_java.repository.CommentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -62,6 +64,16 @@ public class CommentService {
                 .setRating(commentDTO.getRating())
                 .setRestaurants(restaurant);
         this.commentRepository.save(comment);
+        this.restaurantService.save(restaurant);
+    }
+
+    public void deleteComment(Long id, String principalName) {
+        Comment comment = this.commentRepository.findById(id)
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Comment not found"));
+        Restaurant restaurant = comment.getRestaurants();
+        restaurant.setRatingsCount(restaurant.getRatingsCount() - 1);
+        restaurant.setRating(((restaurant.getRating() * restaurant.getRatingsCount()) - comment.getRating()) / (restaurant.getRatingsCount() - 1));
+        this.commentRepository.delete(comment);
         this.restaurantService.save(restaurant);
     }
 }

@@ -32,9 +32,9 @@ async function getRestaurantComments(id) {
 
 async function deleteCommentById(id) {
   try {
-    const res = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}/comments`, {
+    const res = await fetch(REACT_APP_BASE_URL + `/restaurants/comments-delete/${id}`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json','Authorization': JSON.parse(localStorage.getItem("Authorization")) },
       credentials: 'include',
     });
     return res;

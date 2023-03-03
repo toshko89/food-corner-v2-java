@@ -14,6 +14,7 @@ export default function AllComments() {
     setVisibleEditModal({ visible: false, comment: null });
   };
   const [comments, setComments] = useState([]);
+  const [error, setError] = useState(false);
   const user = useSelector(state => state.auth);
   const { state } = useLocation();
   const { id } = useParams();
@@ -35,9 +36,13 @@ export default function AllComments() {
       const index = comments.indexOf(comment);
       comments.splice(index, 1);
       setComments([...comments]);
+    } else {
+      setError("Your are not authorized to delete this comment");
+      setTimeout(() => {
+        setError(false);
+      }, 3000);
     }
   }
-
 
 
   return (
@@ -45,6 +50,7 @@ export default function AllComments() {
       <div className="container position-relative" >
         <div className="row">
           <div className="bg-white p-3 mb-3 restaurant-detailed-ratings-and-reviews shadow-sm rounded">
+            {error && <div className="error-container" role="alert"><p>{error}</p></div>}
             <h2 className="mb-1">All Ratings and Reviews for {state}</h2>
             {comments.length > 0
               ? comments.map(comment =>

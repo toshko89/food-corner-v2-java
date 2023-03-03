@@ -26,7 +26,7 @@ export default function CommentCard({ comment, user, deleteComment, setVisibleEd
           </div>
           {user.id && canChange &&
             <>
-              <IconButton onClick={() => handlerCommentModal()} aria-label="delete" color="primary">
+              <IconButton onClick={() => handlerCommentModal()} aria-label="update" color="primary">
                 <EditIcon />
               </IconButton>
               <IconButton onClick={() => deleteComment(comment.id)} aria-label="delete" color="error">

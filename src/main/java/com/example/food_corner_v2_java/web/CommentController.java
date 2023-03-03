@@ -20,7 +20,6 @@ public class CommentController {
 
     @GetMapping("/restaurants/{id}/comments")
     public ResponseEntity<List<CommentDTO>> getRestaurantComments(@PathVariable Long id) {
-
         try {
             List<CommentDTO> comments = this.commentService.findAllByRestaurantId(id);
             return ResponseEntity.ok(comments);
@@ -28,7 +27,6 @@ public class CommentController {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         }
-
     }
 
     @PostMapping("/restaurants/{id}/comments-create")
@@ -36,6 +34,18 @@ public class CommentController {
         try {
             this.commentService.createComment(id, commentDTO,principal.getName());
             return ResponseEntity.ok("Comment created");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/restaurants/comments-delete/{id}")
+    public ResponseEntity<String> deleteComment(@PathVariable Long id, Principal principal) {
+        try {
+            if(principal == null) return ResponseEntity.badRequest().body("You are not logged in");
+            this.commentService.deleteComment(id, principal.getName());
+            return ResponseEntity.ok("Comment deleted");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
