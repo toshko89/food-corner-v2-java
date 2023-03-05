@@ -1,9 +1,5 @@
 import axios from 'axios';
 const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
-// const REACT_APP_BASE_URL = "http://localhost:8080/api/food-corner";
-
-console.log(REACT_APP_BASE_URL);
-
 
 async function createNewRestaurant(formData) {
   try {

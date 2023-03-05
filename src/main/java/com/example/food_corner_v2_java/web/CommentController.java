@@ -32,6 +32,7 @@ public class CommentController {
     @PostMapping("/restaurants/{id}/comments-create")
     public ResponseEntity<String> createComment(@PathVariable Long id, @RequestBody CommentDTO commentDTO, Principal principal) {
         try {
+            if(principal == null) return ResponseEntity.badRequest().body("You are not logged in");
             this.commentService.createComment(id, commentDTO,principal.getName());
             return ResponseEntity.ok("Comment created");
         } catch (Exception e) {
@@ -49,6 +50,18 @@ public class CommentController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/restaurants/comments-update/{id}")
+    public ResponseEntity<List<CommentDTO>> updateComment(@PathVariable Long id, @RequestBody CommentDTO commentDTO, Principal principal) {
+        try {
+            if(principal == null) return ResponseEntity.badRequest().body(null);
+            List<CommentDTO> commentDTOs = this.commentService.updateComment(id, commentDTO);
+            return ResponseEntity.ok(commentDTOs);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

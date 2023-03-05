@@ -35,22 +35,6 @@ public class CommentService {
         }).toList();
     }
 
-    public void initCommentDB() {
-        if (this.commentRepository.count() == 0) {
-            Restaurant restaurant = this.restaurantService.findById(Long.parseLong("1"));
-            AppUser appUser = this.appUserService.getUserByEmail("todor@abv.bg");
-            Comment comment = new Comment()
-                    .setTitle("Otlichen 6")
-                    .setComment("Mnogo hubavo mqsto")
-                    .setDate(LocalDate.now())
-                    .setOwner(appUser)
-                    .setRating(5)
-                    .setRestaurants(restaurant);
-            this.commentRepository.save(comment);
-        }
-    }
-
-
     public void createComment(Long id, CommentDTO commentDTO, String principalName) {
         Restaurant restaurant = this.restaurantService.findById(id);
         restaurant.setRatingsCount(restaurant.getRatingsCount() + 1);
@@ -75,5 +59,33 @@ public class CommentService {
         restaurant.setRating(((restaurant.getRating() * restaurant.getRatingsCount()) - comment.getRating()) / (restaurant.getRatingsCount() - 1));
         this.commentRepository.delete(comment);
         this.restaurantService.save(restaurant);
+    }
+
+    public List<CommentDTO> updateComment(Long id, CommentDTO commentDTO) {
+        Comment comment = this.commentRepository.findById(id)
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Comment not found"));
+        Restaurant restaurant = comment.getRestaurants();
+        restaurant.setRating(((restaurant.getRating() * restaurant.getRatingsCount()) - comment.getRating() + commentDTO.getRating()) / restaurant.getRatingsCount());
+        comment.setTitle(commentDTO.getTitle())
+                .setComment(commentDTO.getComment())
+                .setRating(commentDTO.getRating());
+        this.commentRepository.save(comment);
+        this.restaurantService.save(restaurant);
+        return findAllByRestaurantId(restaurant.getId());
+    }
+
+    public void initCommentDB() {
+        if (this.commentRepository.count() == 0) {
+            Restaurant restaurant = this.restaurantService.findById(Long.parseLong("1"));
+            AppUser appUser = this.appUserService.getUserByEmail("todor@abv.bg");
+            Comment comment = new Comment()
+                    .setTitle("Otlichen 6")
+                    .setComment("Mnogo hubavo mqsto")
+                    .setDate(LocalDate.now())
+                    .setOwner(appUser)
+                    .setRating(5)
+                    .setRestaurants(restaurant);
+            this.commentRepository.save(comment);
+        }
     }
 }

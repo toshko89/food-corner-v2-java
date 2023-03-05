@@ -43,15 +43,18 @@ async function deleteCommentById(id) {
   }
 }
 
-async function editCommentById(id, comment, commentId) {
+async function editCommentById(comment, commentId) {
   try {
-    const res = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}/comments/${commentId}`, {
+    const res = await fetch(REACT_APP_BASE_URL + `/restaurants/comments-update/${commentId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json','Authorization': JSON.parse(localStorage.getItem("Authorization"))  },
       credentials: 'include',
       body: JSON.stringify(comment),
     });
-    return res.json();
+    if (res.status === 200) {
+      return res.json();
+    }
+    return res;
   } catch (error) {
     throw new Error(error)
   }
