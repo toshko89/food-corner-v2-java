@@ -29,7 +29,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        show_sql: debug
+        show_sql: error
     defer-datasource-initialization: true
 #Cloudinary Properties
 cloudinary:
@@ -48,7 +48,7 @@ logging:
       hibernate:
         type:
           descriptor: TRACE
-        SQL: DEBUG
+        SQL: WARN
       nodeValue: WARN
     blog: WARN
 server:
