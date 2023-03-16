@@ -6,7 +6,7 @@ import './Slider.css';
 const handleDragStart = (e) => e.preventDefault();
 
 const Slider = ({ restaurants }) => {
-  const items = restaurants.map((restaurant) => {
+  const items = restaurants.map((restaurant, index) => {
     return (
       <div className="slide-container" key={restaurant.id} onDragStart={handleDragStart}>
         <img src={restaurant.imageUrl.url} alt={restaurant.name} className="sliderimg" />
@@ -14,7 +14,6 @@ const Slider = ({ restaurants }) => {
     )
   });
 
- 
   return (
     <div className="carousel-container">
       <h2>Top products</h2>
@@ -39,7 +38,7 @@ const Slider = ({ restaurants }) => {
         paddingLeft={10}
         paddingRight={10}
         itemWidth={200}
-        stagePadding={{ paddingLeft: 10, paddingRight: 10 }}
+        stagePadding={{ paddingLeft: 0, paddingRight: 0 }}
         prevButtonClassName="prev-button"
         nextButtonClassName="next-button"
       />
