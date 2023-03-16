@@ -1,0 +1,35 @@
+.carousel-container {
+  height: 300px;
+  overflow: hidden;
+}
+
+.slide-container {
+  width: 200px;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.slide-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.prev-button,
+.next-button {
+  background-color:black;
+  border: none;
+  color: black;
+  font-size: 30px;
+}
+
+.prev-button:hover,
+.next-button:hover {
+  color: grey;
+}
+
+
+
+
+

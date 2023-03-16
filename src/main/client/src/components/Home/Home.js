@@ -1,8 +1,8 @@
-import React from 'react';
 import { useEffect, useState } from "react";
 import { getAllRestaurants } from "../../services/restaurantService.js";
 import { Grid, Loading } from '@nextui-org/react';
 import HomeCard from "./HomeCard.js";
+import Slider from '../Slider/Slider.js';
 
 export default function Home() {
 
@@ -21,6 +21,7 @@ export default function Home() {
   return (
     <>
       <div className="container most_popular py-5">
+        <Slider restaurants={restaurants} />
         <h2 className="font-weight-bold mb-3">Restaurants nearby</h2>
         <div className="row">
           <Grid.Container gap={2} justify="center">

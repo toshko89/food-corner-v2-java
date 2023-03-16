@@ -32,6 +32,7 @@ Version: 1.0
 /* Body */
 
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&display=swap');
+@import "react-alice-carousel/lib/alice-carousel.css";
 
 body {
     font-family: 'Mulish', sans-serif;

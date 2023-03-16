@@ -7,9 +7,11 @@ import com.example.food_corner_v2_java.model.Restaurant;
 import com.example.food_corner_v2_java.model.dto.*;
 import com.example.food_corner_v2_java.repository.OrderRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -60,6 +62,11 @@ public class OrderService {
                 }).toList();
     }
 
+    @Scheduled(cron = "0 0 1 * * ?") // Every day at 1:00 AM
+    public void deleteOrdersOlderThanOneDay() {
+        LocalDate dayAgo = LocalDate.now().minusDays(1);
+        this.orderRepository.deleteAllByDateBefore(dayAgo);
+    }
 
     public void initOrderDB() {
         if (this.orderRepository.count() == 0) {
