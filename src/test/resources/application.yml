@@ -1,0 +1,63 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost:3306/food-corner?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8"
+    username: root
+    password:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
+
+  #  sql:
+  #    init:
+  #      mode: always
+  jpa:
+    # Choose either MySQL 8 or MySQL 5 below
+    # For MySQL 8
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    #For MySQL 5
+    #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: error
+    defer-datasource-initialization: true
+#Cloudinary Properties
+cloudinary:
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
+  cloud-name: ${CLOUDINARY_CLOUD_NAME}
+
+#Logging Properties
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          multipart:
+            DEBUG
+      hibernate:
+        type:
+          descriptor: TRACE
+        SQL: WARN
+      nodeValue: WARN
+    blog: WARN
+server:
+  port: 8080
+
+#JWT Properties
+jwt-secret:
+  key: ${JWT_SECRET}
+  adminPassword: ${ADMIN_PASSWORD}
+
+
+
