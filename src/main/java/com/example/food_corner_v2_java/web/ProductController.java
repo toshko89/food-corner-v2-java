@@ -52,7 +52,7 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/products/{restaurantId}/edit-product/{productId}")
+    @PostMapping("/products/{restaurantId}/edit-product/{productId}")
     public ResponseEntity<RestaurantDTO> editProduct(
             @RequestParam("image") MultipartFile image,
             @RequestParam("name") String name,

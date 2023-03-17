@@ -14,7 +14,7 @@ async function addProduct(restaurantId, productData) {
 
 async function editProduct(restaurantId, productId, productData) {
   try {
-    const editedProduct = await axios.put(REACT_APP_BASE_URL + `/products/${restaurantId}/edit-product/${productId}`, productData, {
+    const editedProduct = await axios.post(REACT_APP_BASE_URL + `/products/${restaurantId}/edit-product/${productId}`, productData, {
       headers: { 'Content-Type': 'multipart/form-data', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
     });
     return editedProduct;
