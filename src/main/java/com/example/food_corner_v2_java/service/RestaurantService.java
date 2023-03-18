@@ -75,18 +75,6 @@ public class RestaurantService {
         try {
             AppUser appUser = this.appUserService.getUserByEmail(ownerEmail);
 
-//      Firebase configuration for image upload to be deleted
-//            Blob blob = firebaseConfig.getFirebaseStorage().create(image.getOriginalFilename(), image.getBytes(), image.getContentType());
-//            boolean delete = firebaseConfig.getFirebaseStorage().getStorage().delete(blob.getGeneratedId());
-//            Restaurant restaurant = new Restaurant()
-//                    .setName(name)
-//                    .setAddress(address)
-//                    .setCategory(category)
-//                    .setCity(city)
-//                    .setWorkingHours(workingHours)
-//                    .setOwner(appUser)
-//                    .setImageUrl(new CloudinaryImage(blob.getMediaLink(), blob.getName()));
-
             CloudinaryImage cloudinaryImage = cloudinaryService.uploadImage(image);
 
             Restaurant restaurant = new Restaurant()

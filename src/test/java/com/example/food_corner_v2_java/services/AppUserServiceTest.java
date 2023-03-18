@@ -3,6 +3,8 @@ package com.example.food_corner_v2_java.services;
 import com.example.food_corner_v2_java.auth.JwtKeyProps;
 import com.example.food_corner_v2_java.auth.JwtService;
 import com.example.food_corner_v2_java.model.AppUser;
+import com.example.food_corner_v2_java.model.dto.RegisterDTO;
+import com.example.food_corner_v2_java.model.dto.UserDTO;
 import com.example.food_corner_v2_java.model.enums.UserRolesEnum;
 import com.example.food_corner_v2_java.repository.UserRepository;
 import com.example.food_corner_v2_java.service.AppUserService;
@@ -15,9 +17,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -45,6 +48,14 @@ class AppUserServiceTest {
 
     private AppUser sampleUser;
 
+    private AppUser adminUser;
+    private AppUser nonAdminUser;
+
+    private RegisterDTO registerDTO;
+    private UserDTO userDTO;
+    private String token;
+    private AppUser appUser;
+
     @BeforeEach
     void setUp() {
         sampleUser = new AppUser();
@@ -52,6 +63,17 @@ class AppUserServiceTest {
         sampleUser.setEmail("test@example.com");
         sampleUser.setUserRole(UserRolesEnum.USER);
         sampleUser.setPassword("password");
+    }
+
+    @BeforeEach
+    public void setUpAdmins() {
+        adminUser = new AppUser();
+        adminUser.setUserRole(UserRolesEnum.ADMIN);
+        adminUser.setEmail("admin@example.com");
+
+        nonAdminUser = new AppUser();
+        nonAdminUser.setUserRole(UserRolesEnum.USER);
+        nonAdminUser.setEmail("user@example.com");
     }
 
     @Test
@@ -91,6 +113,24 @@ class AppUserServiceTest {
 
         appUserService.initUsersDB();
         verify(userRepository, times(3)).save(any(AppUser.class));
+    }
+
+    @Test
+    public void testIsAdminForAdminUser() {
+        when(userRepository.findByEmail("admin@example.com")).thenReturn(Optional.of(adminUser));
+
+        boolean isAdmin = appUserService.isAdmin("admin@example.com");
+
+        assertTrue(isAdmin, "Expected to be an admin");
+    }
+
+    @Test
+    public void testIsAdminForNonAdminUser() {
+        when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(nonAdminUser));
+
+        boolean isAdmin = appUserService.isAdmin("user@example.com");
+
+        assertFalse(isAdmin, "Expected not to be an admin");
     }
 
 }
