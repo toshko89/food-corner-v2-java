@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +59,7 @@ public class JwtService {
         return (userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -66,7 +67,7 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         try {
             return Jwts.parserBuilder().setSigningKey(getJwtKey()).build().parseClaimsJws(token).getBody();
         } catch (Exception e) {
@@ -75,7 +76,7 @@ public class JwtService {
     }
 
     private Key getJwtKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtKeyProps.key());
+        byte[] keyBytes = Decoders.BASE64.decode(jwtKeyProps.getKey());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

@@ -106,7 +106,7 @@ public class AppUserService {
                     .setCity("Sofia")
                     .setName("Todor Petkov")
                     .setEmail("todor@abv.bg")
-                    .setPassword(passwordEncoder.encode(jwtKeyProps.adminPassword()))
+                    .setPassword(passwordEncoder.encode(jwtKeyProps.getAdminPassword()))
                     .setPhone("088898989")
                     .setAddress("Geo Milev");
             this.userRepository.save(appUser);
@@ -116,7 +116,7 @@ public class AppUserService {
                     .setCity("Sofia")
                     .setName("Gosho Petkov")
                     .setEmail("goshko@abv.bg")
-                    .setPassword(passwordEncoder.encode(jwtKeyProps.adminPassword()))
+                    .setPassword(passwordEncoder.encode(jwtKeyProps.getAdminPassword()))
                     .setPhone("088754545")
                     .setAddress("Lulin 3");
             this.userRepository.save(appUser2);
@@ -126,7 +126,7 @@ public class AppUserService {
                     .setCity("Sofia")
                     .setName("Petko Petkov")
                     .setEmail("petko@abv.bg")
-                    .setPassword(passwordEncoder.encode(jwtKeyProps.adminPassword()))
+                    .setPassword(passwordEncoder.encode(jwtKeyProps.getAdminPassword()))
                     .setPhone("088754545")
                     .setAddress("Lozenec");
             this.userRepository.save(appUser3);

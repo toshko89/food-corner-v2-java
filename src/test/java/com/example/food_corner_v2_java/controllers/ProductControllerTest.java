@@ -1,4 +1,4 @@
-package com.example.food_corner_v2_java;
+package com.example.food_corner_v2_java.controllers;
 
 import com.example.food_corner_v2_java.auth.JwtService;
 import com.example.food_corner_v2_java.model.AppUser;

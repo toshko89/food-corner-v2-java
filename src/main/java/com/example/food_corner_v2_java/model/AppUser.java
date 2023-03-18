@@ -18,6 +18,11 @@ public class AppUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public AppUser setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     private String name;
 
     @Column(nullable = false, unique = true)
