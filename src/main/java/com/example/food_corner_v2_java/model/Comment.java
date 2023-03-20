@@ -39,6 +39,10 @@ public class Comment {
         return id;
     }
 
+    public Comment setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public AppUser getOwner() {
         return owner;

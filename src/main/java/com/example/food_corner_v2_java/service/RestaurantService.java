@@ -75,16 +75,18 @@ public class RestaurantService {
         try {
             AppUser appUser = this.appUserService.getUserByEmail(ownerEmail);
 
-            CloudinaryImage cloudinaryImage = cloudinaryService.uploadImage(image);
-
             Restaurant restaurant = new Restaurant()
                     .setName(name)
                     .setAddress(address)
                     .setCategory(category)
                     .setCity(city)
                     .setWorkingHours(workingHours)
-                    .setOwner(appUser)
-                    .setImageUrl(cloudinaryImage);
+                    .setOwner(appUser);
+
+            if (image != null) {
+                CloudinaryImage cloudinaryImage = cloudinaryService.uploadImage(image);
+                restaurant.setImageUrl(cloudinaryImage);
+            }
 
             this.restaurantRepository.save(restaurant);
             return this.modelMapper.map(restaurant, RestaurantDTO.class);
@@ -109,16 +111,21 @@ public class RestaurantService {
                 throw new AppException(HttpStatus.BAD_REQUEST, "Restaurant with this name already exists");
             }
 
-            cloudinaryService.deleteImage(restaurant.getImageUrl().getPublicId());
+            if (restaurant.getImageUrl() != null) {
+                cloudinaryService.deleteImage(restaurant.getImageUrl().getPublicId());
+            }
 
-            CloudinaryImage cloudinaryImage = cloudinaryService.uploadImage(image);
+            if (image != null) {
+                CloudinaryImage cloudinaryImage = cloudinaryService.uploadImage(image);
+                restaurant.setImageUrl(cloudinaryImage);
+            }
+
 
             restaurant.setName(name)
                     .setAddress(address)
                     .setCategory(category)
                     .setCity(city)
-                    .setWorkingHours(workingHours)
-                    .setImageUrl(cloudinaryImage);
+                    .setWorkingHours(workingHours);
 
             this.restaurantRepository.save(restaurant);
             return this.modelMapper.map(restaurant, RestaurantDTO.class);
@@ -138,7 +145,9 @@ public class RestaurantService {
                 this.cloudinaryService.deleteImage(product.getImageUrl().getPublicId());
             });
 
-            cloudinaryService.deleteImage(restaurant.getImageUrl().getPublicId());
+            if (restaurant.getImageUrl() != null) {
+                cloudinaryService.deleteImage(restaurant.getImageUrl().getPublicId());
+            }
 
             this.restaurantRepository.delete(restaurant);
             return true;
@@ -184,6 +193,10 @@ public class RestaurantService {
 
     public void save(Restaurant restaurant) {
         this.restaurantRepository.save(restaurant);
+    }
+
+    public Restaurant saveAndReturn(Restaurant restaurant) {
+        return this.restaurantRepository.save(restaurant);
     }
 }
 

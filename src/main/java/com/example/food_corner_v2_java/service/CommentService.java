@@ -35,7 +35,7 @@ public class CommentService {
         }).toList();
     }
 
-    public void createComment(Long id, CommentDTO commentDTO, String principalName) {
+    public Comment createComment(Long id, CommentDTO commentDTO, String principalName) {
         Restaurant restaurant = this.restaurantService.findById(id);
         restaurant.setRatingsCount(restaurant.getRatingsCount() + 1);
         restaurant.setRating(((restaurant.getRating() * restaurant.getRatingsCount()) + commentDTO.getRating()) / (restaurant.getRatingsCount() + 1));
@@ -47,8 +47,9 @@ public class CommentService {
                 .setOwner(appUser)
                 .setRating(commentDTO.getRating())
                 .setRestaurants(restaurant);
-        this.commentRepository.save(comment);
+        Comment commentId = this.commentRepository.save(comment);
         this.restaurantService.save(restaurant);
+        return commentId;
     }
 
     public void deleteComment(Long id, String principalName) {

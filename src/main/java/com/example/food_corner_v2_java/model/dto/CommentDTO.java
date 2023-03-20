@@ -13,6 +13,15 @@ public class CommentDTO {
     public CommentDTO() {
     }
 
+    public CommentDTO(Long id, String title, String comment, LocalDate date, int rating, UserDTO owner) {
+        this.id = id;
+        this.title = title;
+        this.comment = comment;
+        this.date = date;
+        this.rating = rating;
+        this.owner = owner;
+    }
+
     public Long getId() {
         return id;
     }
