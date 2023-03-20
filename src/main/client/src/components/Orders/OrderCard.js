@@ -3,7 +3,6 @@ import formatDate from "../../utils/dateFormat.js";
 import { v4 as uuidv4 } from 'uuid';
 
 export default function OrderCard({ order }) {
-  console.log(order);
   let totalPayment = order?.product.price * order?.quantity;
   return (
     order &&

@@ -9,6 +9,7 @@ export default function Header() {
 
   const userCredentials = useSelector(state => state.auth.name || state.auth.email);
   const userId = useSelector(state => state.auth.id);
+  const admin = useSelector(state => state.auth.userRole);
   const orders = useSelector(state => state.cart.orders);
   const itemsInCart = orders.reduce((acc, curr) => acc + curr.quantity, 0);
 
@@ -46,6 +47,7 @@ export default function Header() {
                       <Link to={`/my-account/${userId}/create-restaurant`} className="dropdown-item" >Create Restaurant</Link>
                       <Link to={`/my-account/${userId}/favorites`} className="dropdown-item" >Favorites</Link>
                       <Link to={`/my-account/${userId}/orders`} className="dropdown-item" >My Orders</Link>
+                      {admin === "ADMIN" && <Link to={`/my-account/${userId}/admin`} className="dropdown-item" >Admin Panel</Link>}
                     </div>
                   </div>}
                 {userId && <Link to={`/my-account/${userId}/cart`} className="widget-header mr-4 text-dark">

@@ -26,12 +26,10 @@ public class AuthController {
 
     private final AppUserService appUserService;
     private final AuthenticationManager authenticationManager;
-    private final ModelMapper modelMapper;
 
-    public AuthController(AppUserService appUserService, AuthenticationManager authenticationManager, ModelMapper modelMapper) {
+    public AuthController(AppUserService appUserService, AuthenticationManager authenticationManager) {
         this.appUserService = appUserService;
         this.authenticationManager = authenticationManager;
-        this.modelMapper = modelMapper;
     }
 
 

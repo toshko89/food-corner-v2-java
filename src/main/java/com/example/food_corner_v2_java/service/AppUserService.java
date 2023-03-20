@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -139,4 +140,25 @@ public class AppUserService {
 
         return user.getUserRole().equals(UserRolesEnum.ADMIN);
     }
+
+    public List<UserDTO> findAllUsers(String principalName) {
+        return this.userRepository.findAll().stream()
+                .filter(appUser -> appUser.getId() > 3 && !appUser.getEmail().equals(principalName))
+                .map(user-> this.modelMapper.map(user, UserDTO.class)).toList();
+    }
+
+    public UserDTO editUserRole(Long id) {
+        AppUser user = this.userRepository.findById(id)
+                .orElseThrow(() -> new AppException(HttpStatus.BAD_REQUEST,"No such user! " + id));
+
+        if (user.getUserRole().equals(UserRolesEnum.USER)) {
+            user.setUserRole(UserRolesEnum.ADMIN);
+        } else {
+            user.setUserRole(UserRolesEnum.USER);
+        }
+
+        AppUser editedUser = this.userRepository.save(user);
+        return this.modelMapper.map(editedUser, UserDTO.class);
+    }
+
 }

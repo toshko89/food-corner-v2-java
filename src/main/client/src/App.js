@@ -17,6 +17,7 @@ import Checkout from './components/Restaurants/Checkout.js';
 import Favorites from './components/Restaurants/Favorites.js';
 import MyRestaurants from './components/Restaurants/MyRestaurants.js'
 import CreateRestaurant from './components/Restaurants/CreateRestaurant.js'
+import AdminPanel from './components/AdminPanel/AdminPanel.js';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="orders" element={<IsLoggedIn><MyOrders /></IsLoggedIn>} />
         </Route>
         <Route path="/my-account/:id/favorites" element={<IsLoggedIn><Favorites /></IsLoggedIn>}></Route>
+        <Route path="/my-account/:id/admin" element={<IsLoggedIn><AdminPanel /></IsLoggedIn>}></Route>
         <Route path="/my-account/:id/cart" element={<IsLoggedIn><Checkout /></IsLoggedIn>}></Route>
         <Route path="/my-account/:id/cart/success" element={<IsLoggedIn><Successful /></IsLoggedIn>}></Route>
         <Route path='/my-account/:id/my-restaurants' element={<IsLoggedIn><MyRestaurants /></IsLoggedIn>}></Route>

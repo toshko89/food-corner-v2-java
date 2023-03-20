@@ -4,7 +4,7 @@ async function register(email, password, repeatPassword) {
   try {
     const user = await fetch(REACT_APP_BASE_URL + '/users/register', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ email, password, repeatPassword })
     });
@@ -44,11 +44,11 @@ async function changeUserData(userId, userData) {
   try {
     const response = await fetch(REACT_APP_BASE_URL + `/users/${userId}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json','Authorization': JSON.parse(localStorage.getItem("Authorization")) },
+      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
       credentials: 'include',
       body: JSON.stringify(userData)
     });
-    if(!response.ok){
+    if (!response.ok) {
       return response;
     }
     return response.json();
@@ -57,4 +57,36 @@ async function changeUserData(userId, userData) {
   }
 }
 
-export { register, login, logout, changeUserData }
+async function getAllUsers() {
+  try {
+    const response = await fetch(REACT_APP_BASE_URL + `/users/admin`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
+      credentials: 'include'
+    });
+    if (!response.ok) {
+      return response;
+    }
+    return response.json();
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+async function makeAdmin(userId) {
+  try {
+    const response = await fetch(REACT_APP_BASE_URL + `/users/admin/${userId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("Authorization")) },
+      credentials: 'include'
+    });
+    if (!response.ok) {
+      return response;
+    }
+    return response.json();
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export { register, login, logout, changeUserData, getAllUsers, makeAdmin }

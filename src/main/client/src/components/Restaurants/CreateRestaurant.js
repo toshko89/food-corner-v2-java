@@ -56,7 +56,7 @@ export default function CreateRestaurant({ edit }) {
         return;
       }
 
-      if(file?.size > 10 * 10**6){
+      if (file?.size > 10 * 10 ** 6) {
         setError('File size is too big, max 10MB');
         setFile([]);
         return;
@@ -81,12 +81,12 @@ export default function CreateRestaurant({ edit }) {
 
       if (edit) {
         setLoading(true);
-        newRestaurant = await editRestaurnat(user,currentRestaurant.id, data);
+        newRestaurant = await editRestaurnat(user, currentRestaurant.id, data);
       } else {
         setLoading(true);
         newRestaurant = await createNewRestaurant(data);
       }
-        
+
       if (newRestaurant.status !== 200) {
         setError(newRestaurant.data.message);
         if (newRestaurant.status === 401) {
