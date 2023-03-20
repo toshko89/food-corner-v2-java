@@ -87,12 +87,12 @@ export default function Profile() {
                     <h6 className="font-weight-bold m-0"><i className="feather-chevron-right"></i></h6>
                   </div>
                 </Link>
-                {admin === "ADMIN" && <Link to={`/my-account/${user}/admin`} class="d-flex w-100 align-items-center px-3 py-4">
-                  <div class="left mr-3">
-                    <h6 class="font-weight-bold m-0 text-dark"><i class="feather-lock bg-warning text-white p-2 rounded-circle mr-2"></i> Admin Panel</h6>
+                {admin === "ADMIN" && <Link to={`/my-account/${user}/admin`} className="d-flex w-100 align-items-center px-3 py-4">
+                  <div className="left mr-3">
+                    <h6 className="font-weight-bold m-0 text-dark"><i className="feather-lock bg-warning text-white p-2 rounded-circle mr-2"></i> Admin Panel</h6>
                   </div>
-                  <div class="right ml-auto">
-                    <h6 class="font-weight-bold m-0"><i class="feather-chevron-right"></i></h6>
+                  <div className="right ml-auto">
+                    <h6 className="font-weight-bold m-0"><i className="feather-chevron-right"></i></h6>
                   </div>
                 </Link>}
               </div>

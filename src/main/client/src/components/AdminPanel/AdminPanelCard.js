@@ -1,6 +1,5 @@
 import { Switch } from "@nextui-org/react";
 
-
 export default function AdminPanelCard({ user, switchRoles }) {
 
   return (

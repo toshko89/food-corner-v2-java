@@ -26,7 +26,6 @@ export default function OrderCard({ order }) {
           <div className="d-flex pt-3">
             <div className="large">
             <p className="text- font-weight-bold mb-0">{order.product?.name} x {order?.quantity}</p>
-              {/* {order?.product.map(item => <p key={uuidv4()} className="text- font-weight-bold mb-0">{item.item?.name} x {item?.quantity}</p>)} */}
             </div>
             <div className="text-muted m-0 ml-auto mr-3 small">Total Payments
               <span className="text-dark font-weight-bold"> {totalPayment > 20 ? totalPayment : (totalPayment += 3.99).toFixed(2)}$</span>

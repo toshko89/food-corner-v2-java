@@ -1,15 +1,12 @@
-package com.example.food_corner_v2_java.controllers;
+package com.example.food_corner_v2_java.web;
 
 import com.example.food_corner_v2_java.model.Comment;
 import com.example.food_corner_v2_java.model.dto.CommentDTO;
 import com.example.food_corner_v2_java.service.CommentService;
-import com.example.food_corner_v2_java.web.CommentController;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,14 +19,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

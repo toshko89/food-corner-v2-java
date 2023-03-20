@@ -1,8 +1,5 @@
 package com.example.food_corner_v2_java.services;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-
 import com.example.food_corner_v2_java.model.AppUser;
 import com.example.food_corner_v2_java.model.Restaurant;
 import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
@@ -10,15 +7,13 @@ import com.example.food_corner_v2_java.service.AppUserService;
 import com.example.food_corner_v2_java.service.RestaurantService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-// Add any other necessary imports here
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 public class RestaurantServiceTest {
 
     @Autowired
@@ -116,7 +111,7 @@ public class RestaurantServiceTest {
                 updatedCategory,
                 updatedCity,
                 updatedWorkingHours,
-               null
+                null
         );
 
         assertNotNull(editedRestaurant);
@@ -173,7 +168,6 @@ public class RestaurantServiceTest {
     }
 
     private Restaurant createTestRestaurant(String name) {
-        // Replace with appropriate email or create a test user
         String ownerEmail = "todor@abv.bg";
         AppUser appUser = appUserService.getUserByEmail(ownerEmail);
 

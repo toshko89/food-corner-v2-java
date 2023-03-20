@@ -4,8 +4,6 @@ package com.example.food_corner_v2_java.web;
 import com.example.food_corner_v2_java.model.dto.UserDTO;
 import com.example.food_corner_v2_java.service.AppUserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -16,11 +14,9 @@ import java.util.List;
 public class AdminController {
 
     private final AppUserService appUserService;
-    private final AuthenticationManager authenticationManager;
 
-    public AdminController(AppUserService appUserService, AuthenticationManager authenticationManager) {
+    public AdminController(AppUserService appUserService) {
         this.appUserService = appUserService;
-        this.authenticationManager = authenticationManager;
     }
 
     @GetMapping("/admin")

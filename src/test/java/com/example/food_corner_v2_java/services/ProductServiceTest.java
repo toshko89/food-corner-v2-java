@@ -64,11 +64,9 @@ public class ProductServiceTest {
         when(productRepository.save(any())).thenReturn(product);
         when(modelMapper.map(any(), any())).thenReturn(new RestaurantDTO());
 
-        // Call the createProduct method
         RestaurantDTO result = productService.createProduct(image, "Product", "Ingredient1,Ingredient2", 100,
                 BigDecimal.valueOf(10), "Category", 1L, "principalName");
 
-        // Verify interactions and assert the result
         verify(restaurantService, times(1)).findById(anyLong());
         verify(cloudinaryService, times(1)).uploadImage(any());
         verify(productRepository, times(1)).save(any());
@@ -79,18 +77,15 @@ public class ProductServiceTest {
 
     @Test
     void testEditProduct() throws IOException {
-        // Set up the mocks
         when(restaurantService.findById(anyLong())).thenReturn(restaurant);
         when(productRepository.findById(anyLong())).thenReturn(java.util.Optional.of(product));
         when(cloudinaryService.deleteImage("publicId")).thenReturn(true);
         when(cloudinaryService.uploadImage(any())).thenReturn(new CloudinaryImage());
         when(modelMapper.map(any(), any())).thenReturn(new RestaurantDTO());
 
-        // Call the editProduct method
         RestaurantDTO result = productService.editProduct(image, "Product", "Ingredient1,Ingredient2", 100,
                 BigDecimal.valueOf(10), "Category", 1L, 1L, "principalName");
 
-        // Verify interactions and assert the result
         verify(restaurantService, times(1)).findById(anyLong());
         verify(productRepository, times(1)).findById(anyLong());
         verify(cloudinaryService, times(1)).deleteImage(anyString());

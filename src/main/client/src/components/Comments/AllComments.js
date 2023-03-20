@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { editCommentById, getRestaurantComments } from "../../services/commentService.js";
+import { getRestaurantComments } from "../../services/commentService.js";
 import CommentCard from "./CommentCard.js";
 import { useSelector } from 'react-redux';
 import { deleteCommentById } from '../../services/commentService.js';

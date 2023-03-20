@@ -91,6 +91,8 @@ public class ProductController {
             Principal principal
     ) {
 
+        System.out.println(productId);
+
         if (restaurantId == null || productId == null) {
             throw new AppException(HttpStatus.BAD_REQUEST, "All fields are required");
         }
