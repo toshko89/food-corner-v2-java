@@ -30,9 +30,9 @@ public class CommentService {
     }
 
     public List<CommentDTO> findAllByRestaurantId(long id) {
-        return this.commentRepository.findAllByRestaurantsId(id).stream().map(comment->{
-            return this.modelMapper.map(comment, CommentDTO.class);
-        }).toList();
+        return this.commentRepository.findAllByRestaurantsId(id)
+                .stream().map(comment -> this.modelMapper.map(comment, CommentDTO.class))
+                .toList();
     }
 
     public Comment createComment(Long id, CommentDTO commentDTO, String principalName) {
