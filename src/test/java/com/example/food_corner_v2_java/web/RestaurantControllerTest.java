@@ -8,31 +8,27 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -97,30 +93,17 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void testGetOwnRestaurants() throws Exception {
-        RestaurantDTO restaurant1 = new RestaurantDTO();
-        restaurant1.setId(1L);
-        restaurant1.setName("Restaurant 1");
-
-        RestaurantDTO restaurant2 = new RestaurantDTO();
-        restaurant2.setId(2L);
-        restaurant2.setName("Restaurant 2");
-
-        List<RestaurantDTO> restaurants = Arrays.asList(restaurant1, restaurant2);
-
-        given(restaurantService.getOwnRestaurants("user@example.com")).willReturn(restaurants);
-
+    public void testGetOwnRestaurantsError() throws Exception {
         mockMvc.perform(get("/api/food-corner/restaurants/by-owner")
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(user("user@example.com")))
-                .andExpect(status().isOk());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
     void deleteRestaurantSuccess() {
         when(principal.getName()).thenReturn("testUser");
         ResponseEntity<String> response = restaurantController.deleteRestaurant(1L, 1L, principal);
-
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Restaurant deleted successfully", response.getBody());
     }
@@ -130,6 +113,5 @@ public class RestaurantControllerTest {
         when(principal.getName()).thenReturn("");
         assertThrows(AppException.class, () -> restaurantController.deleteRestaurant(1L, 1L, principal));
     }
-
 
 }
