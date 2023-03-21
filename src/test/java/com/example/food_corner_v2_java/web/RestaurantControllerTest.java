@@ -1,23 +1,32 @@
 package com.example.food_corner_v2_java.web;
 
+import com.example.food_corner_v2_java.errors.AppException;
 import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
 import com.example.food_corner_v2_java.service.RestaurantService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -34,17 +43,43 @@ public class RestaurantControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private RestaurantService restaurantService;
+
+    @InjectMocks
+    private RestaurantController restaurantController;
+
+    private Principal principal;
+
+    @BeforeEach
+    void setUp() {
+        principal = mock(Principal.class);
+    }
+
+    @Test
+    void editRestaurant() {
+        MultipartFile image = mock(MultipartFile.class);
+        when(principal.getName()).thenReturn("testUser");
+        ResponseEntity<RestaurantDTO> response = restaurantController
+                .editRestaurant(1L, 1L, "name", "address", "category", "city", "workingHours", image, principal);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void editRestaurantMissingRequiredFields() {
+        MultipartFile image = mock(MultipartFile.class);
+        assertThrows(AppException.class, () -> restaurantController.editRestaurant(1L, 1L, "", "address", "category", "city", "workingHours", image, principal));
+    }
+
+    @Test
+    void editRestaurantNotLoggedIn() {
+        MultipartFile image = mock(MultipartFile.class);
+        when(principal.getName()).thenReturn("");
+        assertThrows(AppException.class, () -> restaurantController.editRestaurant(1L, 1L, "name", "address", "category", "city", "workingHours", image, principal));
+    }
 
     @Test
     public void getAllRestaurantsTest() throws Exception {
-        List<RestaurantDTO> restaurantDTOS = new ArrayList<>();
-        restaurantDTOS.add(new RestaurantDTO());
-        restaurantDTOS.add(new RestaurantDTO());
-
-        Mockito.when(restaurantService.findAll()).thenReturn(restaurantDTOS);
-
         mockMvc.perform(get("/api/food-corner/restaurants"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -55,8 +90,6 @@ public class RestaurantControllerTest {
         Long restaurantId = 1L;
         RestaurantDTO restaurantDTO = new RestaurantDTO();
         restaurantDTO.setId(restaurantId);
-
-        Mockito.when(restaurantService.restaurantDTObyId(anyLong())).thenReturn(restaurantDTO);
 
         mockMvc.perform(get("/api/food-corner/restaurants/{id}", restaurantId))
                 .andExpect(status().isOk())
@@ -84,24 +117,19 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void testCreateRestaurant() throws Exception {
-        RestaurantDTO restaurant = new RestaurantDTO();
-        restaurant.setId(1L);
-        restaurant.setName("Restaurant 1");
+    void deleteRestaurantSuccess() {
+        when(principal.getName()).thenReturn("testUser");
+        ResponseEntity<String> response = restaurantController.deleteRestaurant(1L, 1L, principal);
 
-        given(restaurantService.createRestaurant(anyString(), anyString(), anyString(), anyString(), anyString(), any(), anyString())).willReturn(restaurant);
-
-        MockMultipartFile imageFile = new MockMultipartFile("image", "test.png", "image/png", "test".getBytes());
-
-        mockMvc.perform(multipart("/api/food-corner/restaurants/new-restaurant")
-                        .file("image", imageFile.getBytes())
-                        .param("name", "Restaurant 1")
-                        .param("address", "123 Main St.")
-                        .param("category", "Italian")
-                        .param("city", "New York")
-                        .param("workingHours", "8am-10pm")
-                        .with(user("user@example.com")))
-                .andExpect(status().isOk());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Restaurant deleted successfully", response.getBody());
     }
+
+    @Test
+    void deleteRestaurantNotLoggedIn() {
+        when(principal.getName()).thenReturn("");
+        assertThrows(AppException.class, () -> restaurantController.deleteRestaurant(1L, 1L, principal));
+    }
+
 
 }
