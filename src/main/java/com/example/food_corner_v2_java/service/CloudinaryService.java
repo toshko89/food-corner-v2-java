@@ -48,6 +48,4 @@ public class CloudinaryService {
             throw new AppException(HttpStatus.INTERNAL_SERVER_ERROR, "Error occurred while deleting a image");
         }
     }
-
-
 }

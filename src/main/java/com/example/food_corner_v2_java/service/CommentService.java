@@ -52,7 +52,7 @@ public class CommentService {
         return commentId;
     }
 
-    public void deleteComment(Long id, String principalName) {
+    public boolean deleteComment(Long id, String principalName) {
         Comment comment = this.commentRepository.findById(id)
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Comment not found"));
         Restaurant restaurant = comment.getRestaurants();
@@ -60,6 +60,7 @@ public class CommentService {
         restaurant.setRating(((restaurant.getRating() * restaurant.getRatingsCount()) - comment.getRating()) / (restaurant.getRatingsCount() - 1));
         this.commentRepository.delete(comment);
         this.restaurantService.save(restaurant);
+        return true;
     }
 
     public List<CommentDTO> updateComment(Long id, CommentDTO commentDTO) {

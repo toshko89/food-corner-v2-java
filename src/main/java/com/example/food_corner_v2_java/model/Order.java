@@ -36,6 +36,10 @@ public class Order {
         return id;
     }
 
+    public Order setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public AppUser getBuyer() {
         return buyer;

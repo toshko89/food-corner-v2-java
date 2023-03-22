@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,12 +20,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -49,10 +51,10 @@ public class CommentControllerTest {
         comment = new Comment().setId(1L);
     }
 
-    @AfterEach
-    public void tearDown() {
-        this.commentService.deleteComment(comment.getId(),"todor@abv.bg");
-    }
+//    @AfterEach
+//    public void tearDown() {
+//        this.commentService.deleteComment(comment.getId(),"todor@abv.bg");
+//    }
 
 
     private Principal createTestPrincipal() {
@@ -87,5 +89,15 @@ public class CommentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Comment created"));
     }
+
+    @Test
+    @WithAnonymousUser
+    void deleteCommentNotLoggedIn() throws Exception {
+        mockMvc.perform(delete("/api/food-corner/restaurants/comments-delete/1"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("You are not logged in"));
+    }
+
+
 
 }

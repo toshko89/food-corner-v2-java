@@ -41,6 +41,10 @@ public class Product {
         return id;
     }
 
+    public Product setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public String getName() {
         return name;

@@ -18,14 +18,15 @@ import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -75,8 +76,8 @@ public class CommentServiceTest {
     @Test
     void findAllByRestaurantId() {
         long restaurantId = 1L;
-        Comment comment = new Comment(); // Initialize comment with desired values
-        CommentDTO commentDTO = new CommentDTO(); // Initialize commentDTO with desired values
+        Comment comment = new Comment();
+        CommentDTO commentDTO = new CommentDTO();
 
         when(commentRepository.findAllByRestaurantsId(restaurantId)).thenReturn(List.of(comment));
         when(modelMapper.map(comment, CommentDTO.class)).thenReturn(commentDTO);
@@ -187,5 +188,4 @@ public class CommentServiceTest {
         assertEquals(5, comment.getRating());
         assertEquals(restaurant, comment.getRestaurants());
     }
-
 }
