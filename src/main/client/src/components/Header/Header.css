@@ -1,0 +1,28 @@
+.custom-header {
+  position:sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: white;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 767px) {
+  .custom-header .brand-wrap img {
+    width: 100%;
+  }
+}
+
+/* Tablet styles */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .custom-header .brand-wrap img {
+    width: 80%;
+  }
+}
+
+/* Desktop styles */
+@media screen and (min-width: 992px) {
+  .custom-header .brand-wrap img {
+    width: 100%;
+  }
+}

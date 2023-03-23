@@ -57,7 +57,16 @@ public class CommentService {
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Comment not found"));
         Restaurant restaurant = comment.getRestaurants();
         restaurant.setRatingsCount(restaurant.getRatingsCount() - 1);
-        restaurant.setRating(((restaurant.getRating() * restaurant.getRatingsCount()) - comment.getRating()) / (restaurant.getRatingsCount() - 1));
+
+        if (restaurant.getRatingsCount() == 0) {
+            restaurant.setRating(0);
+        } else {
+            double totalRatings = restaurant.getRating() * (restaurant.getRatingsCount() + 1);
+            double newTotalRatings = totalRatings - comment.getRating();
+            double newRating = newTotalRatings / restaurant.getRatingsCount();
+            restaurant.setRating(newRating);
+        }
+
         this.commentRepository.delete(comment);
         this.restaurantService.save(restaurant);
         return true;
@@ -67,7 +76,16 @@ public class CommentService {
         Comment comment = this.commentRepository.findById(id)
                 .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Comment not found"));
         Restaurant restaurant = comment.getRestaurants();
-        restaurant.setRating(((restaurant.getRating() * restaurant.getRatingsCount()) - comment.getRating() + commentDTO.getRating()) / restaurant.getRatingsCount());
+
+        double oldRating = comment.getRating();
+        double newRating = commentDTO.getRating();
+
+        double totalRatings = restaurant.getRating() * restaurant.getRatingsCount();
+        double updatedTotalRatings = totalRatings - oldRating + newRating;
+        double updatedRating = updatedTotalRatings / restaurant.getRatingsCount();
+
+        restaurant.setRating(updatedRating);
+
         comment.setTitle(commentDTO.getTitle())
                 .setComment(commentDTO.getComment())
                 .setRating(commentDTO.getRating());

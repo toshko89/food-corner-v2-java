@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import './Header.css';
 
 
 export default function Header() {
@@ -14,7 +15,7 @@ export default function Header() {
   const itemsInCart = orders.reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
-    <header className="section-header">
+    <header className="section-header custom-header">
       <section className="header-main shadow-sm bg-white">
         <div className="container">
           <div className="row align-items-center">
