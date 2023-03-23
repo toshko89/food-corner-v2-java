@@ -81,7 +81,9 @@ public class RestaurantService {
                     .setCategory(category)
                     .setCity(city)
                     .setWorkingHours(workingHours)
-                    .setOwner(appUser);
+                    .setOwner(appUser)
+                    .setRating(0.0)
+                    .setRatingsCount(0);
 
             if (image != null) {
                 CloudinaryImage cloudinaryImage = cloudinaryService.uploadImage(image);
