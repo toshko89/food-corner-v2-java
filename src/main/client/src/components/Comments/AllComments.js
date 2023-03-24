@@ -6,6 +6,7 @@ import CommentCard from "./CommentCard.js";
 import { useSelector } from 'react-redux';
 import { deleteCommentById } from '../../services/commentService.js';
 import EditCommentModal from "./EditCommentModal.js";
+import { showDialogFailed } from '../../utils/dialogUtils.js';
 
 export default function AllComments() {
 
@@ -19,13 +20,20 @@ export default function AllComments() {
   const { state } = useLocation();
   const { id } = useParams();
 
+
+  useEffect(() => {
+    if (error) {
+      showDialogFailed(error, "Please try again");
+    }
+  }, [error]);
+
   useEffect(() => {
     getRestaurantComments(id)
       .then(res => {
         setComments(res);
       })
       .catch(err => {
-        console.log(err);
+        setError(err);
       })
   }, [id])
 
@@ -50,7 +58,6 @@ export default function AllComments() {
       <div className="container position-relative" >
         <div className="row">
           <div className="bg-white p-3 mb-3 restaurant-detailed-ratings-and-reviews shadow-sm rounded">
-            {error && <div className="error-container" role="alert"><p>{error}</p></div>}
             <h2 className="mb-1">All Ratings and Reviews for {state}</h2>
             {comments.length > 0
               ? comments.map(comment =>

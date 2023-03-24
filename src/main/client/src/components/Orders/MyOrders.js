@@ -14,6 +14,7 @@ export default function MyOrders() {
   useEffect(() => {
     getAllOrdersByUser()
       .then(res => {
+        console.log(res);
         setOrders(res);
       })
       .catch(err => {

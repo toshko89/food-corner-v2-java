@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../services/authService.js";
 import { useDispatch } from "react-redux";
 import { loginStateChange } from "../../app/auth.js";
 import emailCheck from "../../utils/emailCheck.js";
+import { showDialogFailed } from '../../utils/dialogUtils.js';
 
 export default function Register() {
 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (error) {
+      showDialogFailed(error, "Please try again");
+    }
+  }, [error]);
 
   async function signIn(e) {
     e.preventDefault()
@@ -63,7 +70,6 @@ export default function Register() {
         <div className="px-5 col-md-6 ml-auto">
           <div className="px-5 col-10 mx-auto">
             <h2 className="text-dark my-0">Register</h2>
-            {error && <div className="error-container" role="alert"><p>{error}</p></div>}
             <form className="mt-5 mb-4" onSubmit={signIn}>
               <div className="form-group">
                 <label htmlFor="exampleInputEmail1" className="text-dark">Email</label>

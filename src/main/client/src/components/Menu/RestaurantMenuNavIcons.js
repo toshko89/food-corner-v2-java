@@ -15,6 +15,7 @@ import { deleteRestaurantById } from '../../services/restaurantService.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../../app/auth.js';
 import AddCommentModal from '../Comments/AddCommentModal.js'
+import { showDialogFailed } from '../../utils/dialogUtils.js';
 
 export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }) {
   const user = useSelector(state => state.auth.id);
@@ -39,13 +40,14 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
     setVisibleCommentModal(false);
   };
 
-  async function deleteRestaurant(user,restaurantId) {
+  async function deleteRestaurant(user, restaurantId) {
     try {
-      const res = await deleteRestaurantById(user,restaurantId);
+      const res = await deleteRestaurantById(user, restaurantId);
       if (res.status === 200) {
         navigate('/');
       } else {
-        navigate('/login', { replace: true });
+        showDialogFailed(res.status, "You can't delete this restaurant")
+        navigate('/');
         return;
       }
     } catch (error) {
@@ -90,9 +92,9 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
           </IconButton>}
         <IconButton aria-label="comments" onClick={handlerCommentModal} color="primary" size="large">
           <MapsUgcRoundedIcon fontSize="large" />
-        </IconButton> 
+        </IconButton>
       </ButtonGroup>
-      <AddCommentModal visibleCommentModal={visibleCommentModal} closeHandlerCommentModal={closeHandlerCommentModal}/>
+      <AddCommentModal visibleCommentModal={visibleCommentModal} closeHandlerCommentModal={closeHandlerCommentModal} />
       {isOwner &&
         <>
           <AddProductModal setVisible={setVisible} visible={visible} />
@@ -112,7 +114,7 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
                 Close
               </Button>
               <LoadingButton
-                onClick={() => { deleteRestaurant(user,restaurant.id); handleClick(); }}
+                onClick={() => { deleteRestaurant(user, restaurant.id); handleClick(); }}
                 loading={loading}
                 variant="contained"
               >

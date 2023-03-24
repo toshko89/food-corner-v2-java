@@ -8,8 +8,8 @@ const handleDragStart = (e) => e.preventDefault();
 const Slider = ({ restaurants }) => {
   const items = restaurants.map((restaurant) => {
     return (
-      <div className="slide-container" key={restaurant.id} onDragStart={handleDragStart}>
-        <img src={restaurant.imageUrl.url} alt={restaurant.name} className="sliderimg" />
+      <div className="slide-container" key={restaurant?.id} onDragStart={handleDragStart}>
+        <img src={restaurant?.imageUrl?.url} alt={restaurant?.name} className="sliderimg" />
       </div>
     )
   });

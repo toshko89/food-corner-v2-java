@@ -1,15 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../services/authService.js";
 import { useDispatch } from 'react-redux';
 import { loginStateChange } from "../../app/auth.js";
 import emailCheck from "../../utils/emailCheck.js";
+import { showDialogFailed } from '../../utils/dialogUtils.js';
 
 export default function Login() {
 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (error) {
+      showDialogFailed(error, "Please try again");
+    }
+  }, [error]);
 
   async function loginForm(e) {
     e.preventDefault();
@@ -52,7 +59,6 @@ export default function Login() {
   return (
     <>
       <div className="d-flex align-items-center justify-content-center vh-100">
-        {error && <div className="error-container" role="alert"><p>{error}</p></div>}
         <div className="px-5 col-md-6 ml-auto">
           <div className="px-5 col-10 mx-auto">
             <h2 className="text-dark my-0">Welcome Back</h2>
