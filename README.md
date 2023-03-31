@@ -1,10 +1,11 @@
 # My React-Redux-Spring JWT App
-This project is a full stack web application that utilizes React with Redux for the client-side, Java Spring Boot with JWT for the backend, and Cloudinary for file storage. 
-The application provides a comprehensive and efficient solution for managing and organizing data with a modern, responsive user interface and secure authentication.
+This project is a full stack web application that utilizes React with Redux for the client-side, Java Spring Boot with JWT for the backend, and Cloudinary for file storage and MySQL for database management.
+The application offers a seamless and user-friendly experience for customers to browse, order, and track their food delivery, while ensuring secure authentication for user accounts.
 
 ## Features
 Responsive and intuitive UI built with React and Redux  
 Java Spring Boot backend with JSON Web Token (JWT) for secure authentication and authorization  
+MySQL for efficient and scalable database management  
 Cloudinary integration for seamless file storage and management  
 RESTful API for easy data exchange between client and server  
 Customizable, modular codebase for easy expansion and maintenance  
@@ -15,6 +16,7 @@ Before you begin, ensure you have the following software installed on your local
 * Java Development Kit (JDK) 11 or later
 * Maven
 * A Cloudinary account
+* MySQL Server
 
 ## Installation
 * Clone the repository: git clone https://github.com/toshko89/food-corner-v2-java.git
@@ -37,3 +39,4 @@ The application should now be running on http://localhost:3000.
 * Java Spring Boot
 * JSON Web Token (JWT)
 * Cloudinary
+* MySQL
