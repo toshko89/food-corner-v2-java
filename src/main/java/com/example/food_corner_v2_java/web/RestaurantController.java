@@ -30,24 +30,32 @@ public class RestaurantController {
 
     @GetMapping("/restaurants")
     public ResponseEntity<List<RestaurantDTO>> getAllRestaurants() {
-        List<RestaurantDTO> restaurants = this.restaurantService.findAll();
-        return ResponseEntity.ok(restaurants);
+        try {
+            List<RestaurantDTO> restaurants = this.restaurantService.findAll();
+            return ResponseEntity.ok(restaurants);
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @GetMapping("/restaurants/{id}")
     public ResponseEntity<RestaurantDTO> getRestaurantById(@PathVariable Long id) {
-
-        RestaurantDTO restaurant = this.restaurantService.restaurantDTObyId(id);
-
-        return ResponseEntity.ok(restaurant);
+        try {
+            RestaurantDTO restaurant = this.restaurantService.restaurantDTObyId(id);
+            return ResponseEntity.ok(restaurant);
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @GetMapping("/restaurants/by-owner")
     public ResponseEntity<List<RestaurantDTO>> getOwnRestaurants(Principal principal) {
-
-        List<RestaurantDTO> restaurants = this.restaurantService.getOwnRestaurants(principal.getName());
-
-        return ResponseEntity.ok(restaurants);
+        try {
+            List<RestaurantDTO> restaurants = this.restaurantService.getOwnRestaurants(principal.getName());
+            return ResponseEntity.ok(restaurants);
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PostMapping(path = "/restaurants/new-restaurant")

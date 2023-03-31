@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/food-corner/users/**")
+                .requestMatchers("/api/food-corner/users/**","/api/food-corner/products/random")
                 .permitAll()
                 .requestMatchers("/api/food-corner/users/{id}")
                 .authenticated()

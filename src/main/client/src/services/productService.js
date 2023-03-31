@@ -1,6 +1,15 @@
 import axios from 'axios';
 const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
 
+async function getRandomProducts() {
+  try {
+    const products = await axios.get(REACT_APP_BASE_URL + '/products/random');
+    return products.data;
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 async function addProduct(restaurantId, productData) {
   try {
     const newProduct = await axios.post(REACT_APP_BASE_URL + `/products/${restaurantId}/add-product`, productData, {
@@ -37,5 +46,6 @@ async function deleteProduct(restaurantId, productId) {
 export {
   addProduct,
   editProduct,
-  deleteProduct
+  deleteProduct,
+  getRandomProducts
 };

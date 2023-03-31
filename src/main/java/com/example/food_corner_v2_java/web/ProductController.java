@@ -1,6 +1,7 @@
 package com.example.food_corner_v2_java.web;
 
 import com.example.food_corner_v2_java.errors.AppException;
+import com.example.food_corner_v2_java.model.Product;
 import com.example.food_corner_v2_java.model.dto.RestaurantDTO;
 import com.example.food_corner_v2_java.service.ProductService;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/food-corner")
@@ -19,6 +21,17 @@ public class ProductController {
 
     public ProductController(ProductService productService) {
         this.productService = productService;
+    }
+
+
+    @GetMapping("/products/random")
+    public ResponseEntity<List<Product>> getRandomProduct() {
+        try {
+            List<Product> products = this.productService.findByRandomId();
+            return ResponseEntity.ok(products);
+        } catch (Exception e) {
+            throw new AppException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PostMapping("/products/{restaurantId}/add-product")

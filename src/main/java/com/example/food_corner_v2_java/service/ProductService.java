@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -130,6 +132,19 @@ public class ProductService {
         this.productRepository.delete(product);
 
         return this.modelMapper.map(restaurant, RestaurantDTO.class);
+    }
+
+
+    public List<Product> findByRandomId() {
+        long count = this.productRepository.count();
+        Random random = new Random();
+        List<Product> products = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            long randomId = random.nextInt((int) count) + 1;
+            this.productRepository.findById(randomId).ifPresent(products::add);
+        }
+
+        return products;
     }
 
     public void initProductDB() {
