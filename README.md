@@ -6,12 +6,12 @@ The application offers a seamless and user-friendly experience for customers to 
 Visit @ [https://food-corner-client.web.app/](https://food-corner-client.web.app/)
 
 ## Features
-Responsive and intuitive UI built with React and Redux  
-Java Spring Boot backend with JSON Web Token (JWT) for secure authentication and authorization  
-MySQL for efficient and scalable database management  
-Cloudinary integration for seamless file storage and management  
-RESTful API for easy data exchange between client and server  
-Customizable, modular codebase for easy expansion and maintenance  
+* Responsive and intuitive UI built with React and Redux  
+* Java Spring Boot backend with JSON Web Token (JWT) for secure authentication and authorization  
+* MySQL for efficient and scalable database management  
+* Cloudinary integration for seamless file storage and management  
+* RESTful API for easy data exchange between client and server  
+* Customizable, modular codebase for easy expansion and maintenance  
 
 ## Prerequisites
 Before you begin, ensure you have the following software installed on your local machine:
@@ -27,10 +27,10 @@ Before you begin, ensure you have the following software installed on your local
 * Navigate to the server folder and install dependencies:```cd ../java mvn clean install```
 
 ## Running the Application
-Start the server:  
+* Start the server:  
 ```cd server```  
 ```mvn spring-boot:run```   
-Start the client:  
+* Start the client:  
 ```cd client```  
 ```npm start```  
 
