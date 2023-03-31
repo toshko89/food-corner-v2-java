@@ -22,9 +22,9 @@ Before you begin, ensure you have the following software installed on your local
 * MySQL Server
 
 ## Installation
-* Clone the repository: git clone https://github.com/toshko89/food-corner-v2-java.git
-* Navigate to the client folder and install dependencies: cd food-corner-v2-java/client npm install
-* Navigate to the server folder and install dependencies: cd ../java mvn clean install
+* Clone the repository: (```) git clone https://github.com/toshko89/food-corner-v2-java.git
+* Navigate to the client folder and install dependencies: (```) cd food-corner-v2-java/client npm install
+* Navigate to the server folder and install dependencies: (```) cd ../java mvn clean install
 
 ## Running the Application
 Start the server:  
