@@ -5,15 +5,16 @@
 
 .slide-container {
   width: 200px;
-  padding: 10px;
+  /* padding: 10px; */
   box-sizing: border-box;
   overflow: hidden;
 }
 
 .slide-container img {
-  display: block;
-  width: 100%;
-  height: auto;
+  width: 200px; /* desired width */
+  height: 200px; /* desired height */
+  object-fit: cover;
+  border-radius: 10%;
 }
 
 .prev-button,
@@ -27,6 +28,12 @@
 .prev-button:hover,
 .next-button:hover {
   color: grey;
+}
+
+.sliderimg {
+  width: 200px; /* desired width */
+  height: 200px; /* desired height */
+  object-fit: cover;
 }
 
 

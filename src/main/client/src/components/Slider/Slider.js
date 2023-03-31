@@ -20,8 +20,8 @@ const Slider = ({ restaurants }) => {
       <AliceCarousel
         items={items}
         responsive={{
-          0: { items: 5 },
-          768: { items: 3 },
+          0: { items: 4 },
+          768: { items: 4 },
         }}
         slideToIndex={0}
         dotsDisabled={true}
@@ -35,8 +35,6 @@ const Slider = ({ restaurants }) => {
         animationType="fadeout"
         touchTrackingEnabled={true}
         disableSlideInfo={true}
-        paddingLeft={10}
-        paddingRight={10}
         itemWidth={200}
         stagePadding={{ paddingLeft: 0, paddingRight: 0 }}
         prevButtonClassName="prev-button"
