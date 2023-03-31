@@ -1,6 +1,7 @@
 # My React-Redux-Spring JWT App
 This project is a full stack web application that utilizes React with Redux for the client-side, Java Spring Boot with JWT for the backend, and Cloudinary for file storage and MySQL for database management.
-The application offers a seamless and user-friendly experience for customers to browse, order, and track their food delivery, while ensuring secure authentication for user accounts.
+The application offers a seamless and user-friendly experience for customers to browse, order, and track their food delivery, while ensuring secure authentication for user accounts.  
+The application features two distinct roles for users: **User** and **Admin**, each with their own set of permissions and capabilities.  
 
 ## Try the Live Application
 Visit @ [https://food-corner-client.web.app/](https://food-corner-client.web.app/)
