@@ -29,7 +29,7 @@ Before you begin, ensure you have the following software installed on your local
 ## Running the Application
 Start the server:  
 ```cd server```  
-```mvn spring-boot:run``` 
+```mvn spring-boot:run```   
 Start the client:  
 ```cd client```  
 ```npm start```  
