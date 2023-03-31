@@ -11,10 +11,10 @@ Customizable, modular codebase for easy expansion and maintenance
 
 ## Prerequisites
 Before you begin, ensure you have the following software installed on your local machine:
-Node.js (latest LTS version) and npm
-Java Development Kit (JDK) 11 or later
-Maven
-A Cloudinary account
+(*) Node.js (latest LTS version) and npm
+(*) Java Development Kit (JDK) 11 or later
+(*) Maven
+(*) A Cloudinary account
 
 ## Installation
 Clone the repository: git clone https://github.com/toshko89/food-corner-v2-java.git
@@ -34,8 +34,8 @@ npm start
 The application should now be running on http://localhost:3000.
 
 ### Built With
-React
-Redux
-Java Spring Boot
-JSON Web Token (JWT)
-Cloudinary
+(*) React
+(*) Redux
+(*) Java Spring Boot
+(*) JSON Web Token (JWT)
+(*) Cloudinary
