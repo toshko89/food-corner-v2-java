@@ -59,7 +59,7 @@ export default function Login() {
   return (
     <>
       <div className="d-flex align-items-center justify-content-center mt-5 mb-4">
-        <div className="px-5 col-md-6 ml-auto">
+        <div className="px-5 col-md-6">
           <div className="px-5 col-10 mx-auto">
             <h2 className="text-dark my-0">Welcome Back</h2>
             <p className="text-50">Sign in to continue</p>

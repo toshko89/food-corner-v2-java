@@ -136,15 +136,7 @@ public class ProductService {
 
 
     public List<Product> findByRandomId() {
-        long count = this.productRepository.count();
-        Random random = new Random();
-        List<Product> products = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            long randomId = random.nextInt((int) count) + 1;
-            this.productRepository.findById(randomId).ifPresent(products::add);
-        }
-
-        return products;
+        return this.productRepository.findAll();
     }
 
     public void initProductDB() {
