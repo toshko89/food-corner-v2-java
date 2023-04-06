@@ -35,8 +35,6 @@ const showDialogSuccess = (title, text, functionByConfirm) => {
       confirmButton: "btn btn-primary",
     },
   }).then((result) => {
-    console.log("result", result);
-    /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
       if (functionByConfirm) {
         functionByConfirm();

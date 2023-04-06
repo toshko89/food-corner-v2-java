@@ -32,7 +32,6 @@ export default function Checkout() {
   async function placeOrder(e) {
     e.preventDefault();
     const res = await sendOrder(orders);
-    console.log(res);
     if(res.status === 200) {
       dispatch(clearCart());
       navigate(`/my-account/${user.id}/cart/success`, { state: { name: user.name, id: user.id } });
