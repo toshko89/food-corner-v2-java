@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, Outlet } from "react-router-dom";
 import { changeUserData } from "../../services/authService.js";
 import { loginStateChange } from "../../app/auth.js";
+import { showDialogSuccess } from "../../utils/dialogUtils.js";
 
 
 export default function Profile() {
@@ -38,8 +39,7 @@ export default function Profile() {
       }
       localStorage.setItem('Authorization', JSON.stringify("Bearer " + userDataChanged.token));
       dispatch(loginStateChange(userDataChanged));
-      setError('Personal data updated successfully');
-      e.target.reset();
+      showDialogSuccess('Success', 'Personal data updated successfully', () => { e.target.reset(); });
     } catch (error) {
       setError(error);
       e.target.reset();

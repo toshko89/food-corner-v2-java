@@ -6,13 +6,6 @@ const SwalDUPopup = Swal.mixin({
   cancelButtonColor: "#aeaeae"
 });
 
-const SwalDUPopupSave = Swal.mixin({
-  reverseButtons: true,
-  confirmButtonColor: "#0066CC",
-  cancelButtonColor: "#808080",
-  denyButtonText: "#0000FF"
-});
-
 const showDialogFailed = (errorCode, errorMsg) => {
   if (errorCode === 401) {
     localStorage.removeItem("Authorization");
@@ -32,4 +25,24 @@ const showDialogFailed = (errorCode, errorMsg) => {
   }
 };
 
-export { showDialogFailed };
+const showDialogSuccess = (title, text, functionByConfirm) => {
+  SwalDUPopup.fire({
+    icon: "success",
+    title: title,
+    text: text,
+    allowOutsideClick: false,
+    customClass: {
+      confirmButton: "btn btn-primary",
+    },
+  }).then((result) => {
+    console.log("result", result);
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      if (functionByConfirm) {
+        functionByConfirm();
+      }
+    }
+  });
+};
+
+export { showDialogFailed, showDialogSuccess };
