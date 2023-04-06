@@ -13,6 +13,7 @@ Visit @ [https://food-corner-client.web.app/](https://food-corner-client.web.app
 * Cloudinary integration for seamless file storage and management  
 * RESTful API for easy data exchange between client and server  
 * Customizable, modular codebase for easy expansion and maintenance  
+* The application client is hosted on Firebase, and the server is hosted on Heroku.
 
 ## Prerequisites
 Before you begin, ensure you have the following software installed on your local machine:
