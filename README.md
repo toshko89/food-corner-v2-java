@@ -4,7 +4,7 @@ The application offers a seamless and user-friendly experience for customers to 
 The application features two distinct roles for users: **User** and **Admin**, each with their own set of permissions and capabilities.  
 
 ## Try the Live Application
-Visit @ [https://food-corner-client.web.app/](https://food-corner-client.web.app/)
+Visit @ [https://food-corner-client.web.app/](https://food-corner-client.web.app)
 
 ## Features
 * Responsive and intuitive UI built with React and Redux  
