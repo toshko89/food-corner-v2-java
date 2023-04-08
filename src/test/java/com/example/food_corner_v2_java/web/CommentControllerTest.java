@@ -4,7 +4,6 @@ import com.example.food_corner_v2_java.model.Comment;
 import com.example.food_corner_v2_java.model.dto.CommentDTO;
 import com.example.food_corner_v2_java.service.CommentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,14 +19,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -81,7 +80,7 @@ public class CommentControllerTest {
     @Test
     @WithMockUser(username = "todor@abv.bg", password = "testpassword", authorities = {"ROLE_ADMIN"})
     public void testCreateComment() throws Exception {
-        when(commentService.createComment(anyLong(),any(), eq(createTestPrincipal().getName()))).thenReturn(comment);
+        when(commentService.createComment(anyLong(), any(), eq(createTestPrincipal().getName()))).thenReturn(comment);
         mockMvc.perform(post("/api/food-corner/restaurants/1/comments-create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(commentDTO))
@@ -97,7 +96,6 @@ public class CommentControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("You are not logged in"));
     }
-
 
 
 }
